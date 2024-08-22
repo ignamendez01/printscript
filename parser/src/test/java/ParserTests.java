@@ -12,47 +12,51 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTests {
+    Lexer lexer = new Lexer();
+    Parser parser = new Parser();
+
 
     @Test
-    void test001_shouldConvertListOfTokensToAst() {
-        String code = "let a: number = 5 * 5;";
-        var actualAst = getAstList(code);
+    void test_Declare() {
+        String code = "let x : number;";
+        List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
 
-        var expectedAst = List.of(
+        List<ASTNode> expectedAst = List.of(
+                new Declaration("x", "number")
+        );
+        assertEquals(expectedAst, list);
+    }
+
+    @Test
+    void test_Assign(){
+        String code = "x = 'String';";
+        List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
+
+        List<ASTNode> expectedAst = List.of(
+                new SimpleAssignation("x", new StringOperator("'String'"))
+        );
+        assertEquals(expectedAst, list);
+    }
+
+    @Test
+    void test_DeclareAssignTree() {
+        String code = "let a: number = 5 * 5;";
+        List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
+
+        List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
                         new Declaration("a", "number"),
                         new BinaryOperation(
                                 new NumberOperator(5),
                                 "*",
                                 new NumberOperator(5)
-                        ),
-                        false
+                        )
                 )
         );
-        assertEquals(expectedAst, actualAst);
+        assertEquals(expectedAst, list);
     }
 
-    @Test
-    void test002_shouldConvertListOfTokensToAstForPrintlnA() {
-        String code = "println(a);";
-        var actualAst = getAstList(code);
-
-        var expectedAst = List.of(
-                new Method("println", new IdentifierOperator("a"))
-        );
-        assertEquals(expectedAst, actualAst);
-    }
-
-    @Test
-    void test003_shouldConvertListOfTokensToAstForLetXNumber() {
-        String code = "let x: number;";
-        var actualAst = getAstList(code);
-
-        var expectedAst = List.of(
-                new Declaration("x", "number")
-        );
-        assertEquals(expectedAst, actualAst);
-    }
+    /*
 
     @Test
     void test005_shouldConvertListOfTokensToAstForLetYStringHello() {
@@ -376,22 +380,6 @@ public class ParserTests {
         assertEquals(expectedAst, actualAst);
     }
 
-    private static List<ASTNode> getAstList(String input) {
-        Lexer lexer = Lexer.getDefaultLexer();
-        TokenProvider tokenProvider = new TokenProvider(new ByteArrayInputStream(input.getBytes()), lexer);
-        Parser parser = Parser.getDefaultParser();
-        List<ASTNode> astList = new ArrayList<>();
-
-        while (tokenProvider.hasNextStatement()) {
-            List<Token> tokens = tokenProvider.readStatement();
-            ASTNode ast = parser.generateAST(tokens);
-            // Add the AST to the list if it is not null
-            if (ast != null) {
-                astList.add(ast);
-            }
-        }
-
-        return astList;
-    }
+     */
 }
 

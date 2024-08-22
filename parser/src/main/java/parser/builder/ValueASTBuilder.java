@@ -49,7 +49,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                 }
                 case "STRING" -> nodeStack.addLast(new StringOperator(token.getValue()));
                 case "IDENTIFIER" -> nodeStack.addLast(new IdentifierOperator(token.getValue()));
-                case "OPERATION" -> {
+                case "OPERATOR" -> {
                     ValueNode rightNode = nodeStack.removeLast();
                     ValueNode leftNode = nodeStack.removeLast();
                     if (leftNode instanceof StringOperator && rightNode instanceof NumberOperator) {
@@ -61,7 +61,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                     }
                 }
                 default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().getY() + ":" + token.getPosition().getX());
+                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().y() + ":" + token.getPosition().x());
             }
             i++;
         }
@@ -82,7 +82,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
             Token token = tokens.get(i);
             switch (token.getType()) {
                 case "NUMBER", "STRING", "IDENTIFIER" -> outputQueue.addLast(token);
-                case "OPERATION" -> {
+                case "OPERATOR" -> {
                     while (!operatorStack.isEmpty() && !Objects.equals(operatorStack.getLast().getType(), "LPAR") &&
                             precedence.get(operatorStack.getLast().getValue()) >= precedence.get(token.getValue())) {
                         outputQueue.addLast(operatorStack.removeLast());
@@ -99,7 +99,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                     }
                 }
                 default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().getY() + ":" + token.getPosition().getX());
+                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().y() + ":" + token.getPosition().x());
             }
             i++;
         }

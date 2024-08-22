@@ -1,7 +1,6 @@
 import lexer.Lexer;
 import org.junit.jupiter.api.Test;
 import token.Token;
-import java.io.File;
 import java.io.FileInputStream;
 
 import java.io.FileNotFoundException;

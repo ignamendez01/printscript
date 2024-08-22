@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ParserTests" tests="21" skipped="0" failures="0" errors="0" timestamp="2024-07-26T18:35:59" hostname="DESKTOP-NH9OTJ6" time="0.108">
+<testsuite name="ParserTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-08-22T23:42:51" hostname="DESKTOP-754B0AE" time="0.198">
   <properties/>
-  <testcase name="test001_shouldConvertListOfTokensToAst()" classname="ParserTests" time="0.039"/>
-  <testcase name="test002_shouldConvertListOfTokensToAstForPrintlnA()" classname="ParserTests" time="0.004"/>
-  <testcase name="test011_shouldConvertListOfTokensToAstForLetXNumber5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test006_shouldConvertListOfTokensToAstForLetZNumber5Dot5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test013_shouldConvertListOfTokensToAstForLetDiffNumber10Minus5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test017_shouldConvertListOfTokensToAstForLetDiffNumber10Dot5Minus5Dot5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test021_shouldConvertListOfTokensToAstForPrintlnSum()" classname="ParserTests" time="0.006"/>
-  <testcase name="test003_shouldConvertListOfTokensToAstForLetXNumber()" classname="ParserTests" time="0.003"/>
-  <testcase name="test016_shouldConvertListOfTokensToAstForLetSumNumber5Dot5Plus5Dot5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test019_shouldConvertListOfTokensToAstForLetQuotNumber10Dot5Div5Dot5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test015_shouldConvertListOfTokensToAstForLetQuotNumber10Div5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test009_shouldConvertListOfTokensToAstForPrintln168()" classname="ParserTests" time="0.002"/>
-  <testcase name="test005_shouldConvertListOfTokensToAstForLetYStringHello()" classname="ParserTests" time="0.002"/>
-  <testcase name="test018_shouldConvertListOfTokensToAstForLetProdNumber5Dot5Times5Dot5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test008_shouldConvertListOfTokensToAstForLetBStringHelloPlus5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test020_shouldConvertListOfTokensToAstForLetResultNumber5Plus5Times10Minus2Div2()" classname="ParserTests" time="0.002"/>
-  <testcase name="test022_shouldConvertListOfTokensToAstForLetResultNumber5PlusProductOf5And10()" classname="ParserTests" time="0.001"/>
-  <testcase name="test012_shouldConvertListOfTokensToAstForLetSumNumber5Plus5()" classname="ParserTests" time="0.002"/>
-  <testcase name="test010_shouldConvertListOfTokensToAstForPrintlnAAgain()" classname="ParserTests" time="0.001"/>
-  <testcase name="test014_shouldConvertListOfTokensToAstForLetProdNumber5Times5()" classname="ParserTests" time="0.001"/>
-  <testcase name="test007_shouldConvertListOfTokensToAstForLetAStringHelloPlusWorld()" classname="ParserTests" time="0.003"/>
+  <testcase name="test_Assign()" classname="ParserTests" time="0.106"/>
+  <testcase name="test_DeclareAssignTree()" classname="ParserTests" time="0.059"/>
+  <testcase name="test_Declare()" classname="ParserTests" time="0.025"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

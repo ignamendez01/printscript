@@ -25,11 +25,9 @@ public class Token {
 
     @Override
     public String toString() {
-        switch (type){
-            case "STRING", "NUMBER", "IDENTIFIER":
-                return type+"("+value+")";
-            default:
-                return type;
-        }
+        return switch (type) {
+            case "STRING", "NUMBER", "IDENTIFIER" -> type + "(" + value + ")";
+            default -> type;
+        };
     }
 }

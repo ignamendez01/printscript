@@ -21,10 +21,11 @@ public class Parser {
     public List<ASTNode> generateAST(List<Token> tokens) {
         List<ASTNode> astNodes = new ArrayList<>();
         List<List<Token>> tokenMatrix = generateMatrix(tokens);
-        for (List<Token> list : tokenMatrix) {
+        for (int i = 0; i < tokenMatrix.size(); i++) {
             for (ASTBuilder<? extends ASTNode> builder : astBuilders) {
-                if (builder.verify(list)) {
-                    astNodes.add(builder.build(list));
+                if (builder.verify(tokenMatrix.get(i))) {
+                    astNodes.add(builder.build(tokenMatrix.get(i)));
+                    break;
                 }
             }
         }

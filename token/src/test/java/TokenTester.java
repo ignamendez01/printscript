@@ -16,8 +16,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -29,8 +29,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -42,8 +42,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -55,8 +55,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -68,8 +68,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -81,8 +81,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -94,8 +94,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -107,8 +107,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -120,8 +120,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -133,8 +133,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -146,8 +146,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -159,8 +159,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -172,8 +172,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -185,8 +185,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -198,8 +198,8 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 
     @Test
@@ -211,7 +211,7 @@ public class TokenTester {
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());
-        assertEquals(expected.getPosition().getX(), result.getPosition().getX());
-        assertEquals(expected.getPosition().getY(), result.getPosition().getY());
+        assertEquals(expected.getPosition().x(), result.getPosition().x());
+        assertEquals(expected.getPosition().y(), result.getPosition().y());
     }
 }
