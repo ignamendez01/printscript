@@ -1,0 +1,24 @@
+let a : string;
+let B : boolean = true;
+if (b) {
+	let d : string;
+	a = "Hello";
+
+} else {
+	let d : string = "aaa";
+	a = "World";
+
+}
+let c : string = 1;
+
+println(a);
+b = false;
+if (b) {
+	a = "Hello";
+
+} else {
+	a = "World";
+
+}
+
+println(a);
