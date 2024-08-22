@@ -73,7 +73,7 @@ public class LexerTest {
 
     @Test
     void test_File() throws FileNotFoundException {
-            InputStream example = new FileInputStream(new File("src/test/resources/testFile1.txt"));
+        InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
         Lexer lexer = new Lexer();
         List<Token> actualTokens = lexer.makeTokens(example);
 
