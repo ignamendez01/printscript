@@ -13,18 +13,17 @@ public class Parser {
             List.of(
                     new AssignationASTBuilder(),
                     new DeclarationASTBuilder(),
-                    new MethodASTBuilder(),
-                    new ValueASTBuilder()
+                    new MethodASTBuilder()
             );
 
     // The list of tokens is of a single statement
     public List<ASTNode> generateAST(List<Token> tokens) {
         List<ASTNode> astNodes = new ArrayList<>();
         List<List<Token>> tokenMatrix = generateMatrix(tokens);
-        for (int i = 0; i < tokenMatrix.size(); i++) {
+        for (List<Token> list : tokenMatrix) {
             for (ASTBuilder<? extends ASTNode> builder : astBuilders) {
-                if (builder.verify(tokenMatrix.get(i))) {
-                    astNodes.add(builder.build(tokenMatrix.get(i)));
+                if (builder.verify(list)) {
+                    astNodes.add(builder.build(list));
                     break;
                 }
             }

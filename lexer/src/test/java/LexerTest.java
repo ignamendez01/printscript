@@ -24,11 +24,11 @@ public class LexerTest {
 
     @Test
     void test_Assign() {
-        String example = "x = 'Name';";
+        String example = "x = 'Name ';";
         Lexer lexer = new Lexer();
         List<Token> actualTokens = lexer.makeTokens(example);
 
-        String expectedTokensString = "[IDENTIFIER(x), ASSIGN, STRING('Name'), END]";
+        String expectedTokensString = "[IDENTIFIER(x), ASSIGN, STRING('Name '), END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);

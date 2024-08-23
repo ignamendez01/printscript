@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="LexerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-08-22T23:10:11" hostname="DESKTOP-754B0AE" time="0.265">
+<testsuite name="LexerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-08-23T01:22:05" hostname="DESKTOP-754B0AE" time="0.063">
   <properties/>
-  <testcase name="test_File()" classname="LexerTest" time="0.265"/>
+  <testcase name="test_Assign()" classname="LexerTest" time="0.063"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

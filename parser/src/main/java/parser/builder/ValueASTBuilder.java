@@ -32,22 +32,20 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
 
     @Override
     public ValueNode build(List<Token> statement) {
-        List<Token> rpnTokens = shuntingYard(statement);
+        List<Token> reorganizedTokens = reorganize(statement);
         Deque<ValueNode> nodeStack = new ArrayDeque<>();
 
-        int i = 0;
-        while (i < rpnTokens.size()) {
-            Token token = rpnTokens.get(i);
+        for (Token token : reorganizedTokens) {
             switch (token.getType()) {
                 case "NUMBER" -> {
                     double numberValue = Double.parseDouble(token.getValue());
-                    if(numberValue % 1 == 0){
+                    if (numberValue % 1 == 0) {
                         nodeStack.addLast(new NumberOperator((int) numberValue));
-                    }else{
+                    } else {
                         nodeStack.addLast(new NumberOperator(numberValue));
                     }
                 }
-                case "STRING" -> nodeStack.addLast(new StringOperator(token.getValue()));
+                case "STRING" -> nodeStack.addLast(new StringOperator(token.getValue().substring(1, token.getValue().length() - 1)));
                 case "IDENTIFIER" -> nodeStack.addLast(new IdentifierOperator(token.getValue()));
                 case "OPERATOR" -> {
                     ValueNode rightNode = nodeStack.removeLast();
@@ -61,9 +59,8 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                     }
                 }
                 default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().y() + ":" + token.getPosition().x());
+                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().x() + ":" + token.getPosition().y());
             }
-            i++;
         }
 
         if (nodeStack.size() != 1) {
@@ -73,35 +70,32 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
         return nodeStack.getFirst();
     }
 
-    private List<Token> shuntingYard(List<Token> tokens) {
-        Deque<Token> outputQueue = new ArrayDeque<>();
+    private List<Token> reorganize(List<Token> tokens) {
+        List<Token> outputList = new ArrayList<>();
         Deque<Token> operatorStack = new ArrayDeque<>();
 
-        int i = 0;
-        while (i < tokens.size()) {
-            Token token = tokens.get(i);
+        for (Token token : tokens) {
             switch (token.getType()) {
-                case "NUMBER", "STRING", "IDENTIFIER" -> outputQueue.addLast(token);
+                case "NUMBER", "STRING", "IDENTIFIER" -> outputList.add(token);
                 case "OPERATOR" -> {
                     while (!operatorStack.isEmpty() && !Objects.equals(operatorStack.getLast().getType(), "LPAR") &&
                             precedence.get(operatorStack.getLast().getValue()) >= precedence.get(token.getValue())) {
-                        outputQueue.addLast(operatorStack.removeLast());
+                        outputList.add(operatorStack.removeLast());
                     }
-                    operatorStack.addLast(token);
+                    operatorStack.add(token);
                 }
-                case "LPAR" -> operatorStack.addLast(token);
+                case "LPAR" -> operatorStack.add(token);
                 case "RPAR" -> {
                     while (!operatorStack.isEmpty() && !Objects.equals(operatorStack.getLast().getType(), "LPAR")) {
-                        outputQueue.addLast(operatorStack.removeLast());
+                        outputList.add(operatorStack.removeLast());
                     }
                     if (operatorStack.isEmpty() || !Objects.equals(operatorStack.removeLast().getType(), "LPAR")) {
                         throw new RuntimeException("Mismatched parentheses in expression");
                     }
                 }
                 default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().y() + ":" + token.getPosition().x());
+                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().x() + ":" + token.getPosition().y());
             }
-            i++;
         }
 
         while (!operatorStack.isEmpty()) {
@@ -109,10 +103,10 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
             if (Objects.equals(operator.getType(), "LPAR") || Objects.equals(operator.getType(), "RPAR")) {
                 throw new RuntimeException("Mismatched parentheses in expression");
             }
-            outputQueue.addLast(operator);
+            outputList.add(operator);
         }
 
-        return new ArrayList<>(outputQueue);
+        return outputList;
     }
 }
 
