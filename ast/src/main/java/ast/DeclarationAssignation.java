@@ -1,7 +1,6 @@
 package ast;
 
 import ast.interfaces.ASTNode;
-import ast.interfaces.Assignation;
 import ast.interfaces.ValueNode;
 
 import java.util.Objects;

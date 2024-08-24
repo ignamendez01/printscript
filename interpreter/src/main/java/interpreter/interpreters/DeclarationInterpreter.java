@@ -1,17 +1,17 @@
 package interpreter.interpreters;
 
 import ast.Declaration;
-import interpreter.VariableManager;
+import interpreter.Administrator;
 import interpreter.response.ErrorResponse;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.SuccessResponse;
 
-public class DeclarationInterpreter implements Interpreter<Declaration> {
+public class DeclarationInterpreter implements InterpreterTypes<Declaration> {
 
     @Override
-    public InterpreterResponse interpret(Declaration astNode, VariableManager variableManager) {
+    public InterpreterResponse interpret(Declaration astNode, Administrator administrator) {
         try {
-            variableManager.declareVariable(astNode.getIdentifier(), astNode.getType());
+            administrator.declareVariable(astNode.getIdentifier(), astNode.getType());
             return new SuccessResponse(null);
         } catch (Exception e) {
             return new ErrorResponse(e.getMessage() != null ? e.getMessage() : "Error while declaring variable " + astNode.getIdentifier());
