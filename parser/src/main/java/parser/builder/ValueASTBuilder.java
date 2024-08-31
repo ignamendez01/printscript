@@ -1,7 +1,7 @@
 package parser.builder;
 
 import ast.*;
-import ast.interfaces.BooleanOperator;
+import ast.BooleanOperator;
 import ast.interfaces.ValueNode;
 import token.Token;
 

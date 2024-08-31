@@ -1,4 +1,6 @@
-package ast.interfaces;
+package ast;
+
+import ast.interfaces.ValueNode;
 
 public class BooleanOperator implements ValueNode {
     private final String value;

@@ -1,7 +1,6 @@
 package ast;
 
 import ast.interfaces.ASTNode;
-import ast.interfaces.BooleanOperator;
 
 import java.util.ArrayList;
 
