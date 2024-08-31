@@ -26,7 +26,7 @@ public class Token {
     @Override
     public String toString() {
         return switch (type) {
-            case "STRING", "NUMBER", "IDENTIFIER" -> type + "(" + value + ")";
+            case "STRING", "NUMBER", "IDENTIFIER", "BOOLEAN" -> type + "(" + value + ")";
             default -> type;
         };
     }
