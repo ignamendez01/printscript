@@ -67,7 +67,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                 case "FUNCTION" -> {
                     String functionName = token.getValue();
                     i += 2;
-                    String argumentValue = reorganizedTokens.get(i).getValue();
+                    String argumentValue = reorganizedTokens.get(i).getValue().substring(1, reorganizedTokens.get(i).getValue().length() - 1);
                     nodeStack.addLast(new Function(functionName, argumentValue));
                     i += 2;
 

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ParserTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-08-23T01:32:10" hostname="DESKTOP-754B0AE" time="0.098">
+<testsuite name="ParserTests" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-09-01T18:09:27" hostname="DESKTOP-754B0AE" time="0.24">
   <properties/>
-  <testcase name="test_File()" classname="ParserTests" time="0.098"/>
+  <testcase name="test_Assign()" classname="ParserTests" time="0.059"/>
+  <testcase name="test_Method()" classname="ParserTests" time="0.014"/>
+  <testcase name="test_File()" classname="ParserTests" time="0.033"/>
+  <testcase name="test_readInput()" classname="ParserTests" time="0.031"/>
+  <testcase name="test_DeclareAssignTree()" classname="ParserTests" time="0.012"/>
+  <testcase name="test_readEnv()" classname="ParserTests" time="0.012"/>
+  <testcase name="test_Declare()" classname="ParserTests" time="0.014"/>
+  <testcase name="test_const()" classname="ParserTests" time="0.014"/>
+  <testcase name="test_If_Else()" classname="ParserTests" time="0.027"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
