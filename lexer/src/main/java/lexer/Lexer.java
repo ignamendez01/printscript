@@ -9,7 +9,22 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Lexer {
-    TokenCreator tokenCreator = new TokenCreator();
+    private final TokenCreator tokenCreator = new TokenCreator();
+    private final String tokenFile;
+
+    private Lexer(String tokenFile) {
+        this.tokenFile = tokenFile;
+    }
+
+    public static Lexer lexerVersion(String version) {
+        if (Objects.equals(version, "1.0")){
+            return new Lexer("token_types_1.0.txt");
+        }else if (Objects.equals(version, "1.1")){
+            return new Lexer("token_types_1.1.txt");
+        }else{
+            throw new IllegalStateException("Unexpected value: " + version);
+        }
+    }
 
     public List<Token> makeTokens(String inputText) {
         List<Token> tokens = new ArrayList<>();
@@ -17,7 +32,7 @@ public class Lexer {
 
         for (int i = 0; i < matrix.size(); i++) {
             for (int j = 0; j < matrix.get(i).size(); j++) {
-                Token token = tokenCreator.createToken(matrix.get(i).get(j), i+1, j+1);
+                Token token = tokenCreator.createToken(matrix.get(i).get(j), i+1, j+1, tokenFile);
                 tokens.add(token);
 
             }

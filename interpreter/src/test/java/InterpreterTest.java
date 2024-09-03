@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InterpreterTest {
-    private final Interpreter interpreter = new Interpreter();
+    private final Interpreter interpreter = Interpreter.interpreterVersion("1.0");
 
     @Test
     public void test_Sum_String_Number() throws Exception {

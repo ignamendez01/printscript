@@ -5,15 +5,15 @@ import java.util.regex.Pattern;
 
 public class TokenCreator {
 
-    public Token createToken(String s, int row, int index) {
-        String type = getTypeFromValue(s);
+    public Token createToken(String s, int row, int index, String fileName) {
+        String type = getTypeFromValue(s, fileName);
         Position position = new Position(row, index);
 
         return new Token(type, s, position);
     }
 
-    private String getTypeFromValue(String s) {
-        Map<String, String> typesMap = TypesMapGenerator.getTypesMap();
+    private String getTypeFromValue(String s, String fileName) {
+        Map<String, String> typesMap = TypesMapGenerator.getTypesMap(fileName);
         String type = null;
 
         for (Map.Entry<String, String> entry : typesMap.entrySet()) {

@@ -9,7 +9,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LexerTest {
-    Lexer lexer = new Lexer();
+    Lexer lexer = Lexer.lexerVersion("1.0");
+    Lexer lexer1 = Lexer.lexerVersion("1.1");
 
     @Test
     void test_Declare() {
@@ -69,7 +70,7 @@ public class LexerTest {
     @Test
     void test_const() {
         String example = "const a:string = \"Hello\";";
-        List<Token> actualTokens = lexer.makeTokens(example);
+        List<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, STRING(\"Hello\"), END]";
         String actualTokensString = listToString(actualTokens);
@@ -80,7 +81,7 @@ public class LexerTest {
     @Test
     void test_boolean() {
         String example = "const a:boolean = false;";
-        List<Token> actualTokens = lexer.makeTokens(example);
+        List<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, BOOLEAN(false), END]";
         String actualTokensString = listToString(actualTokens);
@@ -91,7 +92,7 @@ public class LexerTest {
     @Test
     void test_readInput() {
         String example = "let a:number = readInput(\"A number over 10\");";
-        List<Token> actualTokens = lexer.makeTokens(example);
+        List<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
@@ -102,7 +103,7 @@ public class LexerTest {
     @Test
     void test_readEnv() {
         String example = "let a:number = readEnv(\"A number over 10\");";
-        List<Token> actualTokens = lexer.makeTokens(example);
+        List<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
@@ -117,7 +118,7 @@ public class LexerTest {
                 "}else{" +
                 "b;" +
                 "}";
-        List<Token> actualTokens = lexer.makeTokens(example);
+        List<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[IF, LPAR, BOOLEAN(true), RPAR, LKEY, IDENTIFIER(a), END, RKEY, ELSE, LKEY, IDENTIFIER(b), END, RKEY]";
         String actualTokensString = listToString(actualTokens);
@@ -128,7 +129,7 @@ public class LexerTest {
     @Test
     void test_File() throws FileNotFoundException {
         InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
-        List<Token> actualTokens = lexer.makeTokens(example);
+        List<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Hello'), END, KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(120), END]";
         String actualTokensString = listToString(actualTokens);

@@ -38,7 +38,15 @@ public class DeclarationASTBuilder implements ASTBuilder<ASTNode> {
         if(statement.size() > 4 && Objects.equals(statement.get(4).getType(), "ASSIGN")){
             return getDeclarationAssignation(statement);
         }else{
-            return new Declaration(statement.get(1).getValue(), statement.get(3).getValue());
+            if(Objects.equals(statement.get(0).getValue(), "const")){
+                if(Objects.equals(version, "1.0")){
+                    throw new IllegalStateException("Invalid keyword 'const'");
+                }else{
+                    throw new IllegalStateException("A const variable should have a value assigned");
+                }
+            }else{
+                return new Declaration(statement.get(1).getValue(), statement.get(3).getValue());
+            }
         }
     }
 

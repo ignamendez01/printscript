@@ -12,7 +12,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTests {
-    Lexer lexer = new Lexer();
+    Lexer lexer = Lexer.lexerVersion("1.0");
+    Lexer lexer1 = Lexer.lexerVersion("1.1");
     Parser parser = Parser.parserVersion("1.0");
     Parser parser1 = Parser.parserVersion("1.1");
 
@@ -75,7 +76,7 @@ public class ParserTests {
     @Test
     void test_const() {
         String code = "const x : string = 'Hello';";
-        List<ASTNode> list = parser1.generateAST(lexer.makeTokens(code));
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
@@ -88,13 +89,31 @@ public class ParserTests {
     }
 
     @Test
+    void test_const_1_0() {
+        String code = "const x : string = 'Hello';";
+
+        assertThrows(IllegalStateException.class, () -> {
+            parser.generateAST(lexer1.makeTokens(code));
+        });
+    }
+
+    @Test
+    void test_const_declare() {
+        String code = "const x : string;";
+
+        assertThrows(IllegalStateException.class, () -> {
+            parser1.generateAST(lexer1.makeTokens(code));
+        });
+    }
+
+    @Test
     void test_If_Else() {
         String code = "if(true){" +
                 "println(\"Hello World\");" +
                 "}else{" +
                 "println(\"Bye World\");" +
                 "}";
-        List<ASTNode> list = parser1.generateAST(lexer.makeTokens(code));
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
 
         List<ASTNode> expectedAst = List.of(
                 new Conditional(
@@ -118,7 +137,7 @@ public class ParserTests {
     @Test
     void test_readEnv() {
         String code = "const x : string = readEnv(\"VARIABLE_KEY\");";
-        List<ASTNode> list = parser1.generateAST(lexer.makeTokens(code));
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
@@ -133,7 +152,7 @@ public class ParserTests {
     @Test
     void test_readInput() {
         String code = "let x : string = readInput(\"País favorito\");";
-        List<ASTNode> list = parser1.generateAST(lexer.makeTokens(code));
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
@@ -148,7 +167,7 @@ public class ParserTests {
     @Test
     void test_File() throws FileNotFoundException {
         InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
-        List<ASTNode> list = parser1.generateAST(lexer.makeTokens(example));
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(example));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(

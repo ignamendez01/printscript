@@ -37,14 +37,6 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
         }
     }
 
-    public String getType(String value) {
-        if (value.matches("-?\\d+(\\.\\d+)?")) {
-            return "Number";
-        } else {
-            return "String";
-        }
-    }
-
     private VariableResponse handleAddition(String left, String right) {
         if (isNumeric(left) && isNumeric(right)) {
             double numberValue = Double.parseDouble(left) + Double.parseDouble(right);

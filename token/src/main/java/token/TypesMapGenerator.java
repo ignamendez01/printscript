@@ -12,11 +12,9 @@ import java.util.stream.Stream;
 
 public class TypesMapGenerator {
 
-    public static Map<String,String> getTypesMap() {
-        String fileName = "token_types.txt";
+    public static Map<String,String> getTypesMap(String fileName) {
         Map<String, String> map = new HashMap<>();
 
-        // Access the file as a resource from the classpath
         InputStream inputStream = TypesMapGenerator.class.getClassLoader().getResourceAsStream(fileName);
         if (inputStream == null) {
             throw new IllegalArgumentException("Resource not found: " + fileName);

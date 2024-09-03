@@ -11,11 +11,13 @@ public class MethodInterpreter implements InterpreterTypes<Method> {
     ValueInterpreter valueInterpreter = new ValueInterpreter();
 
     @Override
-    public InterpreterResponse interpret(Method astNode, Administrator administrator) throws Exception {
+    public InterpreterResponse interpret(Method astNode, Administrator administrator) {
         if ("println".equalsIgnoreCase(astNode.getIdentifier())) {
             try {
                 VariableResponse response = (VariableResponse) valueInterpreter.interpret(astNode.getValue(), administrator);
-                return new SuccessResponse(response.value() + "\n");
+                administrator.addPrinted(response.value());
+                System.out.println(response.value());
+                return new SuccessResponse("printed "+ response.value());
             } catch (Exception e) {
                 return new ErrorResponse(e.getMessage() != null ? e.getMessage() : "Error while printing");
             }

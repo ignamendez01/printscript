@@ -1,0 +1,18 @@
+
+KEYWORD :: let,const
+DECLARE :: \:
+TYPE :: string,number,boolean
+ASSIGN :: \=
+STRING :: "[^"]*"|'[^']*'
+NUMBER :: -?\d+(\.\d+)?
+BOOLEAN :: true,false
+OPERATOR :: \+, \-, \*, /
+METHOD :: println
+IF :: if
+ELSE :: else
+LPAR :: \(
+RPAR :: \)
+LKEY :: \{
+RKEY :: \}
+END :: \;
+FUNCTION :: readEnv, readInput

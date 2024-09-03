@@ -6,15 +6,16 @@ import java.util.*;
 
 public class Administrator {
     private final HashMap<Variable, String> variables = new HashMap<>();
+    Queue<String> printedElements = new LinkedList<>();
 
-    public void addVariable(String identifier, String type, VariableResponse response) {
+    public void addVariable(String identifier, String type, boolean isConst, VariableResponse response) {
         if(getVariable(identifier) != null){
             throw new RuntimeException("Variable " + identifier + " already declared");
         }
         if (!type.equalsIgnoreCase(response.type())) {
             throw new RuntimeException("Type mismatch in variable " + identifier + " assignment");
         }
-        variables.put(new Variable(identifier, type), response.value());
+        variables.put(new Variable(identifier, type, isConst), response.value());
     }
 
     public void declareVariable(String identifier, String type) {
@@ -29,8 +30,12 @@ public class Administrator {
         if (v == null) {
             throw new RuntimeException("Variable " + identifier + " not declared");
         }else{
-            if (v.type().equalsIgnoreCase(variable.type())) {
-                variables.replace(v,variable.value());
+            if (v.getType().equalsIgnoreCase(variable.type())) {
+                if(!v.isConst()){
+                    variables.replace(v,variable.value());
+                }else{
+                    throw new RuntimeException("Variable " + identifier + " is const");
+                }
             }else{
                 throw new RuntimeException("Variable " + identifier + " is not type " + variable.type());
             }
@@ -40,7 +45,7 @@ public class Administrator {
     public Variable getVariable(String identifier) {
         Variable variable = null;
         for (Variable var : variables.keySet()) {
-                if (var.identifier().equals(identifier)) {
+                if (var.getIdentifier().equals(identifier)) {
                     variable = var;
                 }
         }
@@ -49,5 +54,9 @@ public class Administrator {
 
     public HashMap<Variable,String> getVariables() {
         return variables;
+    }
+
+    public void addPrinted(String value) {
+        printedElements.add(value);
     }
 }

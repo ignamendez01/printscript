@@ -11,13 +11,14 @@ public class DeclarationAssignationInterpreter implements InterpreterTypes<Decla
     ValueInterpreter valueInterpreter = new ValueInterpreter();
 
     @Override
-    public InterpreterResponse interpret(DeclarationAssignation astNode, Administrator administrator) throws Exception {
+    public InterpreterResponse interpret(DeclarationAssignation astNode, Administrator administrator) {
         try {
             VariableResponse response = (VariableResponse) valueInterpreter.interpret(astNode.getValue(), administrator);
             administrator.addVariable(astNode.getDeclaration().getIdentifier(),
                     astNode.getDeclaration().getType(),
+                    astNode.isConst(),
                     response);
-            return new SuccessResponse(null);
+            return new SuccessResponse("variable "+astNode.getDeclaration().getIdentifier()+" was declared with value "+ response.value());
         } catch (Exception e) {
             return new ErrorResponse(e.getMessage() != null ? e.getMessage() : "Error while declaring variable " + astNode.getDeclaration().getIdentifier());
         }
