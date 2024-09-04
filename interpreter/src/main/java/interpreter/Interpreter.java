@@ -75,4 +75,8 @@ public class Interpreter {
         }
         return new SuccessResponse("Interpretation completed");
     }
+
+    public Administrator getAdmin() {
+        return admin;
+    }
 }

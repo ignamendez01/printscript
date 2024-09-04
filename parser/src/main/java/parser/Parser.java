@@ -86,14 +86,13 @@ public class Parser {
             i++;
         }
         currentSegment.add(tokens.get(i));
-        i++;
-        if (Objects.equals(tokens.get(i).getType(), "ELSE")){
+        if (Objects.equals(tokens.get(i+1).getType(), "ELSE")){
+            i++;
             while (!Objects.equals(tokens.get(i).getType(), "RKEY")){
                 currentSegment.add(tokens.get(i));
                 i++;
             }
             currentSegment.add(tokens.get(i));
-            i++;
         }
         result.add(new ArrayList<>(currentSegment));
         currentSegment.clear();

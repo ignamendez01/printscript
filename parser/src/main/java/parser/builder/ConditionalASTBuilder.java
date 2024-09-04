@@ -31,17 +31,21 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
         int elsePosition = findElse(statement);
         if (elsePosition != -1){
             return new Conditional(
-                    new BooleanOperator(statement.get(2).getValue()),
+                    new BooleanOperator(getValue(statement.get(2).getValue())),
                     parser.generateAST(statement.subList(5, elsePosition-1)),
                     parser.generateAST(statement.subList(elsePosition+2, statement.size()-1))
             );
         }else{
             return new Conditional(
-                    new BooleanOperator(statement.get(2).getValue()),
+                    new BooleanOperator(getValue(statement.get(2).getValue())),
                     parser.generateAST(statement.subList(5, statement.size()-1)),
                     null
             );
         }
+    }
+
+    private boolean getValue(String value) {
+        return Objects.equals(value, "true");
     }
 
     private int findElse(List<Token> statement){

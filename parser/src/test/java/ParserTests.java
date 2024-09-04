@@ -92,18 +92,14 @@ public class ParserTests {
     void test_const_1_0() {
         String code = "const x : string = 'Hello';";
 
-        assertThrows(IllegalStateException.class, () -> {
-            parser.generateAST(lexer1.makeTokens(code));
-        });
+        assertThrows(IllegalStateException.class, () -> parser.generateAST(lexer1.makeTokens(code)));
     }
 
     @Test
     void test_const_declare() {
         String code = "const x : string;";
 
-        assertThrows(IllegalStateException.class, () -> {
-            parser1.generateAST(lexer1.makeTokens(code));
-        });
+        assertThrows(IllegalStateException.class, () -> parser1.generateAST(lexer1.makeTokens(code)));
     }
 
     @Test
@@ -117,7 +113,7 @@ public class ParserTests {
 
         List<ASTNode> expectedAst = List.of(
                 new Conditional(
-                        new BooleanOperator("true"),
+                        new BooleanOperator(true),
                         List.of(
                                 new Method(
                                         "println",

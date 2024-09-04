@@ -7,6 +7,8 @@ import interpreter.Variable;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.VariableResponse;
 
+import java.util.Scanner;
+
 public class ValueInterpreter implements InterpreterTypes<ValueNode>{
 
     @Override
@@ -18,9 +20,35 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
             case NumberOperator numberOperator -> {
                 return new VariableResponse("Number", numberOperator.getValue().toString());
             }
+            case BooleanOperator booleanOperator -> {
+                return new VariableResponse("Boolean", booleanOperator.getValue().toString());
+            }
             case IdentifierOperator identifierOperator -> {
                 Variable v = administrator.getVariable(identifierOperator.getIdentifier());
-                return new VariableResponse(v.type(), administrator.getVariables().get(v));
+                return new VariableResponse(v.getType(), administrator.getVariables().get(v));
+            }
+            case Function functionNode ->{
+                switch (functionNode.getName()){
+                    case "readEnv" -> {
+                        String envValue = System.getenv(functionNode.getMessage());
+                        if (envValue == null) {
+                            throw new IllegalArgumentException("Environment variable " + functionNode.getMessage() + " does not exist");
+                        }
+                        String envType = getType(envValue);
+                        return new VariableResponse(envType, envValue);
+                    }
+                    case "readInput" -> {
+                        final Scanner scanner = new Scanner(System.in);
+                        System.out.println(functionNode.getMessage());
+                        String input = scanner.nextLine();
+                        if (input == null) {
+                            throw new IllegalArgumentException("Failed to read input");
+                        }
+                        String inputType = getType(input);
+                        return new VariableResponse(inputType, input);
+                    }
+                    default -> throw new IllegalArgumentException("Unsupported method: " + functionNode.getName());
+                }
             }
             case BinaryOperation binaryNode -> {
                 String left = ((VariableResponse) interpret(binaryNode.getLeft(), administrator)).value();
@@ -91,5 +119,15 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
 
     private boolean isNumeric(String value) {
         return value != null && value.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    private String getType(String value) {
+        if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
+            return "Boolean";
+        } else if (isNumeric(value)) {
+            return "Number";
+        } else {
+            return "String";
+        }
     }
 }

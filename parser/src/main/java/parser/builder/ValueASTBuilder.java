@@ -52,7 +52,13 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                 }
                 case "STRING" -> nodeStack.addLast(new StringOperator(token.getValue().substring(1, token.getValue().length() - 1)));
                 case "IDENTIFIER" -> nodeStack.addLast(new IdentifierOperator(token.getValue()));
-                case "BOOLEAN" -> nodeStack.addLast(new BooleanOperator(token.getValue()));
+                case "BOOLEAN" -> {
+                    if(Objects.equals(token.getValue(), "true")){
+                        nodeStack.addLast(new BooleanOperator(true));
+                    }else {
+                        nodeStack.addLast(new BooleanOperator(false));
+                    }
+                }
                 case "OPERATOR" -> {
                     ValueNode rightNode = nodeStack.removeLast();
                     ValueNode leftNode = nodeStack.removeLast();

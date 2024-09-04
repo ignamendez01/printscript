@@ -56,6 +56,10 @@ public class Administrator {
         return variables;
     }
 
+    public Queue<String> getPrintedElements() {
+        return printedElements;
+    }
+
     public void addPrinted(String value) {
         printedElements.add(value);
     }

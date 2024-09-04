@@ -3,14 +3,22 @@ import ast.interfaces.ASTNode;
 import interpreter.Interpreter;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.SuccessResponse;
+import lexer.Lexer;
 import org.junit.jupiter.api.Test;
+import parser.Parser;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InterpreterTest {
+    private final Lexer lexer = Lexer.lexerVersion("1.0");
+    private final Lexer lexer1 = Lexer.lexerVersion("1.1");
+    private final Parser parser = Parser.parserVersion("1.0");
+    private final Parser parser1 = Parser.parserVersion("1.1");
     private final Interpreter interpreter = Interpreter.interpreterVersion("1.0");
+    private final Interpreter interpreter1 = Interpreter.interpreterVersion("1.1");
 
     @Test
     public void test_Sum_String_Number() throws Exception {
@@ -27,201 +35,184 @@ public class InterpreterTest {
         );
         InterpreterResponse result = interpreter.interpretAST(ast);
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("Hello5\n", successResult.message());
+        assertEquals("Hello5", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_Sum_Identifier_String() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("a", "number"),
-                        new NumberOperator(1)
-                ),
-                new DeclarationAssignation(
-                        new Declaration("x", "string"),
-                        new BinaryOperation(
-                                new IdentifierOperator("a"),
-                                "+",
-                                new StringOperator("Hello")
-                        )
-                ),
-                new Method("println", new IdentifierOperator("x"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let a:number = 1;" +
+                "let x: string = a+'Hello';" +
+                "println(x);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("1Hello\n", successResult.message());
+        assertEquals("1Hello", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_Multiply_Numbers() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("a", "number"),
-                        new BinaryOperation(
-                                new NumberOperator(5),
-                                "*",
-                                new NumberOperator(5)
-                        )
-                ),
-                new Method("println", new IdentifierOperator("a"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let a:number = 5*5;" +
+                "println(a);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("25\n", successResult.message());
+        assertEquals("25", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_Sum_Identifiers() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("a", "number"),
-                        new NumberOperator(5)
-                ),
-                new DeclarationAssignation(
-                        new Declaration("b", "number"),
-                        new NumberOperator(5)
-                ),
-                new DeclarationAssignation(
-                        new Declaration("c", "number"),
-                        new BinaryOperation(
-                                new IdentifierOperator("a"),
-                                "+",
-                                new IdentifierOperator("b")
-                        )
-                ),
-                new Method("println", new IdentifierOperator("c"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let a:number = 5;" +
+                "let b:number = 5;" +
+                "let c:number = a+ b;" +
+                "println(c);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("10\n", successResult.message());
+        assertEquals("10", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_Subtract_Numbers() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("a", "number"),
-                        new NumberOperator(10)
-                ),
-                new DeclarationAssignation(
-                        new Declaration("b", "number"),
-                        new NumberOperator(5)
-                ),
-                new DeclarationAssignation(
-                        new Declaration("c", "number"),
-                        new BinaryOperation(
-                                new IdentifierOperator("a"),
-                                "-",
-                                new IdentifierOperator("b")
-                        )
-                ),
-                new Method("println", new IdentifierOperator("c"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let a:number = 10;" +
+                "let b:number = 5;" +
+                "let c:number = a - b;" +
+                "println(c);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("5\n", successResult.message());
+        assertEquals("5", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_Divide_Numbers() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("a", "number"),
-                        new NumberOperator(10)
-                ),
-                new DeclarationAssignation(
-                        new Declaration("b", "number"),
-                        new NumberOperator(5)
-                ),
-                new DeclarationAssignation(
-                        new Declaration("c", "number"),
-                        new BinaryOperation(
-                                new IdentifierOperator("a"),
-                                "/",
-                                new IdentifierOperator("b")
-                        )
-                ),
-                new Method("println", new IdentifierOperator("c"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let a:number = 10;" +
+                        "let b:number = 5;" +
+                        "let c:number = a /b;" +
+                        "println(c);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("2\n", successResult.message());
+        assertEquals("2", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_shouldConcatenateTwoStrings() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("a", "string"),
-                        new StringOperator("Hello")
-                ),
-                new DeclarationAssignation(
-                        new Declaration("b", "string"),
-                        new StringOperator(" World")
-                ),
-                new DeclarationAssignation(
-                        new Declaration("c", "string"),
-                        new BinaryOperation(
-                                new IdentifierOperator("a"),
-                                "+",
-                                new IdentifierOperator("b")
-                        )
-                ),
-                new Method("println", new IdentifierOperator("c"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let a:string = \"Hello\";" +
+                        "let b:string = ' World';" +
+                        "let c:string = a + b;" +
+                        "println(c);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("Hello World\n", successResult.message());
+        assertEquals("Hello World", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_Assign_Declared_Value() throws Exception {
-        List<ASTNode> ast = List.of(
-                new Declaration("a", "string"),
-                new SimpleAssignation("a", new StringOperator("Hello")),
-                new Method("println", new IdentifierOperator("a"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text = "let a:string;" +
+                "a = 'Hello';" +
+                "println(a);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("Hello\n", successResult.message());
+        assertEquals("Hello", interpreter.getAdmin().getPrintedElements().poll());
     }
 
     @Test
     public void test_Operation() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("result", "number"),
-                        new BinaryOperation(
-                                new BinaryOperation(
-                                        new NumberOperator(5),
-                                        "+",
-                                        new BinaryOperation(
-                                                new NumberOperator(5),
-                                                "*",
-                                                new NumberOperator(10)
-                                        )
-                                ),
-                                "-",
-                                new BinaryOperation(
-                                        new NumberOperator(2),
-                                        "/",
-                                        new NumberOperator(2)
-                                )
-                        )
-                ),
-                new Method("println", new IdentifierOperator("result"))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let result:number = (5 + (5*10) - 2/2);" +
+                "println(result);";
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
-        SuccessResponse successResult = (SuccessResponse) result;
-        assertEquals("54\n", successResult.message());
+        assertEquals("54", interpreter.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_if_true() throws Exception {
+        String text =
+                "let result : number;" +
+                "if(true){" +
+                        "result = 12;" +
+                "} else {" +
+                        "result = 14;" +
+                "}" +
+                "println(result);";
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("12", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_if_false() throws Exception {
+        String text =
+                "let result : number;" +
+                        "if(false){" +
+                        "result = 12;" +
+                        "} else {" +
+                        "result = 14;" +
+                        "}" +
+                        "println(result);";
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_if_one_tree_true() throws Exception {
+        String text =
+                "let result : number = 14;" +
+                        "if(true){" +
+                        "result = 12;" +
+                        "}" +
+                        "println(result);";
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("12", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_if_one_tree_false() throws Exception {
+        String text =
+                "let result : number = 14;" +
+                        "if(false){" +
+                        "result = 12;" +
+                        "}" +
+                        "println(result);";
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_readInput() throws Exception {
+        String text = "let result : number = readInput('Insert a number: ');" +
+                "println(result);";
+        String input = "14";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_readEnv() throws Exception {
+        String text = "let result : string = readEnv('NAME');" +
+                "println(result);";
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("Ignacio", interpreter1.getAdmin().getPrintedElements().poll());
     }
 }

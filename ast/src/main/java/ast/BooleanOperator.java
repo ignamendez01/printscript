@@ -5,13 +5,13 @@ import ast.interfaces.ValueNode;
 import java.util.Objects;
 
 public class BooleanOperator implements ValueNode {
-    private final String value;
+    private final boolean value;
 
-    public BooleanOperator(String value) {
+    public BooleanOperator(boolean value) {
         this.value = value;
     }
 
-    public String getValue() {
+    public Boolean getValue() {
         return value;
     }
 

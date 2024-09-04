@@ -6,19 +6,19 @@ import java.util.Objects;
 
 public class Function implements ValueNode {
     private final String name;
-    private final String value;
+    private final String message;
 
-    public Function(String name, String value) {
+    public Function(String name, String message) {
         this.name = name;
-        this.value = value;
+        this.message = message;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getValue() {
-        return value;
+    public String getMessage() {
+        return message;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class Function implements ValueNode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Function that = (Function) o;
-        return Objects.equals(name, that.name) && Objects.equals(value, that.value);
+        return Objects.equals(name, that.name) && Objects.equals(message, that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, value);
+        return Objects.hash(name, message);
     }
 }
