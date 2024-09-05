@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class KeyWordMatrix {
+public class TokenValueExtractor {
 
-    public static List<List<String>> getMatrix(String input) {
+    public static List<List<String>> extractTokenValues(String input) {
         if (input.isEmpty()) {
             return new ArrayList<>();
         }

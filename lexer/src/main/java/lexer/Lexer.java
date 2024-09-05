@@ -9,22 +9,20 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Lexer {
-    private final TokenCreator tokenCreator = new TokenCreator();
-    private final String tokenFile;
+    private final TokenCreator tokenCreator;
 
     public Lexer(String tokenFile) {
-        this.tokenFile = tokenFile;
+        this.tokenCreator = new TokenCreator(tokenFile);
     }
 
     public List<Token> makeTokens(String inputText) {
         List<Token> tokens = new ArrayList<>();
-        List<List<String>> matrix = KeyWordMatrix.getMatrix(inputText);
+        List<List<String>> tokenValues = TokenValueExtractor.extractTokenValues(inputText);
 
-        for (int i = 0; i < matrix.size(); i++) {
-            for (int j = 0; j < matrix.get(i).size(); j++) {
-                Token token = tokenCreator.createToken(matrix.get(i).get(j), i+1, j+1, tokenFile);
+        for (int i = 0; i < tokenValues.size(); i++) {
+            for (int j = 0; j < tokenValues.get(i).size(); j++) {
+                Token token = tokenCreator.createToken(tokenValues.get(i).get(j), i+1, j+1);
                 tokens.add(token);
-
             }
         }
 
