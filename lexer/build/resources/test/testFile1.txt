@@ -1,2 +1,3 @@
-let x : string = 'Hello';
-let y : number = 120;
+let x : string = 'Hello ';
+let y : number = 5 + (2*10) - (15/3);
+println(x+y);

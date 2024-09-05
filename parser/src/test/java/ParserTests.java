@@ -168,12 +168,82 @@ public class ParserTests {
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
                         new Declaration("x", "string"),
-                        new StringOperator("Hello")
+                        new StringOperator("Hello ")
                 ),
                 new DeclarationAssignation(
                         new Declaration("y", "number"),
-                        new NumberOperator(120)
-                )
+                        new BinaryOperation(
+                                new BinaryOperation(
+                                        new NumberOperator(5),
+                                        "+",
+                                        new BinaryOperation(
+                                                new NumberOperator(2),
+                                                "*",
+                                                new NumberOperator(10)
+                                        )
+                                ),
+                                "-",
+                                new BinaryOperation(
+                                        new NumberOperator(15),
+                                        "/",
+                                        new NumberOperator(3)
+                                ))
+                ),
+                new Method("println", new BinaryOperation(new IdentifierOperator("x"),
+                        "+", new IdentifierOperator("y")))
+        );
+        assertEquals(expectedAst, list);
+    }
+
+    @Test
+    void test_File2() throws FileNotFoundException {
+        InputStream example = new FileInputStream("src/test/resources/testFile2.txt");
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(example));
+
+        List<ASTNode> expectedAst = List.of(
+                new DeclarationAssignation(
+                        new Declaration("x", "string"),
+                        new StringOperator("Value "),
+                        true
+                ),
+                new DeclarationAssignation(
+                        new Declaration("y", "number"),
+                        new NumberOperator(5)
+                ),
+                new DeclarationAssignation(
+                        new Declaration("z", "boolean"),
+                        new BooleanOperator(true),
+                        true
+                ),
+                new DeclarationAssignation(
+                        new Declaration("w", "number"),
+                        new Function("readInput","Value to multiply"),
+                        true
+                ),
+                new Conditional(
+                        new IdentifierOperator("z"),
+                        List.of(
+                             new SimpleAssignation(
+                                     "y",
+                                     new BinaryOperation(
+                                             new IdentifierOperator("y"),
+                                             "*",
+                                             new IdentifierOperator("w")))
+                        ),
+                        List.of(
+                             new SimpleAssignation(
+                                     "y",
+                                     new BinaryOperation(
+                                             new IdentifierOperator("y"),
+                                             "+",
+                                             new Function(
+                                                     "readEnv",
+                                                     "NUMBER_TO_SUM"
+                                             )))
+                        )
+                ),
+                new Method("println", new BinaryOperation(new IdentifierOperator("x"),
+                        "+", new IdentifierOperator("y")))
         );
         assertEquals(expectedAst, list);
     }

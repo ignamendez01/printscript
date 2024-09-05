@@ -1,22 +1,23 @@
 package ast;
 
 import ast.interfaces.ASTNode;
+import ast.interfaces.ValueNode;
 
 import java.util.List;
 import java.util.Objects;
 
 public class Conditional implements ASTNode {
-    private final BooleanOperator operator;
+    private final ValueNode operator;
     private final List<ASTNode> trueBranch;
     private final List<ASTNode> falseBranch;
 
-    public Conditional(BooleanOperator operator, List<ASTNode> trueBranch, List<ASTNode> falseBranch) {
+    public Conditional(ValueNode operator, List<ASTNode> trueBranch, List<ASTNode> falseBranch) {
         this.operator = operator;
         this.trueBranch = trueBranch;
         this.falseBranch = falseBranch;
     }
 
-    public BooleanOperator getOperator() {
+    public ValueNode getOperator() {
         return operator;
     }
 
@@ -35,8 +36,7 @@ public class Conditional implements ASTNode {
         Conditional that = (Conditional) o;
         return Objects.equals(operator, that.operator) &&
                 Objects.equals(trueBranch, that.trueBranch) &&
-                falseBranch != null ?
-                falseBranch.equals(that.falseBranch) : that.falseBranch == null;
+                Objects.equals(falseBranch, that.falseBranch);
     }
 
     @Override

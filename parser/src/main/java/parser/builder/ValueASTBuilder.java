@@ -75,7 +75,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                     i += 2;
                     String argumentValue = reorganizedTokens.get(i).getValue().substring(1, reorganizedTokens.get(i).getValue().length() - 1);
                     nodeStack.addLast(new Function(functionName, argumentValue));
-                    i += 2;
+                    i += 1;
 
                 }
                 default ->

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import parser.Parser;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -214,5 +216,25 @@ public class InterpreterTest {
         InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("Ignacio", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_File() throws Exception {
+        InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(example)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("Hello 20", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_File_2() throws Exception {
+        InputStream example = new FileInputStream("src/test/resources/testFile2.txt");
+        String input = "5";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(example)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("Value 25", interpreter1.getAdmin().getPrintedElements().poll());
     }
 }

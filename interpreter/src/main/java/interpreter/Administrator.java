@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Administrator {
     private final HashMap<Variable, String> variables = new HashMap<>();
-    Queue<String> printedElements = new LinkedList<>();
+    private final Queue<String> printedElements = new LinkedList<>();
 
     public void addVariable(String identifier, String type, boolean isConst, VariableResponse response) {
         if(getVariable(identifier) != null){

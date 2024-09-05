@@ -131,7 +131,31 @@ public class LexerTest {
         InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
         List<Token> actualTokens = lexer1.makeTokens(example);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Hello'), END, KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(120), END]";
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Hello '), END, " +
+                "KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(5), OPERATOR, " +
+                "LPAR, NUMBER(2), OPERATOR, NUMBER(10), RPAR, OPERATOR, " +
+                "LPAR, NUMBER(15), OPERATOR, NUMBER(3), RPAR, END, " +
+                "METHOD, LPAR, IDENTIFIER(x), OPERATOR, IDENTIFIER(y), RPAR, END]";
+        String actualTokensString = listToString(actualTokens);
+
+        assertEquals(expectedTokensString, actualTokensString);
+    }
+
+    @Test
+    void test_File2() throws FileNotFoundException {
+        InputStream example = new FileInputStream("src/test/resources/testFile2.txt");
+        List<Token> actualTokens = lexer1.makeTokens(example);
+
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Value '), END, " +
+                "KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(5), END, " +
+                "KEYWORD, IDENTIFIER(z), DECLARE, TYPE, ASSIGN, BOOLEAN(true), END, " +
+                "KEYWORD, IDENTIFIER(w), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"Value to multiply\"), RPAR, END, " +
+                "IF, LPAR, IDENTIFIER(z), RPAR, LKEY, " +
+                "IDENTIFIER(y), ASSIGN, IDENTIFIER(y), OPERATOR, IDENTIFIER(w), END, " +
+                "RKEY, ELSE, LKEY, " +
+                "IDENTIFIER(y), ASSIGN, IDENTIFIER(y), OPERATOR, FUNCTION, LPAR, STRING(\"NUMBER_TO_SUM\"), RPAR, END, " +
+                "RKEY, " +
+                "METHOD, LPAR, IDENTIFIER(x), OPERATOR, IDENTIFIER(y), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
