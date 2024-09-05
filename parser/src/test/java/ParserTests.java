@@ -1,6 +1,7 @@
 import ast.*;
 import ast.interfaces.ASTNode;
 import lexer.Lexer;
+import lexer.LexerFactory;
 import org.junit.jupiter.api.Test;
 import parser.Parser;
 
@@ -12,8 +13,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTests {
-    Lexer lexer = Lexer.lexerVersion("1.0");
-    Lexer lexer1 = Lexer.lexerVersion("1.1");
+    Lexer lexer = LexerFactory.lexerVersion("1.0");
+    Lexer lexer1 = LexerFactory.lexerVersion("1.1");
     Parser parser = Parser.parserVersion("1.0");
     Parser parser1 = Parser.parserVersion("1.1");
 

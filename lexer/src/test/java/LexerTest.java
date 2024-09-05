@@ -1,4 +1,5 @@
 import lexer.Lexer;
+import lexer.LexerFactory;
 import org.junit.jupiter.api.Test;
 import token.Token;
 import java.io.FileInputStream;
@@ -9,8 +10,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LexerTest {
-    Lexer lexer = Lexer.lexerVersion("1.0");
-    Lexer lexer1 = Lexer.lexerVersion("1.1");
+    Lexer lexer = LexerFactory.lexerVersion("1.0");
+    Lexer lexer1 = LexerFactory.lexerVersion("1.1");
 
     @Test
     void test_Declare() {
