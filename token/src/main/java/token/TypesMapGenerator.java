@@ -20,6 +20,12 @@ public class TypesMapGenerator {
             throw new IllegalArgumentException("Resource not found: " + fileName);
         }
 
+        createPatterns(inputStream, map);
+
+        return map;
+    }
+
+    private static void createPatterns(InputStream inputStream, Map<String, String> map) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -40,8 +46,6 @@ public class TypesMapGenerator {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return map;
     }
 
     private static String createPattern(List<String> symbols) {

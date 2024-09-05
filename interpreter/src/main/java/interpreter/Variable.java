@@ -11,12 +11,6 @@ public class Variable{
         this.isConst = isConst;
     }
 
-    public Variable(String identifier, String type) {
-        this.identifier = identifier;
-        this.type = type;
-        this.isConst = false;
-    }
-
     public String getIdentifier() {
         return identifier;
     }

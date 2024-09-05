@@ -30,22 +30,10 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
             case Function functionNode ->{
                 switch (functionNode.getName()){
                     case "readEnv" -> {
-                        String envValue = System.getenv(functionNode.getMessage());
-                        if (envValue == null) {
-                            throw new IllegalArgumentException("Environment variable " + functionNode.getMessage() + " does not exist");
-                        }
-                        String envType = getType(envValue);
-                        return new VariableResponse(envType, envValue);
+                        return readEnvVariable(functionNode);
                     }
                     case "readInput" -> {
-                        final Scanner scanner = new Scanner(System.in);
-                        System.out.println(functionNode.getMessage());
-                        String input = scanner.nextLine();
-                        if (input == null) {
-                            throw new IllegalArgumentException("Failed to read input");
-                        }
-                        String inputType = getType(input);
-                        return new VariableResponse(inputType, input);
+                        return readInputMessage(functionNode);
                     }
                     default -> throw new IllegalArgumentException("Unsupported method: " + functionNode.getName());
                 }
@@ -63,6 +51,26 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
             }
             case null, default -> throw new Exception("Unexpected binary operation node");
         }
+    }
+
+    private VariableResponse readInputMessage(Function functionNode) {
+        final Scanner scanner = new Scanner(System.in);
+        System.out.println(functionNode.getMessage());
+        String input = scanner.nextLine();
+        if (input == null) {
+            throw new IllegalArgumentException("Failed to read input");
+        }
+        String inputType = getType(input);
+        return new VariableResponse(inputType, input);
+    }
+
+    private VariableResponse readEnvVariable(Function functionNode) {
+        String envValue = System.getenv(functionNode.getMessage());
+        if (envValue == null) {
+            throw new IllegalArgumentException("Environment variable " + functionNode.getMessage() + " does not exist");
+        }
+        String envType = getType(envValue);
+        return new VariableResponse(envType, envValue);
     }
 
     private VariableResponse handleAddition(String left, String right) {

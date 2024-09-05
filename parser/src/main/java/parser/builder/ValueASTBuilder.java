@@ -8,8 +8,7 @@ import token.Token;
 import java.util.*;
 
 public class ValueASTBuilder implements ASTBuilder<ValueNode> {
-    private final List<String> forbidden = Arrays.asList("ASSIGN", "DECLARE", "KEYWORD", "TYPE",
-            "METHOD", "IF", "ELSE", "RKEY", "LKEY");
+    private final List<String> forbidden;
 
     private final Map<String, Integer> precedence = Map.of(
             "+", 1,
@@ -17,6 +16,10 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
             "*", 2,
             "/", 2
     );
+
+    public ValueASTBuilder(String version) {
+        this.forbidden = ForbiddenListFactory.getList(version);
+    }
 
     @Override
     public boolean verify(List<Token> statement) {
@@ -137,6 +140,19 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
         }
 
         return outputList;
+    }
+
+    private static class ForbiddenListFactory {
+
+        public static List<String> getList(String version) {
+            if (Objects.equals(version, "1.0")){
+                return Arrays.asList("ASSIGN", "DECLARE", "KEYWORD", "TYPE",
+                        "METHOD");
+            }else{
+                return Arrays.asList("ASSIGN", "DECLARE", "KEYWORD", "TYPE",
+                        "METHOD", "IF", "ELSE", "RKEY", "LKEY");
+            }
+        }
     }
 }
 

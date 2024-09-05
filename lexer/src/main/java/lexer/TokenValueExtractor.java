@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class TokenValueExtractor {
 
-    public static List<List<String>> extractTokenValues(String input) {
+    public static List<String> extractTokenValues(String input) {
         if (input.isEmpty()) {
             return new ArrayList<>();
         }
@@ -18,17 +18,19 @@ public class TokenValueExtractor {
 
         Pattern regex = Pattern.compile(regexPattern);
 
-        List<List<String>> matches = new ArrayList<>();
+        List<String> values = new ArrayList<>();
 
+        createValues(adjustedInput, regex, values);
+
+        return values;
+    }
+
+    private static void createValues(List<String> adjustedInput, Pattern regex, List<String> values) {
         for (String i : adjustedInput) {
             Matcher matcher = regex.matcher(i);
-            List<String> matchList = new ArrayList<>();
             while (matcher.find()) {
-                matchList.add(matcher.group());
+                values.add(matcher.group());
             }
-            matches.add(matchList);
         }
-
-        return matches;
     }
 }

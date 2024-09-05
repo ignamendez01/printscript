@@ -22,7 +22,7 @@ public class Administrator {
         if(getVariable(identifier) != null){
             throw new RuntimeException("Variable " + identifier + " already declared");
         }
-        variables.put(new Variable(identifier, type), null);
+        variables.put(new Variable(identifier, type, false), null);
     }
 
     public void setVariable(String identifier, VariableResponse variable) {

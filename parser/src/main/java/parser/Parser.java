@@ -17,26 +17,6 @@ public class Parser {
         this.astBuilders = astBuilders;
     }
 
-
-    public static Parser parserVersion(String version){
-        if (Objects.equals(version, "1.0")){
-            return new Parser("1.0", List.of(
-                    new AssignationASTBuilder(),
-                    new DeclarationASTBuilder("1.0"),
-                    new MethodASTBuilder()
-            ));
-        }else if (Objects.equals(version, "1.1")){
-            return new Parser("1.1", List.of(
-                    new AssignationASTBuilder(),
-                    new DeclarationASTBuilder("1.1"),
-                    new MethodASTBuilder(),
-                    new ConditionalASTBuilder()
-            ));
-        }else{
-            throw new IllegalStateException("Unexpected value: " + version);
-        }
-    }
-
     public List<ASTNode> generateAST(List<Token> tokens) {
         List<ASTNode> astNodes = new ArrayList<>();
         List<List<Token>> tokenMatrix = generateMatrix(tokens);

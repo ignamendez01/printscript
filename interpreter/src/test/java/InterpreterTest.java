@@ -1,12 +1,15 @@
 import ast.*;
 import ast.interfaces.ASTNode;
+import interpreter.Administrator;
 import interpreter.Interpreter;
+import interpreter.InterpreterFactory;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.SuccessResponse;
 import lexer.Lexer;
 import lexer.LexerFactory;
 import org.junit.jupiter.api.Test;
 import parser.Parser;
+import parser.ParserFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -18,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InterpreterTest {
     private final Lexer lexer = LexerFactory.lexerVersion("1.0");
     private final Lexer lexer1 = LexerFactory.lexerVersion("1.1");
-    private final Parser parser = Parser.parserVersion("1.0");
-    private final Parser parser1 = Parser.parserVersion("1.1");
-    private final Interpreter interpreter = Interpreter.interpreterVersion("1.0");
-    private final Interpreter interpreter1 = Interpreter.interpreterVersion("1.1");
+    private final Parser parser = ParserFactory.parserVersion("1.0");
+    private final Parser parser1 = ParserFactory.parserVersion("1.1");
+    private final Interpreter interpreter = InterpreterFactory.interpreterVersion(new Administrator(),"1.0");
+    private final Interpreter interpreter1 = InterpreterFactory.interpreterVersion(new Administrator(),"1.1");
 
     @Test
     public void test_Sum_String_Number() throws Exception {

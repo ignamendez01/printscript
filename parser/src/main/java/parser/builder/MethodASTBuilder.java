@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class MethodASTBuilder implements ASTBuilder<Method> {
-    private final ValueASTBuilder valueASTBuilder = new ValueASTBuilder();
+    private final ValueASTBuilder valueASTBuilder;
 
-    public MethodASTBuilder() {
+    public MethodASTBuilder(String version) {
+        this.valueASTBuilder = new ValueASTBuilder(version);
     }
 
     @Override

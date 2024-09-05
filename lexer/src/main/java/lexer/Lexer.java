@@ -17,40 +17,48 @@ public class Lexer {
 
     public List<Token> makeTokens(String inputText) {
         List<Token> tokens = new ArrayList<>();
-        List<List<String>> tokenValues = TokenValueExtractor.extractTokenValues(inputText);
+        List<String> tokenValues = TokenValueExtractor.extractTokenValues(inputText);
 
-        for (int i = 0; i < tokenValues.size(); i++) {
-            for (int j = 0; j < tokenValues.get(i).size(); j++) {
-                Token token = tokenCreator.createToken(tokenValues.get(i).get(j), i+1, j+1);
-                tokens.add(token);
-            }
-        }
+        createTokenList(tokenValues, tokens);
 
         return tokens;
     }
 
+    private void createTokenList(List<String> tokenValues, List<Token> tokens) {
+        int row = 1;
+        int column = 1;
+        for (String tokenValue : tokenValues) {
+            Token token = tokenCreator.createToken(tokenValue, row, column);
+            if(Objects.equals(tokenValue, ";")){
+                row++;
+                column = 1;
+            }else{
+                column++;
+            }
+            tokens.add(token);
+        }
+    }
+
     public List<Token> makeTokens(InputStream fileInput) {
         BufferedReader br = new BufferedReader(new InputStreamReader(fileInput));
-        String currentLine;
-        try {
-            currentLine = br.readLine();
-        } catch (Exception e) {
-            throw new RuntimeException("Error reading input", e);
-        }
-        if (currentLine == null) return new ArrayList<>();
+        String currentLine = readLine(br);
 
         StringBuilder statement = new StringBuilder();
-        try {
-            while (currentLine != null) {
-                String line = currentLine.trim();
-                statement.append(line).append("\n");
-                currentLine = br.readLine();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error reading statement", e);
+        while (currentLine != null) {
+            String line = currentLine.trim();
+            statement.append(line).append("\n");
+            currentLine = readLine(br);
         }
 
         return makeTokens(statement.toString());
+    }
+
+    private static String readLine(BufferedReader br) {
+        try {
+            return br.readLine();
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading input", e);
+        }
     }
 
 }

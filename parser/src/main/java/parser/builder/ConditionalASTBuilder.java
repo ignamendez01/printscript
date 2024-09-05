@@ -6,6 +6,7 @@ import ast.IdentifierOperator;
 import ast.interfaces.ASTNode;
 import ast.interfaces.ValueNode;
 import parser.Parser;
+import parser.ParserFactory;
 import token.Token;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
 
     @Override
     public Conditional build(List<Token> statement) {
-        Parser parser = Parser.parserVersion("1.1");
+        Parser parser = ParserFactory.parserVersion("1.1");
         int elsePosition = findElse(statement);
 
         ValueNode operator;
@@ -54,7 +55,7 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
 
     private int findElse(List<Token> statement){
         int position = -1;
-        for (int i = 0; i < statement.size(); i++) {
+        for (int i = 5; i < statement.size(); i++) {
             if (statement.get(i).getType().equals("ELSE")) {
                 position = i;
                 break;

@@ -20,21 +20,9 @@ public class TokenCreator {
     }
 
     private String getTypeFromValue(String s) {
-        String type = null;
-
-        for (Map.Entry<String, String> entry : typesMap.entrySet()) {
-
-            Pattern patternInMap = Pattern.compile(entry.getKey());
-            boolean hasType = patternInMap.matcher(s).matches();
-
-            if (hasType) {
-                type = entry.getValue();
-                break;
-            }
-        }
+        String type = findType(s);
 
         if (type == null) {
-
             boolean isValidVariableName = TypesMapGenerator.isValidVariableName(s);
 
             if (isValidVariableName) {
@@ -45,5 +33,27 @@ public class TokenCreator {
         }
 
         return type;
+    }
+
+    private String findType(String s) {
+        String type = null;
+        for (Map.Entry<String, String> entry : typesMap.entrySet()) {
+            type = matchType(s, entry);
+            if(type != null){
+                break;
+            }
+        }
+        return type;
+    }
+
+    private String matchType(String s, Map.Entry<String, String> entry) {
+        Pattern patternInMap = Pattern.compile(entry.getKey());
+        boolean hasType = patternInMap.matcher(s).matches();
+
+        if (hasType) {
+            return entry.getValue();
+        }else{
+            return null;
+        }
     }
 }

@@ -6,6 +6,7 @@ import ast.IdentifierOperator;
 import ast.interfaces.ValueNode;
 import interpreter.Administrator;
 import interpreter.Interpreter;
+import interpreter.InterpreterFactory;
 import interpreter.Variable;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.SuccessResponse;
@@ -15,7 +16,7 @@ import java.util.Objects;
 public class ConditionalInterpreter implements InterpreterTypes<Conditional> {
     @Override
     public InterpreterResponse interpret(Conditional astNode, Administrator administrator) throws Exception {
-        Interpreter interpreter = Interpreter.interpreterVersion("1.1", administrator);
+        Interpreter interpreter = InterpreterFactory.interpreterVersion(administrator,"1.1");
 
         if(getValue(astNode.getOperator(), administrator)){
             return  interpreter.interpretAST(astNode.getTrueBranch());
