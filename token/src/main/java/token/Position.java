@@ -1,12 +1,12 @@
 package token;
 
-public record Position(int x, int y) {
+public record Position(int line, int column) {
 
     @Override
     public String toString() {
         return "token.Position{" +
-                "x=" + x +
-                ", y=" + y +
+                "line=" + line +
+                ", column=" + column +
                 '}';
     }
 }

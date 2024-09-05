@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="LexerTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2024-09-04T22:52:17" hostname="DESKTOP-754B0AE" time="0.383">
+<testsuite name="LexerTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2024-09-05T17:23:00" hostname="DESKTOP-754B0AE" time="0.382">
   <properties/>
-  <testcase name="test_Assign()" classname="LexerTest" time="0.073"/>
-  <testcase name="test_Method()" classname="LexerTest" time="0.01"/>
-  <testcase name="test_boolean()" classname="LexerTest" time="0.016"/>
-  <testcase name="test_File()" classname="LexerTest" time="0.054"/>
-  <testcase name="test_Math()" classname="LexerTest" time="0.02"/>
-  <testcase name="test_readInput()" classname="LexerTest" time="0.012"/>
-  <testcase name="test_MultipleLines()" classname="LexerTest" time="0.011"/>
-  <testcase name="test_AssignDeclare()" classname="LexerTest" time="0.011"/>
+  <testcase name="test_Assign()" classname="LexerTest" time="0.06"/>
+  <testcase name="test_Method()" classname="LexerTest" time="0.012"/>
+  <testcase name="test_boolean()" classname="LexerTest" time="0.04"/>
+  <testcase name="test_File()" classname="LexerTest" time="0.053"/>
+  <testcase name="test_Math()" classname="LexerTest" time="0.014"/>
+  <testcase name="test_readInput()" classname="LexerTest" time="0.013"/>
+  <testcase name="test_MultipleLines()" classname="LexerTest" time="0.015"/>
+  <testcase name="test_AssignDeclare()" classname="LexerTest" time="0.015"/>
   <testcase name="test_readEnv()" classname="LexerTest" time="0.015"/>
-  <testcase name="test_Unknown()" classname="LexerTest" time="0.009"/>
+  <testcase name="test_Unknown()" classname="LexerTest" time="0.008"/>
   <testcase name="test_if_else()" classname="LexerTest" time="0.014"/>
-  <testcase name="test_Declare()" classname="LexerTest" time="0.008"/>
-  <testcase name="test_Empty()" classname="LexerTest" time="0.006"/>
-  <testcase name="test_File2()" classname="LexerTest" time="0.05"/>
-  <testcase name="test_const()" classname="LexerTest" time="0.016"/>
+  <testcase name="test_Declare()" classname="LexerTest" time="0.009"/>
+  <testcase name="test_Empty()" classname="LexerTest" time="0.002"/>
+  <testcase name="test_File2()" classname="LexerTest" time="0.053"/>
+  <testcase name="test_const()" classname="LexerTest" time="0.017"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
