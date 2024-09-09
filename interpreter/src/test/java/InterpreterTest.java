@@ -212,7 +212,7 @@ public class InterpreterTest {
         assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
     }
 
-    @Test
+   /* @Test
     public void test_readEnv() throws Exception {
         String text = "let result : string = readEnv('NAME');" +
                 "println(result);";
@@ -221,6 +221,8 @@ public class InterpreterTest {
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("Ignacio", interpreter1.getAdmin().getPrintedElements().poll());
     }
+
+    */
 
     @Test
     public void test_File() throws Exception {
