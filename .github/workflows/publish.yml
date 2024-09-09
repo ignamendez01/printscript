@@ -19,8 +19,11 @@ jobs:
           distribution: 'temurin'
           java-version: '19'
 
-      - name: Build and publish package
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Publish to GitHub Packages
         run: ./gradlew publish
         env:
-          NAME: ${{ secrets.NAME }}
-          TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_ACTOR: ${{ secrets.NAME }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
