@@ -13,43 +13,37 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
 
     @Override
     public InterpreterResponse interpret(ValueNode astNode, Administrator administrator) throws Exception {
-        switch (astNode) {
-            case StringOperator stringOperator -> {
-                return new VariableResponse("String", stringOperator.getValue());
-            }
-            case NumberOperator numberOperator -> {
-                return new VariableResponse("Number", numberOperator.getValue().toString());
-            }
-            case BooleanOperator booleanOperator -> {
-                return new VariableResponse("Boolean", booleanOperator.getValue().toString());
-            }
-            case IdentifierOperator identifierOperator -> {
-                Variable v = administrator.getVariable(identifierOperator.getIdentifier());
-                return new VariableResponse(v.getType(), administrator.getVariables().get(v));
-            }
-            case Function functionNode ->{
-                switch (functionNode.getName()){
-                    case "readEnv" -> {
-                        return readEnvVariable(functionNode);
-                    }
-                    case "readInput" -> {
-                        return readInputMessage(functionNode);
-                    }
-                    default -> throw new IllegalArgumentException("Unsupported method: " + functionNode.getName());
+        if(astNode instanceof StringOperator){
+            return new VariableResponse("String", ((StringOperator) astNode).getValue());
+        } else if (astNode instanceof NumberOperator) {
+            return new VariableResponse("Number", ((NumberOperator) astNode).getValue().toString());
+        }else if(astNode instanceof BooleanOperator){
+            return new VariableResponse("Boolean", ((BooleanOperator) astNode).getValue().toString());
+        }else if(astNode instanceof IdentifierOperator){
+            Variable v = administrator.getVariable(((IdentifierOperator) astNode).getIdentifier());
+            return new VariableResponse(v.getType(), administrator.getVariables().get(v));
+        } else if (astNode instanceof Function) {
+            switch (((Function) astNode).getName()){
+                case "readEnv" -> {
+                    return readEnvVariable(((Function) astNode));
                 }
+                case "readInput" -> {
+                    return readInputMessage(((Function) astNode));
+                }
+                default -> throw new IllegalArgumentException("Unsupported method: " + ((Function) astNode).getName());
             }
-            case BinaryOperation binaryNode -> {
-                String left = ((VariableResponse) interpret(binaryNode.getLeft(), administrator)).value();
-                String right = ((VariableResponse) interpret(binaryNode.getRight(), administrator)).value();
-                return switch (binaryNode.getSymbol()) {
-                    case "+" -> handleAddition(left, right);
-                    case "-" -> handleSubtraction(left, right);
-                    case "*" -> handleMultiplication(left, right);
-                    case "/" -> handleDivision(left, right);
-                    default -> throw new Exception(binaryNode.getSymbol() + " is not a valid operation");
-                };
-            }
-            case null, default -> throw new Exception("Unexpected binary operation node");
+        } else if(astNode instanceof BinaryOperation){
+            String left = ((VariableResponse) interpret(((BinaryOperation) astNode).getLeft(), administrator)).value();
+            String right = ((VariableResponse) interpret(((BinaryOperation) astNode).getRight(), administrator)).value();
+            return switch (((BinaryOperation) astNode).getSymbol()) {
+                case "+" -> handleAddition(left, right);
+                case "-" -> handleSubtraction(left, right);
+                case "*" -> handleMultiplication(left, right);
+                case "/" -> handleDivision(left, right);
+                default -> throw new Exception(((BinaryOperation) astNode).getSymbol() + " is not a valid operation");
+            };
+        }else{
+            throw new Exception("Unexpected binary operation node");
         }
     }
 
