@@ -29,8 +29,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/ignamendez01/PrintScript---Ignacio-Mendez")
             credentials {
-                username = System.getenv("NAME")
-                password = System.getenv("TOKEN")
+                username = System.getenv('GITHUB_ACTOR') ?: 'defaultUser'
+                password = System.getenv('GITHUB_TOKEN') ?: 'defaultToken'
             }
         }
     }
