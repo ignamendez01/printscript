@@ -19,11 +19,11 @@ jobs:
           distribution: 'temurin'
           java-version: '22'
 
-      - name: Grant execute permission for gradlew.bat
-        run: chmod +x gradlew.bat
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: Publish to GitHub Packages
-        run: ./gradlew.bat publish
+        run: ./gradlew publish
         env:
           GITHUB_ACTOR: ${{ secrets.NAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
