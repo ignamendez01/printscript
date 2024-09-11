@@ -2,6 +2,7 @@ package lexer;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class LexerFactory {
 
@@ -10,35 +11,37 @@ public class LexerFactory {
             return new Lexer("1.0", Map.ofEntries(
                     Map.entry("let", "KEYWORD"),
                     Map.entry(":", "DECLARE"),
-                    Map.entry("string|number", "TYPE"),
                     Map.entry("=", "ASSIGN"),
-                    Map.entry("\"[^\"]*\"|'[^']*'", "STRING"),
-                    Map.entry("-?\\d+(\\.\\d+)?", "NUMBER"),
-                    Map.entry("\\+|\\-|\\*|/", "OPERATOR"),
                     Map.entry("println", "METHOD"),
-                    Map.entry("\\(", "LPAR"),
-                    Map.entry("\\)", "RPAR"),
+                    Map.entry("(", "LPAR"),
+                    Map.entry(")", "RPAR"),
                     Map.entry(";", "END")
+            ), Map.of(
+                    Pattern.compile("\"[^\"]*\"|'[^']*'"), "STRING",
+                    Pattern.compile("-?\\d+(\\.\\d+)?"), "NUMBER",
+                    Pattern.compile("[+\\-*/]"), "OPERATOR",
+                    Pattern.compile("string|number"), "TYPE"
             ));
         }else if (Objects.equals(version, "1.1")){
             return new Lexer("1.1", Map.ofEntries(
-                    Map.entry("let|const", "KEYWORD"),
                     Map.entry(":", "DECLARE"),
-                    Map.entry("string|number|boolean", "TYPE"),
                     Map.entry("=", "ASSIGN"),
-                    Map.entry("\"[^\"]*\"|'[^']*'", "STRING"),
-                    Map.entry("-?\\d+(\\.\\d+)?", "NUMBER"),
-                    Map.entry("true|false", "BOOLEAN"),
-                    Map.entry("\\+|\\-|\\*|/", "OPERATOR"),
                     Map.entry("println", "METHOD"),
-                    Map.entry("readEnv|readInput", "FUNCTION"),
                     Map.entry("if", "IF"),
                     Map.entry("else", "ELSE"),
-                    Map.entry("\\(", "LPAR"),
-                    Map.entry("\\)", "RPAR"),
-                    Map.entry("\\{", "LKEY"),
-                    Map.entry("\\}", "RKEY"),
+                    Map.entry("(", "LPAR"),
+                    Map.entry(")", "RPAR"),
+                    Map.entry("{", "LKEY"),
+                    Map.entry("}", "RKEY"),
                     Map.entry(";", "END")
+            ), Map.of(
+                    Pattern.compile("let|const"), "KEYWORD",
+                    Pattern.compile("\"[^\"]*\"|'[^']*'"), "STRING",
+                    Pattern.compile("-?\\d+(\\.\\d+)?"), "NUMBER",
+                    Pattern.compile("true|false"), "BOOLEAN",
+                    Pattern.compile("[+\\-*/]"), "OPERATOR",
+                    Pattern.compile("string|number|boolean"), "TYPE",
+                    Pattern.compile("readEnv|readInput"), "FUNCTION"
             ));
         }else{
             throw new IllegalStateException("Unexpected value: " + version);

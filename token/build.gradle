@@ -25,7 +25,7 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/ignamendez01/printscript")
             credentials {
-                username = System.getenv('GITHUB_ACTOR') ?: 'defaultUser'
+                username = System.getenv('GITHUB_ACOR') ?: 'defaultUser'
                 password = System.getenv('GITHUB_TOKEN') ?: 'defaultToken'
             }
         }
@@ -36,7 +36,7 @@ publishing {
 
             groupId = 'printscript'
             artifactId = 'token'
-            version = '1.3.1'
+            version = '1.3.2'
         }
     }
 }

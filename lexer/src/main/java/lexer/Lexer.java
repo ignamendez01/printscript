@@ -11,12 +11,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Lexer {
-    private final Map<String, String> tokenMap;
+    private final Map<String, String> keywordMap;
+    private final Map<Pattern, String> regexMap;
     private final String version;
 
-    public Lexer(String version, Map<String, String> tokenMap) {
+    public Lexer(String version, Map<String, String> keywordMap, Map<Pattern, String> regexMap) {
         this.version = version;
-        this.tokenMap = tokenMap;
+        this.keywordMap = keywordMap;
+        this.regexMap = regexMap;
     }
 
     public Stream<Token> makeTokens(InputStream fileInput) {
@@ -34,24 +36,25 @@ public class Lexer {
 
     private void createTokenList(List<String> tokenValues, List<Token> tokens) {
         for (String tokenValue : tokenValues) {
-            boolean matched = false;
+            if (keywordMap.containsKey(tokenValue)) {
+                tokens.add(new Token(keywordMap.get(tokenValue), tokenValue));
+            } else {
+                boolean matched = false;
 
-            for (Map.Entry<String, String> entry : tokenMap.entrySet()) {
-                String pattern = entry.getKey();
-                String tokenType = entry.getValue();
-
-                if (tokenValue.matches(pattern)) {
-                    tokens.add(new Token(tokenType, tokenValue));
-                    matched = true;
-                    break;
+                for (Map.Entry<Pattern, String> entry : regexMap.entrySet()) {
+                    if (entry.getKey().matcher(tokenValue).matches()) {
+                        tokens.add(new Token(entry.getValue(), tokenValue));
+                        matched = true;
+                        break;
+                    }
                 }
-            }
 
-            if (!matched) {
-                if(isValidVariableName(tokenValue)){
-                    tokens.add(new Token("IDENTIFIER", tokenValue));
-                }else{
-                    tokens.add(new Token("UNKNOWN", tokenValue));
+                if (!matched) {
+                    if (isValidVariableName(tokenValue)) {
+                        tokens.add(new Token("IDENTIFIER", tokenValue));
+                    } else {
+                        tokens.add(new Token("UNKNOWN", tokenValue));
+                    }
                 }
             }
         }
