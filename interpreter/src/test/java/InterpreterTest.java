@@ -144,12 +144,12 @@ public class InterpreterTest {
     @Test
     public void test_if_true() throws Exception {
         String text =
-                "let result : number;" +
-                "if(true){" +
-                        "result = 12;" +
-                "} else {" +
-                        "result = 14;" +
-                "}" +
+                "let result : number;\n" +
+                "if(true){\n" +
+                        "result = 12;\n" +
+                "} else {\n" +
+                        "result = 14;\n" +
+                "}\n" +
                 "println(result);";
 
         InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));

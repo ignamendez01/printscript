@@ -10,14 +10,16 @@ import java.util.*;
 
 public class Lexer {
     private final TokenCreator tokenCreator;
+    private final String version;
 
-    public Lexer(String tokenFile) {
+    public Lexer(String version, String tokenFile) {
+        this.version = version;
         this.tokenCreator = new TokenCreator(tokenFile);
     }
 
     public List<Token> makeTokens(String inputText) {
         List<Token> tokens = new ArrayList<>();
-        List<String> tokenValues = TokenValueExtractor.extractTokenValues(inputText);
+        List<String> tokenValues = TokenValueExtractor.extractTokenValues(version, inputText);
 
         createTokenList(tokenValues, tokens);
 

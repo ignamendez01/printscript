@@ -44,16 +44,28 @@ public class ParserTests {
 
     @Test
     void test_DeclareAssignTree() {
-        String code = "let a: number = 5 * 5;";
+        String code = "let a: number = 5*5-8/4+2;";
         List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
                         new Declaration("a", "number"),
                         new BinaryOperation(
-                                new NumberOperator(5),
-                                "*",
-                                new NumberOperator(5)
+                                new BinaryOperation(
+                                      new BinaryOperation(
+                                              new NumberOperator(5),
+                                              "*",
+                                              new NumberOperator(5)
+                                      ),
+                                      "-",
+                                      new BinaryOperation(
+                                              new NumberOperator(8),
+                                              "/",
+                                              new NumberOperator(4)
+                                      )
+                                ),
+                                "+",
+                                new NumberOperator(2)
                         )
                 )
         );
@@ -106,11 +118,11 @@ public class ParserTests {
 
     @Test
     void test_If_Else() {
-        String code = "if(true){" +
-                "println(\"Hello World\");" +
-                "}else{" +
-                "println(\"Bye World\");" +
-                "}";
+        String code = "if(true){\n" +
+                "println(\"Hello World\");\n" +
+                "}else{\n" +
+                "println(\"Bye World\");\n" +
+                "}\n";
         List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
 
         List<ASTNode> expectedAst = List.of(

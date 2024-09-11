@@ -59,10 +59,10 @@ public class LexerTest {
 
     @Test
     void test_Method() {
-        String example = "println(x)";
+        String example = "println(x);";
         List<Token> actualTokens = lexer.makeTokens(example);
 
-        String expectedTokensString = "[METHOD, LPAR, IDENTIFIER(x), RPAR]";
+        String expectedTokensString = "[METHOD, LPAR, IDENTIFIER(x), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -114,10 +114,10 @@ public class LexerTest {
 
     @Test
     void test_if_else() {
-        String example = "if(true){" +
-                "a;" +
-                "}else{" +
-                "b;" +
+        String example = "if(true){\n" +
+                "a;\n" +
+                "}else{\n" +
+                "b;\n" +
                 "}";
         List<Token> actualTokens = lexer1.makeTokens(example);
 
