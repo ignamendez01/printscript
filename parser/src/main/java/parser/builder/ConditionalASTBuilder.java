@@ -30,7 +30,7 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
     }
 
     @Override
-    public Conditional build(List<Token> statement) {
+    public Conditional build(List<Token> statement) throws Exception {
         Parser parser = ParserFactory.parserVersion("1.1");
         int elsePosition = findElse(statement);
 

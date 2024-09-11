@@ -11,7 +11,7 @@ public interface ASTBuilder<T extends ASTNode> {
     boolean verify(List<Token> statement);
 
     // Method to actually build the AST for the given tokens
-    T build(List<Token> statement);
+    T build(List<Token> statement) throws Exception;
 
 }
 

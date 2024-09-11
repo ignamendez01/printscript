@@ -24,7 +24,7 @@ public class ParserTests {
 
 
     @Test
-    void test_Declare() {
+    void test_Declare() throws Exception {
         String code = "let x : number;";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -37,7 +37,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_Assign(){
+    void test_Assign() throws Exception {
         String code = "x = 'String';";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -50,7 +50,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_DeclareAssignTree() {
+    void test_DeclareAssignTree() throws Exception {
         String code = "let a: number = 5*5-8/4+2;";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -82,7 +82,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_Method() {
+    void test_Method() throws Exception {
         String code = "println(\"Hello World\");";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -99,7 +99,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_const() {
+    void test_const() throws Exception {
         String code = "const x : string = 'Hello';";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -132,7 +132,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_If_Else() {
+    void test_If_Else() throws Exception {
         String code = """
                 if(true){
                 println("Hello World");
@@ -164,7 +164,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_readEnv() {
+    void test_readEnv() throws Exception {
         String code = "const x : string = readEnv(\"VARIABLE_KEY\");";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -181,7 +181,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_readInput() {
+    void test_readInput() throws Exception {
         String code = "let x : string = readInput(\"País favorito\");";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -198,7 +198,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_File() throws FileNotFoundException {
+    void test_File() throws Exception {
         InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
         List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(example));
 
@@ -233,7 +233,7 @@ public class ParserTests {
     }
 
     @Test
-    void test_File2() throws FileNotFoundException {
+    void test_File2() throws Exception {
         InputStream example = new FileInputStream("src/test/resources/testFile2.txt");
         List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(example));
 

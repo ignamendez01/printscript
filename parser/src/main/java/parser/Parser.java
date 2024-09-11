@@ -19,7 +19,7 @@ public class Parser {
         this.astBuilders = astBuilders;
     }
 
-    public List<ASTNode> generateAST(Stream<Token> tokenStream) {
+    public List<ASTNode> generateAST(Stream<Token> tokenStream) throws Exception {
         List<ASTNode> astNodes = new ArrayList<>();
         List<Token> currentSegment = new ArrayList<>();
         Iterator<Token> tokenIterator = tokenStream.iterator();
@@ -46,12 +46,17 @@ public class Parser {
         return astNodes;
     }
 
-    private void createTree(List<Token> currentSegment, List<ASTNode> astNodes) {
+    private void createTree(List<Token> currentSegment, List<ASTNode> astNodes) throws Exception {
+        boolean success = false;
         for (ASTBuilder<? extends ASTNode> builder : astBuilders) {
             if (builder.verify(currentSegment)) {
                 astNodes.add(builder.build(currentSegment));
+                success = true;
                 break;
             }
+        }
+        if (!success) {
+            throw new Exception("There is no builder for this token pattern");
         }
     }
 
