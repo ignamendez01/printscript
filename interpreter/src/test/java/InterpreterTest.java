@@ -51,7 +51,9 @@ public class InterpreterTest {
                 "let x: string = a+'Hello';" +
                 "println(x);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("1Hello", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -62,7 +64,9 @@ public class InterpreterTest {
                 "let a:number = 5*5;" +
                 "println(a);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("25", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -75,7 +79,9 @@ public class InterpreterTest {
                 "let c:number = a+ b;" +
                 "println(c);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("10", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -88,7 +94,9 @@ public class InterpreterTest {
                 "let c:number = a - b;" +
                 "println(c);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("5", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -101,7 +109,9 @@ public class InterpreterTest {
                         "let c:number = a /b;" +
                         "println(c);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("2", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -114,7 +124,9 @@ public class InterpreterTest {
                         "let c:string = a + b;" +
                         "println(c);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("Hello World", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -125,7 +137,9 @@ public class InterpreterTest {
                 "a = 'Hello';" +
                 "println(a);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("Hello", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -136,7 +150,9 @@ public class InterpreterTest {
                 "let result:number = (5 + (5*10) - 2/2);" +
                 "println(result);";
 
-        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("54", interpreter.getAdmin().getPrintedElements().poll());
     }
@@ -153,7 +169,9 @@ public class InterpreterTest {
                         }
                         println(result);""";
 
-        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("12", interpreter1.getAdmin().getPrintedElements().poll());
     }
@@ -169,7 +187,9 @@ public class InterpreterTest {
                         "}" +
                         "println(result);";
 
-        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
     }
@@ -183,7 +203,9 @@ public class InterpreterTest {
                         "}" +
                         "println(result);";
 
-        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("12", interpreter1.getAdmin().getPrintedElements().poll());
     }
@@ -197,7 +219,9 @@ public class InterpreterTest {
                         "}" +
                         "println(result);";
 
-        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
     }
@@ -208,7 +232,9 @@ public class InterpreterTest {
                 "println(result);";
         String input = "14";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("Insert a number: ", interpreter1.getAdmin().getPrintedElements().poll());
         assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());

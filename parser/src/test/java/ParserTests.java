@@ -5,11 +5,14 @@ import lexer.LexerFactory;
 import org.junit.jupiter.api.Test;
 import parser.Parser;
 import parser.ParserFactory;
+import token.Token;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +26,9 @@ public class ParserTests {
     @Test
     void test_Declare() {
         String code = "let x : number;";
-        List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser.generateAST(lexer.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new Declaration("x", "number")
@@ -34,7 +39,9 @@ public class ParserTests {
     @Test
     void test_Assign(){
         String code = "x = 'String';";
-        List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser.generateAST(lexer.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new SimpleAssignation("x", new StringOperator("String"))
@@ -45,7 +52,9 @@ public class ParserTests {
     @Test
     void test_DeclareAssignTree() {
         String code = "let a: number = 5*5-8/4+2;";
-        List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser.generateAST(lexer.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
@@ -75,7 +84,9 @@ public class ParserTests {
     @Test
     void test_Method() {
         String code = "println(\"Hello World\");";
-        List<ASTNode> list = parser.generateAST(lexer.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser.generateAST(lexer.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new Method(
@@ -90,7 +101,9 @@ public class ParserTests {
     @Test
     void test_const() {
         String code = "const x : string = 'Hello';";
-        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
@@ -105,15 +118,17 @@ public class ParserTests {
     @Test
     void test_const_1_0() {
         String code = "const x : string = 'Hello';";
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
 
-        assertThrows(IllegalStateException.class, () -> parser.generateAST(lexer1.makeTokens(code)));
+        assertThrows(IllegalStateException.class, () -> parser.generateAST(lexer1.makeTokens(stream)));
     }
 
     @Test
     void test_const_declare() {
         String code = "const x : string;";
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
 
-        assertThrows(IllegalStateException.class, () -> parser1.generateAST(lexer1.makeTokens(code)));
+        assertThrows(IllegalStateException.class, () -> parser1.generateAST(lexer1.makeTokens(stream)));
     }
 
     @Test
@@ -125,7 +140,9 @@ public class ParserTests {
                 println("Bye World");
                 }
                 """;
-        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new Conditional(
@@ -149,7 +166,9 @@ public class ParserTests {
     @Test
     void test_readEnv() {
         String code = "const x : string = readEnv(\"VARIABLE_KEY\");";
-        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(
@@ -164,7 +183,9 @@ public class ParserTests {
     @Test
     void test_readInput() {
         String code = "let x : string = readInput(\"País favorito\");";
-        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(stream));
 
         List<ASTNode> expectedAst = List.of(
                 new DeclarationAssignation(

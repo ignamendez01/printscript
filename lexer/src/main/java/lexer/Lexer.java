@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Lexer {
     private final TokenCreator tokenCreator;
@@ -17,12 +18,16 @@ public class Lexer {
         this.tokenCreator = new TokenCreator(tokenFile);
     }
 
-    public List<Token> makeTokens(String inputText) {
+    public Stream<Token> makeTokens(InputStream fileInput) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(fileInput));
+        return br.lines()
+                .flatMap(line -> makeTokensFromString(line.trim()).stream());
+    }
+
+    private List<Token> makeTokensFromString(String inputText) {
         List<Token> tokens = new ArrayList<>();
         List<String> tokenValues = TokenValueExtractor.extractTokenValues(version, inputText);
-
         createTokenList(tokenValues, tokens);
-
         return tokens;
     }
 
@@ -32,37 +37,4 @@ public class Lexer {
             tokens.add(token);
         }
     }
-
-    public List<Token> makeTokens(InputStream fileInput) {
-        List<Token> allTokens = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(fileInput));
-        String currentLine = readLine(br);
-        int batchSize = 1000;
-        List<Token> batchTokens = new ArrayList<>();
-
-        while (currentLine != null) {
-            String line = currentLine.trim();
-            List<Token> lineTokens = makeTokens(line);
-            batchTokens.addAll(lineTokens);
-
-            if (batchTokens.size() >= batchSize) {
-                allTokens.addAll(batchTokens);
-                batchTokens.clear();
-            }
-
-            currentLine = readLine(br);
-        }
-
-        allTokens.addAll(batchTokens);
-        return allTokens;
-    }
-
-    private static String readLine(BufferedReader br) {
-        try {
-            return br.readLine();
-        } catch (Exception e) {
-            throw new RuntimeException("Error reading input", e);
-        }
-    }
-
 }
