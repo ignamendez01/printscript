@@ -19,48 +19,39 @@ public class Parser {
 
     public List<ASTNode> generateAST(List<Token> tokens) {
         List<ASTNode> astNodes = new ArrayList<>();
-        List<List<Token>> tokenMatrix = generateMatrix(tokens);
-        for (List<Token> list : tokenMatrix) {
-            for (ASTBuilder<? extends ASTNode> builder : astBuilders) {
-                if (builder.verify(list)) {
-                    astNodes.add(builder.build(list));
-                    break;
-                }
-            }
-        }
-        return astNodes;
-    }
-
-    private List<List<Token>> generateMatrix(List<Token> tokens) {
-        List<List<Token>> result = new ArrayList<>();
         List<Token> currentSegment = new ArrayList<>();
 
         if (tokens.isEmpty()){
-            return result;
+            return astNodes;
         }
 
         for (int i = 0; i < tokens.size(); i++) {
             Token token = tokens.get(i);
             if (Objects.equals(token.getType(), "END")) {
-                if (!currentSegment.isEmpty()) {
-                    result.add(new ArrayList<>(currentSegment));
-                    currentSegment.clear();
-                }
+                createTree(currentSegment, astNodes);
+                currentSegment.clear();
             }else if(Objects.equals(version, "1.1") && Objects.equals(token.getType(), "IF")) {
-                i = IfList(tokens, i, currentSegment, result);
+                i = IfList(tokens, i, currentSegment);
+                createTree(currentSegment, astNodes);
+                currentSegment.clear();
             }else{
                 currentSegment.add(token);
             }
         }
 
-        if (!currentSegment.isEmpty()) {
-            result.add(currentSegment);
-        }
-
-        return result;
+        return astNodes;
     }
 
-    private static int IfList(List<Token> tokens, int i, List<Token> currentSegment, List<List<Token>> result) {
+    private void createTree(List<Token> currentSegment, List<ASTNode> astNodes) {
+        for (ASTBuilder<? extends ASTNode> builder : astBuilders) {
+            if (builder.verify(currentSegment)) {
+                astNodes.add(builder.build(currentSegment));
+                break;
+            }
+        }
+    }
+
+    private static int IfList(List<Token> tokens, int i, List<Token> currentSegment) {
         while (!Objects.equals(tokens.get(i).getType(), "RKEY")){
             currentSegment.add(tokens.get(i));
             i++;
@@ -74,8 +65,6 @@ public class Parser {
             }
             currentSegment.add(tokens.get(i));
         }
-        result.add(new ArrayList<>(currentSegment));
-        currentSegment.clear();
         return i;
     }
 }
