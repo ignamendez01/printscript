@@ -27,16 +27,8 @@ public class Lexer {
     }
 
     private void createTokenList(List<String> tokenValues, List<Token> tokens) {
-        int row = 1;
-        int column = 1;
         for (String tokenValue : tokenValues) {
-            Token token = tokenCreator.createToken(tokenValue, row, column);
-            if(Objects.equals(tokenValue, ";")){
-                row++;
-                column = 1;
-            }else{
-                column++;
-            }
+            Token token = tokenCreator.createToken(tokenValue);
             tokens.add(token);
         }
     }

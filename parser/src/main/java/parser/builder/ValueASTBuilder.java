@@ -82,7 +82,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
 
                 }
                 default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().line() + ":" + token.getPosition().column());
+                        throw new RuntimeException("Unexpected token type: " + token.getType());
             }
         }
 
@@ -127,7 +127,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                     outputList.addLast(tokens.get(i));
                 }
                 default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType() + " at " + token.getPosition().line() + ":" + token.getPosition().column());
+                        throw new RuntimeException("Unexpected token type: " + token.getType());
             }
         }
 

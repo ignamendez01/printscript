@@ -12,11 +12,10 @@ public class TokenCreator {
         this.typesMap = TypesMapGenerator.getTypesMap(fileName);
     }
 
-    public Token createToken(String s, int row, int index) {
+    public Token createToken(String s) {
         String type = getTypeFromValue(s);
-        Position position = new Position(row, index);
 
-        return new Token(type, s, position);
+        return new Token(type, s);
     }
 
     private String getTypeFromValue(String s) {

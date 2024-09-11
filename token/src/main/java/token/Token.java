@@ -3,12 +3,10 @@ package token;
 public class Token {
     private final String type;
     private final String value;
-    private final Position positionStart;
 
-    public Token(String type, String value, Position position) {
+    public Token(String type, String value) {
         this.type = type;
         this.value = value;
-        this.positionStart = position;
     }
 
     public String getType() {
@@ -17,10 +15,6 @@ public class Token {
 
     public String getValue() {
         return value;
-    }
-
-    public Position getPosition() {
-        return positionStart;
     }
 
     @Override
