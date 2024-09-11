@@ -33,7 +33,7 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
                         return readEnvVariable(((Function) astNode));
                     }
                     case "readInput" -> {
-                        return readInputMessage(((Function) astNode));
+                        return readInputMessage(((Function) astNode), administrator);
                     }
                     default ->
                             throw new IllegalArgumentException("Unsupported method: " + ((Function) astNode).getName());
@@ -55,9 +55,10 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode>{
         }
     }
 
-    private VariableResponse readInputMessage(Function functionNode) {
+    private VariableResponse readInputMessage(Function functionNode, Administrator administrator) throws Exception {
         final Scanner scanner = new Scanner(System.in);
         System.out.println(functionNode.getMessage());
+        administrator.addPrinted(functionNode.getMessage());
         String input = scanner.nextLine();
         if (input == null) {
             throw new IllegalArgumentException("Failed to read input");

@@ -118,11 +118,13 @@ public class ParserTests {
 
     @Test
     void test_If_Else() {
-        String code = "if(true){\n" +
-                "println(\"Hello World\");\n" +
-                "}else{\n" +
-                "println(\"Bye World\");\n" +
-                "}\n";
+        String code = """
+                if(true){
+                println("Hello World");
+                }else{
+                println("Bye World");
+                }
+                """;
         List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(code));
 
         List<ASTNode> expectedAst = List.of(

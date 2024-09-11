@@ -114,11 +114,12 @@ public class LexerTest {
 
     @Test
     void test_if_else() {
-        String example = "if(true){\n" +
-                "a;\n" +
-                "}else{\n" +
-                "b;\n" +
-                "}";
+        String example = """
+                if(true){
+                a;
+                }else{
+                b;
+                }""";
         List<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[IF, LPAR, BOOLEAN(true), RPAR, LKEY, IDENTIFIER(a), END, RKEY, ELSE, LKEY, IDENTIFIER(b), END, RKEY]";

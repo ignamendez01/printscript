@@ -144,13 +144,14 @@ public class InterpreterTest {
     @Test
     public void test_if_true() throws Exception {
         String text =
-                "let result : number;\n" +
-                "if(true){\n" +
-                        "result = 12;\n" +
-                "} else {\n" +
-                        "result = 14;\n" +
-                "}\n" +
-                "println(result);";
+                """
+                        let result : number;
+                        if(true){
+                        result = 12;
+                        } else {
+                        result = 14;
+                        }
+                        println(result);""";
 
         InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
@@ -209,6 +210,7 @@ public class InterpreterTest {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(text)));
         assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("Insert a number: ", interpreter1.getAdmin().getPrintedElements().poll());
         assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
     }
 
@@ -241,6 +243,7 @@ public class InterpreterTest {
 
         InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(example)));
         assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("Value to multiply", interpreter1.getAdmin().getPrintedElements().poll());
         assertEquals("Value 25", interpreter1.getAdmin().getPrintedElements().poll());
     }
 }
