@@ -37,14 +37,23 @@ public class Lexer {
         List<Token> allTokens = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(fileInput));
         String currentLine = readLine(br);
+        int batchSize = 1000;
+        List<Token> batchTokens = new ArrayList<>();
 
         while (currentLine != null) {
             String line = currentLine.trim();
             List<Token> lineTokens = makeTokens(line);
-            allTokens.addAll(lineTokens);
+            batchTokens.addAll(lineTokens);
+
+            if (batchTokens.size() >= batchSize) {
+                allTokens.addAll(batchTokens);
+                batchTokens.clear();
+            }
+
             currentLine = readLine(br);
         }
 
+        allTokens.addAll(batchTokens);
         return allTokens;
     }
 
