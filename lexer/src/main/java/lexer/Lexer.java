@@ -42,17 +42,18 @@ public class Lexer {
     }
 
     public List<Token> makeTokens(InputStream fileInput) {
+        List<Token> allTokens = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(fileInput));
         String currentLine = readLine(br);
 
-        StringBuilder statement = new StringBuilder();
         while (currentLine != null) {
             String line = currentLine.trim();
-            statement.append(line).append("\n");
+            List<Token> lineTokens = makeTokens(line);
+            allTokens.addAll(lineTokens);
             currentLine = readLine(br);
         }
 
-        return makeTokens(statement.toString());
+        return allTokens;
     }
 
     private static String readLine(BufferedReader br) {
