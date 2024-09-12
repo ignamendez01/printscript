@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    id 'jacoco'
 }
 
 group 'org.example'
@@ -19,8 +20,16 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport // Para que siempre se genere el reporte tras ejecutar los tests
 }
 
 publishing {
@@ -40,7 +49,7 @@ publishing {
 
             groupId = 'printscript'
             artifactId = 'interpreter'
-            version = '1.3.7'
+            version = '1.3.8'
         }
     }
 }
