@@ -9,7 +9,6 @@ import java.util.*;
 
 public class ValueASTBuilder implements ASTBuilder<ValueNode> {
     private final List<String> forbidden;
-
     private final Map<String, Integer> precedence = Map.of(
             "+", 1,
             "-", 1,
@@ -23,18 +22,15 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        boolean result = true;
         if (statement.isEmpty()) {
-            result = false;
-        }else {
-            for (Token token : statement) {
-                if (forbidden.contains(token.getType())){
-                    result = false;
-                    break;
-                }
+            return false;
+        }
+        for (Token token : statement) {
+            if (forbidden.contains(token.getType())) {
+                return false;
             }
         }
-        return result;
+        return true;
     }
 
     @Override
@@ -45,44 +41,13 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
         for (int i = 0; i < reorganizedTokens.size(); i++) {
             Token token = reorganizedTokens.get(i);
             switch (token.getType()) {
-                case "NUMBER" -> {
-                    double numberValue = Double.parseDouble(token.getValue());
-                    if (numberValue % 1 == 0) {
-                        nodeStack.addLast(new NumberOperator((int) numberValue));
-                    } else {
-                        nodeStack.addLast(new NumberOperator(numberValue));
-                    }
-                }
-                case "STRING" -> nodeStack.addLast(new StringOperator(token.getValue().substring(1, token.getValue().length() - 1)));
+                case "NUMBER" -> handleNumber(token, nodeStack);
+                case "STRING" -> nodeStack.addLast(new StringOperator(removeQuotes(token.getValue())));
                 case "IDENTIFIER" -> nodeStack.addLast(new IdentifierOperator(token.getValue()));
-                case "BOOLEAN" -> {
-                    if(Objects.equals(token.getValue(), "true")){
-                        nodeStack.addLast(new BooleanOperator(true));
-                    }else {
-                        nodeStack.addLast(new BooleanOperator(false));
-                    }
-                }
-                case "OPERATOR" -> {
-                    ValueNode rightNode = nodeStack.removeLast();
-                    ValueNode leftNode = nodeStack.removeLast();
-                    if (leftNode instanceof StringOperator && rightNode instanceof NumberOperator) {
-                        nodeStack.addLast(new BinaryOperation(leftNode, token.getValue(), new StringOperator(((NumberOperator) rightNode).getValue().toString())));
-                    } else if (leftNode instanceof NumberOperator && rightNode instanceof StringOperator) {
-                        nodeStack.addLast(new BinaryOperation(new StringOperator(((NumberOperator) leftNode).getValue().toString()), token.getValue(), rightNode));
-                    } else {
-                        nodeStack.addLast(new BinaryOperation(leftNode, token.getValue(), rightNode));
-                    }
-                }
-                case "FUNCTION" -> {
-                    String functionName = token.getValue();
-                    i += 2;
-                    String argumentValue = reorganizedTokens.get(i).getValue().substring(1, reorganizedTokens.get(i).getValue().length() - 1);
-                    nodeStack.addLast(new Function(functionName, argumentValue));
-                    i += 1;
-
-                }
-                default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType());
+                case "BOOLEAN" -> handleBoolean(token, nodeStack);
+                case "OPERATOR" -> handleOperator(token, nodeStack);
+                case "FUNCTION" -> handleFunction(token, reorganizedTokens, nodeStack, reorganizedTokens.indexOf(token));
+                default -> throw new RuntimeException("Unexpected token type: " + token.getType());
             }
         }
 
@@ -93,47 +58,61 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
         return nodeStack.getFirst();
     }
 
+    private void handleNumber(Token token, Deque<ValueNode> nodeStack) {
+        double numberValue = Double.parseDouble(token.getValue());
+        if (numberValue % 1 == 0) {
+            nodeStack.addLast(new NumberOperator((int) numberValue));
+        } else {
+            nodeStack.addLast(new NumberOperator(numberValue));
+        }
+    }
+
+    private void handleBoolean(Token token, Deque<ValueNode> nodeStack) {
+        boolean booleanValue = token.getValue().equals("true");
+        nodeStack.addLast(new BooleanOperator(booleanValue));
+    }
+
+    private void handleOperator(Token token, Deque<ValueNode> nodeStack) {
+        ValueNode rightNode = nodeStack.removeLast();
+        ValueNode leftNode = nodeStack.removeLast();
+        if (leftNode instanceof StringOperator && rightNode instanceof NumberOperator) {
+            nodeStack.addLast(new BinaryOperation(leftNode, token.getValue(), new StringOperator(rightNode.toString())));
+        } else if (leftNode instanceof NumberOperator && rightNode instanceof StringOperator) {
+            nodeStack.addLast(new BinaryOperation(new StringOperator(leftNode.toString()), token.getValue(), rightNode));
+        } else {
+            nodeStack.addLast(new BinaryOperation(leftNode, token.getValue(), rightNode));
+        }
+    }
+
+    private void handleFunction(Token token, List<Token> tokens, Deque<ValueNode> nodeStack, int position) {
+        String functionName = token.getValue();
+        // Aquí te aseguras de que el próximo token es un argumento
+        String argumentValue = removeQuotes(tokens.get(position+1).getValue());
+        tokens.remove(position+1);
+        nodeStack.addLast(new Function(functionName, argumentValue));
+    }
+
+    private String removeQuotes(String value) {
+        return value.substring(1, value.length() - 1);
+    }
+
     private List<Token> reorganize(List<Token> tokens) {
         List<Token> outputList = new ArrayList<>();
         Deque<Token> operatorStack = new ArrayDeque<>();
 
-        for (int i = 0; i < tokens.size(); i++) {
-            Token token = tokens.get(i);
+        for (Token token : tokens) {
             switch (token.getType()) {
-                case "NUMBER", "STRING", "IDENTIFIER", "BOOLEAN" -> outputList.add(token);
-                case "OPERATOR" -> {
-                    while (!operatorStack.isEmpty() && !Objects.equals(operatorStack.getLast().getType(), "LPAR") &&
-                            precedence.get(operatorStack.getLast().getValue()) >= precedence.get(token.getValue())) {
-                        outputList.add(operatorStack.removeLast());
-                    }
-                    operatorStack.add(token);
-                }
+                case "NUMBER", "STRING", "IDENTIFIER", "BOOLEAN", "FUNCTION" -> outputList.add(token);
+                case "OPERATOR" -> processOperator(token, operatorStack, outputList);
                 case "LPAR" -> operatorStack.add(token);
-                case "RPAR" -> {
-                    while (!operatorStack.isEmpty() && !Objects.equals(operatorStack.getLast().getType(), "LPAR")) {
-                        outputList.add(operatorStack.removeLast());
-                    }
-                    if (operatorStack.isEmpty() || !Objects.equals(operatorStack.removeLast().getType(), "LPAR")) {
-                        throw new RuntimeException("Mismatched parentheses in expression");
-                    }
-                }
-                case "FUNCTION" ->{
-                    outputList.addLast(token);
-                    i++;
-                    while (!Objects.equals(tokens.get(i).getType(), "RPAR")) {
-                        outputList.addLast(tokens.get(i));
-                        i++;
-                    }
-                    outputList.addLast(tokens.get(i));
-                }
-                default ->
-                        throw new RuntimeException("Unexpected token type: " + token.getType());
+                case "RPAR" -> processParenthesis(operatorStack, outputList);
+                default -> throw new RuntimeException("Unexpected token type: " + token.getType());
             }
         }
 
         while (!operatorStack.isEmpty()) {
             Token operator = operatorStack.removeLast();
-            if (Objects.equals(operator.getType(), "LPAR") || Objects.equals(operator.getType(), "RPAR")) {
+            if (isParenthesis(operator)) {
                 throw new RuntimeException("Mismatched parentheses in expression");
             }
             outputList.add(operator);
@@ -142,16 +121,34 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
         return outputList;
     }
 
-    private static class ForbiddenListFactory {
+    private void processOperator(Token token, Deque<Token> operatorStack, List<Token> outputList) {
+        while (!operatorStack.isEmpty() && precedence.getOrDefault(operatorStack.getLast().getValue(), 0) >= precedence.get(token.getValue())) {
+            outputList.add(operatorStack.removeLast());
+        }
+        operatorStack.add(token);
+    }
 
+    private void processParenthesis(Deque<Token> operatorStack, List<Token> outputList) {
+        while (!operatorStack.isEmpty() && !Objects.equals(operatorStack.getLast().getType(), "LPAR")) {
+            outputList.add(operatorStack.removeLast());
+        }
+        if (operatorStack.isEmpty() || !Objects.equals(operatorStack.removeLast().getType(), "LPAR")) {
+            throw new RuntimeException("Mismatched parentheses in expression");
+        }
+    }
+
+    private boolean isParenthesis(Token token) {
+        return Objects.equals(token.getType(), "LPAR") || Objects.equals(token.getType(), "RPAR");
+    }
+
+    private static class ForbiddenListFactory {
         public static List<String> getList(String version) {
-            if (Objects.equals(version, "1.0")){
-                return Arrays.asList("ASSIGN", "DECLARE", "KEYWORD", "TYPE",
-                        "METHOD");
-            }else{
-                return Arrays.asList("ASSIGN", "DECLARE", "KEYWORD", "TYPE",
-                        "METHOD", "IF", "ELSE", "RKEY", "LKEY");
+            if (Objects.equals(version, "1.0")) {
+                return Arrays.asList("ASSIGN", "DECLARE", "KEYWORD", "TYPE", "METHOD");
+            } else {
+                return Arrays.asList("ASSIGN", "DECLARE", "KEYWORD", "TYPE", "METHOD", "IF", "ELSE", "RKEY", "LKEY");
             }
         }
     }
 }
+

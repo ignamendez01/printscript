@@ -8,16 +8,17 @@ import interpreter.response.SuccessResponse;
 import interpreter.response.VariableResponse;
 
 public class AssignationInterpreter implements InterpreterTypes<SimpleAssignation> {
-    ValueInterpreter valueInterpreter = new ValueInterpreter();
 
     @Override
     public InterpreterResponse interpret(SimpleAssignation astNode, Administrator administrator) {
+        ValueInterpreter valueInterpreter = new ValueInterpreter();
         try {
             VariableResponse response = (VariableResponse) valueInterpreter.interpret(astNode.getValue(), administrator);
             administrator.setVariable(astNode.getIdentifier(), response);
-            return new SuccessResponse("variable "+astNode.getIdentifier()+" was assigned value "+ response.value());
+            return new SuccessResponse("Variable " + astNode.getIdentifier() + " was assigned value " + response.value());
         } catch (Exception e) {
             return new ErrorResponse(e.getMessage() != null ? e.getMessage() : "Error while setting variable " + astNode.getIdentifier());
         }
     }
 }
+

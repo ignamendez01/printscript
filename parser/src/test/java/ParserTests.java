@@ -129,6 +129,33 @@ public class ParserTests {
     }
 
     @Test
+    void test_If_Single() throws Exception {
+        String code = """
+                if(true){
+                println("Hello World");
+                }
+                println(1);
+                """;
+        InputStream stream = new ByteArrayInputStream(code.getBytes());
+
+        List<ASTNode> list = parser1.generateAST(lexer1.makeTokens(stream));
+
+        List<ASTNode> expectedAst = List.of(
+                new Conditional(
+                        new BooleanOperator(true),
+                        List.of(
+                                new Method(
+                                        "println",
+                                        new StringOperator("Hello World")
+                                )
+                        ),
+                        null),
+                new Method("println", new NumberOperator(1))
+        );
+        assertEquals(expectedAst, list);
+    }
+
+    @Test
     void test_If_Else() throws Exception {
         String code = """
                 if(true){
@@ -136,6 +163,7 @@ public class ParserTests {
                 }else{
                 println("Bye World");
                 }
+                println(1);
                 """;
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
@@ -155,7 +183,8 @@ public class ParserTests {
                                         "println",
                                         new StringOperator("Bye World")
                                 )
-                        ))
+                        )),
+                new Method("println", new NumberOperator(1))
         );
         assertEquals(expectedAst, list);
     }

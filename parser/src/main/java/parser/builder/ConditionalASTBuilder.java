@@ -10,23 +10,18 @@ import parser.ParserFactory;
 import token.Token;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        if (!Objects.equals(statement.getFirst().getType(), "IF")) {
-            return false;
-        } else if (!Objects.equals(statement.get(1).getType(), "LPAR")) {
-            return false;
-        } else if (!Objects.equals(statement.get(2).getType(), "BOOLEAN") && !Objects.equals(statement.get(2).getType(), "IDENTIFIER")){
-            return false;
-        }else if (!Objects.equals(statement.get(3).getType(), "RPAR")){
-            return false;
-        }else if (!Objects.equals(statement.get(4).getType(), "LKEY")){
-            return false;
-        }else return Objects.equals(statement.getLast().getType(), "RKEY");
+        return statement.size() > 5
+                && "IF".equals(statement.get(0).getType())
+                && "LPAR".equals(statement.get(1).getType())
+                && ("BOOLEAN".equals(statement.get(2).getType()) || "IDENTIFIER".equals(statement.get(2).getType()))
+                && "RPAR".equals(statement.get(3).getType())
+                && "LKEY".equals(statement.get(4).getType())
+                && "RKEY".equals(statement.getLast().getType());
     }
 
     @Override
@@ -34,12 +29,9 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
         Parser parser = ParserFactory.parserVersion("1.1");
         int elsePosition = findElse(statement);
 
-        ValueNode operator;
-        if (Objects.equals(statement.get(2).getType(), "BOOLEAN")) {
-            operator = new BooleanOperator(transformBoolean(statement.get(2).getValue()));
-        } else {
-            operator = new IdentifierOperator(statement.get(2).getValue());
-        }
+        ValueNode operator = "BOOLEAN".equals(statement.get(2).getType())
+                ? new BooleanOperator(transformBoolean(statement.get(2).getValue()))
+                : new IdentifierOperator(statement.get(2).getValue());
 
         List<ASTNode> trueBranch = parser.generateAST(statement.subList(5, elsePosition != -1 ? elsePosition - 1 : statement.size() - 1).stream());
         List<ASTNode> falseBranch = elsePosition != -1
@@ -50,17 +42,15 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
     }
 
     private boolean transformBoolean(String value) {
-        return Objects.equals(value, "true");
+        return "true".equals(value);
     }
 
-    private int findElse(List<Token> statement){
-        int position = -1;
+    private int findElse(List<Token> statement) {
         for (int i = 5; i < statement.size(); i++) {
-            if (statement.get(i).getType().equals("ELSE")) {
-                position = i;
-                break;
+            if ("ELSE".equals(statement.get(i).getType())) {
+                return i;
             }
         }
-        return position;
+        return -1;
     }
 }

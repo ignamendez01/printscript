@@ -8,7 +8,6 @@ import interpreter.response.SuccessResponse;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class Interpreter {
     private final Administrator admin;

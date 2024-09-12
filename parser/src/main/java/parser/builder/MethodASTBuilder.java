@@ -4,7 +4,6 @@ import ast.Method;
 import token.Token;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MethodASTBuilder implements ASTBuilder<Method> {
     private final ValueASTBuilder valueASTBuilder;
@@ -16,9 +15,9 @@ public class MethodASTBuilder implements ASTBuilder<Method> {
     @Override
     public boolean verify(List<Token> statement) {
         return statement.size() > 3
-                && Objects.equals(statement.get(0).getType(), "METHOD")
-                && Objects.equals(statement.get(1).getType(), "LPAR")
-                && Objects.equals(statement.getLast().getType(), "RPAR")
+                && "METHOD".equals(statement.get(0).getType())
+                && "LPAR".equals(statement.get(1).getType())
+                && "RPAR".equals(statement.getLast().getType())
                 && valueASTBuilder.verify(statement.subList(2, statement.size() - 1));
     }
 
@@ -28,4 +27,3 @@ public class MethodASTBuilder implements ASTBuilder<Method> {
                 valueASTBuilder.build(statement.subList(2, statement.size() - 1)));
     }
 }
-

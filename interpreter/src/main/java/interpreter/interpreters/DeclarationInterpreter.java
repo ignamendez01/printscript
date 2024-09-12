@@ -12,9 +12,10 @@ public class DeclarationInterpreter implements InterpreterTypes<Declaration> {
     public InterpreterResponse interpret(Declaration astNode, Administrator administrator) {
         try {
             administrator.declareVariable(astNode.getIdentifier(), astNode.getType());
-            return new SuccessResponse("variable "+astNode.getIdentifier()+" was declared");
+            return new SuccessResponse("Variable " + astNode.getIdentifier() + " was declared");
         } catch (Exception e) {
             return new ErrorResponse(e.getMessage() != null ? e.getMessage() : "Error while declaring variable " + astNode.getIdentifier());
         }
     }
 }
+
