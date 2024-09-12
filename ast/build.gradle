@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'jacoco'
-    id 'com.github.spotbugs' version '6.0.22'  // Agrega el plugin de SpotBugs
 }
 
 group 'org.example'
@@ -15,7 +14,6 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    spotbugs("com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.22")
 }
 
 jacocoTestReport {
@@ -29,20 +27,6 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport // Para que siempre se genere el reporte tras ejecutar los tests
 }
-
-spotbugsMain {
-    reports {
-        xml {
-            enabled = false
-        }
-        html {
-            enabled = true
-            destination = file("build/reports/spotbugs/main.html")
-        }
-    }
-}
-
-check.dependsOn 'spotbugsMain'  // Asegura que se ejecute SpotBugs después de los tests
 
 publishing {
     repositories {

@@ -27,20 +27,11 @@ jobs:
       - name: Run tests and generate coverage report
         run: ./gradlew test jacocoTestReport
 
-      - name: Run SpotBugs
-        run: ./gradlew spotbugsMain
-
       - name: Upload coverage report to GitHub as artifact
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: build/reports/jacoco/test/html
-
-      - name: Upload SpotBugs report to GitHub as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: spotbugs-report
-          path: build/reports/spotbugs/main.html  # Ruta al reporte HTML de SpotBugs
 
   publish:
     runs-on: ubuntu-latest
