@@ -1,3 +1,5 @@
+import com.github.spotbugs.snom.SpotBugsReport
+
 plugins {
     id 'java'
     id 'maven-publish'
@@ -37,7 +39,7 @@ spotbugsMain {
         }
         html {
             enabled = true
-            destination = file("build/reports/spotbugs/main.html")
+            destination = file("build/reports/spotbugs/main.html") as SpotBugsReport
         }
     }
 }
