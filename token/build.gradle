@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'jacoco'
-    id 'checkstyle'
 }
 
 group 'org.example'
@@ -47,20 +46,7 @@ publishing {
 
             groupId = 'printscript'
             artifactId = 'token'
-            version = '1.3.10'
+            version = '1.3.9'
         }
-    }
-}
-
-// Configuración de Checkstyle
-checkstyle {
-    toolVersion = '10.18.1'  // Usa la versión que prefieras
-    configFile = file('./config/checkstyle/checkstyle.xml')  // Ruta a tu archivo de configuración
-}
-
-checkstyleMain {
-    reports {
-        xml.required = true
-        html.required = true
     }
 }
