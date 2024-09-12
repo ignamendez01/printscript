@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     env:
       NAME: 'Ignacio'  # Define tu variable de entorno aquí
@@ -24,8 +24,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Run build
+        run: ./gradlew build
+
       - name: Run tests and generate coverage report
         run: ./gradlew test jacocoTestReport
+
+      - name: Run checkstyle
+        run: ./gradlew checkstyleMain checkstyleTest # Asumiendo que usas Spotless para formateo
 
       - name: Upload coverage report to GitHub as artifact
         uses: actions/upload-artifact@v3
@@ -35,7 +41,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
-    needs: test  # Este job se ejecuta después del job 'test'
+    needs: build  # Este job se ejecuta después del job 'build'
 
     steps:
       - name: Checkout repository
