@@ -20,27 +20,28 @@ public class Parser {
     }
 
     public List<ASTNode> generateAST(Stream<Token> tokenStream) throws Exception {
+        List<Token> tokenList = tokenStream.toList();
         List<ASTNode> astNodes = new ArrayList<>();
         List<Token> currentSegment = new ArrayList<>();
-        Iterator<Token> tokenIterator = tokenStream.iterator();
 
-        while (tokenIterator.hasNext()) {
-            Token token = tokenIterator.next();
+        for (int i = 0; i < tokenList.size(); i++) {
+            Token token = tokenList.get(i);
 
             if (Objects.equals(token.getType(), "END")) {
                 createTree(currentSegment, astNodes);
                 currentSegment.clear();
             } else if (Objects.equals(version, "1.1") && Objects.equals(token.getType(), "IF")) {
-                currentSegment.add(token);
-                Token nextToken = processIfBlock(tokenIterator, currentSegment);
+                i = processIfBlock(tokenList, currentSegment, i);
                 createTree(currentSegment, astNodes);
                 currentSegment.clear();
-                if (nextToken != null) {
-                    currentSegment.add(nextToken);
-                }
             } else {
                 currentSegment.add(token);
             }
+        }
+
+        // Procesar el último segmento si no está vacío
+        if (!currentSegment.isEmpty()) {
+            createTree(currentSegment, astNodes);
         }
 
         return astNodes;
@@ -56,37 +57,38 @@ public class Parser {
             }
         }
         if (!success) {
-            throw new Exception("There is no builder for this token pattern");
+            throw new Exception("No builder available for the given token pattern");
         }
     }
 
-    private Token processIfBlock(Iterator<Token> tokenIterator, List<Token> currentSegment) {
-        while (tokenIterator.hasNext()) {
-            Token token = tokenIterator.next();
+    private int processIfBlock(List<Token> tokenList, List<Token> currentSegment, int i) {
+        for (int j = i; j < tokenList.size(); j++) {
+            Token token = tokenList.get(j);
             currentSegment.add(token);
+
             if (Objects.equals(token.getType(), "RKEY")) {
+                i = j;
                 break;
             }
         }
 
-        if (tokenIterator.hasNext()) {
-            Token nextToken = tokenIterator.next();
+        if (i + 1 < tokenList.size()) {
+            Token nextToken = tokenList.get(i + 1);
             if (Objects.equals(nextToken.getType(), "ELSE")) {
                 currentSegment.add(nextToken);
+                i++;
 
-                while (tokenIterator.hasNext()) {
-                    Token elseToken = tokenIterator.next();
+                for (int j = i + 1; j < tokenList.size(); j++) {
+                    Token elseToken = tokenList.get(j);
                     currentSegment.add(elseToken);
                     if (Objects.equals(elseToken.getType(), "RKEY")) {
+                        i = j;
                         break;
                     }
                 }
-                return null;
-            }else{
-                return nextToken;
             }
-        }else{
-            return null;
         }
+
+        return i;
     }
 }

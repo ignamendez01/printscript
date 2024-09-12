@@ -5,14 +5,11 @@ import lexer.LexerFactory;
 import org.junit.jupiter.api.Test;
 import parser.Parser;
 import parser.ParserFactory;
-import token.Token;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
