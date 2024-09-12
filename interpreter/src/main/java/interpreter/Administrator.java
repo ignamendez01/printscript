@@ -7,7 +7,6 @@ import java.util.*;
 public class Administrator {
     private final HashMap<String, VariableData> variables = new HashMap<>();
     private final Queue<String> printedElements = new LinkedList<>();
-    private static final int MAX_PRINTED_SIZE = 100; // Limitar tamaño de la cola
 
     public void addVariable(String identifier, String type, boolean isConst, VariableResponse response) {
         if (variables.containsKey(identifier)) {
@@ -51,9 +50,6 @@ public class Administrator {
     }
 
     public void addPrinted(String value) {
-        if (printedElements.size() >= MAX_PRINTED_SIZE) {
-            printedElements.poll(); // Eliminar el más antiguo si supera el límite
-        }
         printedElements.add(value);
     }
 }
