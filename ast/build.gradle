@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'jacoco'
+    id 'com.github.spotbugs' version '5.0.3'  // Agrega el plugin de SpotBugs
 }
 
 group 'org.example'
@@ -28,6 +29,15 @@ test {
     finalizedBy jacocoTestReport // Para que siempre se genere el reporte tras ejecutar los tests
 }
 
+spotbugsMain {
+    reports {
+        xml.required = false  // No se generará reporte XML
+        html.required = true  // Genera el reporte HTML
+    }
+}
+
+check.dependsOn 'spotbugsMain'  // Asegura que se ejecute SpotBugs después de los tests
+
 publishing {
     repositories {
         maven {
@@ -45,7 +55,7 @@ publishing {
 
             groupId = 'printscript'
             artifactId = 'ast'
-            version = '1.3.10'
+            version = '2.1.1'
         }
     }
 }
