@@ -54,7 +54,7 @@ publishing {
 
 // Configuración de Checkstyle
 checkstyle {
-    toolVersion = '10.1.0'  // Usa la versión que prefieras
+    toolVersion = '10.18.1'  // Usa la versión que prefieras
     configFile = file('config/checkstyle/checkstyle.xml')  // Ruta a tu archivo de configuración
 }
 
