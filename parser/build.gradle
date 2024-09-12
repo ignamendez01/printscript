@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'jacoco'
-    id 'com.github.spotbugs' version '5.0.3'  // Agrega el plugin de SpotBugs
+    id 'com.github.spotbugs' version '6.0.22'  // Agrega el plugin de SpotBugs
 }
 
 group 'org.example'
@@ -34,8 +34,13 @@ test {
 
 spotbugsMain {
     reports {
-        xml.required = false  // No se generará reporte XML
-        html.required = true  // Genera el reporte HTML
+        xml {
+            enabled = false
+        }
+        html {
+            enabled = true
+            destination = file("build/reports/spotbugs/main.html")
+        }
     }
 }
 
