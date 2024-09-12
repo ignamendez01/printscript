@@ -271,4 +271,5 @@ public class InterpreterTest {
         assertEquals("Value to multiply", interpreter1.getAdmin().getPrintedElements().poll());
         assertEquals("Value 25", interpreter1.getAdmin().getPrintedElements().poll());
     }
+
 }
