@@ -14,16 +14,21 @@ public class MethodASTBuilder implements ASTBuilder<Method> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        return statement.size() > 3
-                && "METHOD".equals(statement.get(0).getType())
-                && "LPAR".equals(statement.get(1).getType())
-                && "RPAR".equals(statement.getLast().getType())
-                && valueASTBuilder.verify(statement.subList(2, statement.size() - 1));
+        if (statement.size() <= 3) return false;
+        if (!"METHOD".equals(statement.getFirst().getType())) return false;
+        if (!"LPAR".equals(statement.get(1).getType())) return false;
+        if (!"RPAR".equals(statement.getLast().getType())) return false;
+
+        List<Token> valueTokens = statement.subList(2, statement.size() - 1);
+        return valueASTBuilder.verify(valueTokens);
     }
 
     @Override
     public Method build(List<Token> statement) {
-        return new Method(statement.getFirst().getValue(),
-                valueASTBuilder.build(statement.subList(2, statement.size() - 1)));
+        String methodName = statement.getFirst().getValue();
+
+        List<Token> valueTokens = statement.subList(2, statement.size() - 1);
+
+        return new Method(methodName, valueASTBuilder.build(valueTokens));
     }
 }

@@ -22,9 +22,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        if (statement.isEmpty()) {
-            return false;
-        }
+        if (statement.isEmpty()) return false;
         for (Token token : statement) {
             if (forbidden.contains(token.getType())) {
                 return false;
@@ -46,13 +44,13 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
                 case "IDENTIFIER" -> nodeStack.addLast(new IdentifierOperator(token.getValue()));
                 case "BOOLEAN" -> handleBoolean(token, nodeStack);
                 case "OPERATOR" -> handleOperator(token, nodeStack);
-                case "FUNCTION" -> handleFunction(token, reorganizedTokens, nodeStack, reorganizedTokens.indexOf(token));
+                case "FUNCTION" -> handleFunction(token, reorganizedTokens, nodeStack);
                 default -> throw new RuntimeException("Unexpected token type: " + token.getType());
             }
         }
 
         if (nodeStack.size() != 1) {
-            throw new RuntimeException("Invalid expression: more than one node remaining in stack after parsing");
+            throw new RuntimeException("Invalid expression: more than one value node in stack.");
         }
 
         return nodeStack.getFirst();
@@ -84,11 +82,12 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
         }
     }
 
-    private void handleFunction(Token token, List<Token> tokens, Deque<ValueNode> nodeStack, int position) {
+    private void handleFunction(Token token, List<Token> reorganizedTokens, Deque<ValueNode> nodeStack) {
         String functionName = token.getValue();
-        // Aquí te aseguras de que el próximo token es un argumento
-        String argumentValue = removeQuotes(tokens.get(position+1).getValue());
-        tokens.remove(position+1);
+        int i = reorganizedTokens.indexOf(token);
+        Token argumentToken = reorganizedTokens.get(i+1);
+        reorganizedTokens.remove(argumentToken);
+        String argumentValue = removeQuotes(argumentToken.getValue());
         nodeStack.addLast(new Function(functionName, argumentValue));
     }
 

@@ -17,43 +17,51 @@ public class DeclarationASTBuilder implements ASTBuilder<ASTNode> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        return statement.size() >= 4
-                && "KEYWORD".equals(statement.get(0).getType())
-                && "IDENTIFIER".equals(statement.get(1).getType())
-                && "DECLARE".equals(statement.get(2).getType())
-                && "TYPE".equals(statement.get(3).getType());
+        if (statement.size() < 4) return false;
+        if (!"KEYWORD".equals(statement.getFirst().getType())) return false;
+        if (!"IDENTIFIER".equals(statement.get(1).getType())) return false;
+        if (!"DECLARE".equals(statement.get(2).getType())) return false;
+        return "TYPE".equals(statement.get(3).getType());
     }
 
     @Override
     public ASTNode build(List<Token> statement) {
+        String keyword = statement.get(0).getValue();
+        String identifier = statement.get(1).getValue();
+        String type = statement.get(3).getValue();
+
         if (statement.size() > 4 && "ASSIGN".equals(statement.get(4).getType())) {
-            return getDeclarationAssignation(statement);
+            return getDeclarationAssignation(statement, keyword, identifier, type);
         } else {
-            return getDeclaration(statement);
+            return getDeclaration(keyword, identifier, type);
         }
     }
 
-    private Declaration getDeclaration(List<Token> statement) {
-        String keyword = statement.get(0).getValue();
+    private Declaration getDeclaration(String keyword, String identifier, String type) {
         if ("const".equals(keyword)) {
-            switch (version){
-                case "1.0" : throw new IllegalStateException("Invalid keyword 'const'");
-                case "1.1": throw new IllegalStateException("const variable should have a value assigned");
+            if ("1.0".equals(version)) {
+                throw new IllegalStateException("Invalid keyword 'const'");
+            } else if ("1.1".equals(version)) {
+                throw new IllegalStateException("const variable should have a value assigned");
             }
         }
-        return new Declaration(statement.get(1).getValue(), statement.get(3).getValue());
+        return new Declaration(identifier, type);
     }
 
-    private DeclarationAssignation getDeclarationAssignation(List<Token> statement) {
-        boolean isConst = "const".equals(statement.get(0).getValue());
+    private DeclarationAssignation getDeclarationAssignation(List<Token> statement, String keyword, String identifier, String type) {
+        boolean isConst = "const".equals(keyword);
         if (isConst && "1.0".equals(version)) {
             throw new IllegalStateException("Invalid keyword 'const'");
         }
+
+        List<Token> valueTokens = statement.subList(5, statement.size());
+
         return new DeclarationAssignation(
-                new Declaration(statement.get(1).getValue(), statement.get(3).getValue()),
-                valueASTBuilder.build(statement.subList(5, statement.size())),
+                new Declaration(identifier, type),
+                valueASTBuilder.build(valueTokens),
                 isConst
         );
     }
 }
+
 

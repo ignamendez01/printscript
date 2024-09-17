@@ -15,19 +15,21 @@ public class AssignationASTBuilder implements ASTBuilder<Assignation> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        return !statement.isEmpty()
-                && "IDENTIFIER".equals(statement.get(0).getType())
-                && statement.size() > 1
-                && "ASSIGN".equals(statement.get(1).getType())
-                && valueASTBuilder.verify(statement.subList(2, statement.size()));
+        if (statement.size() < 3) return false;
+        if (!"IDENTIFIER".equals(statement.getFirst().getType())) return false;
+        if (!"ASSIGN".equals(statement.get(1).getType())) return false;
+
+        List<Token> valueTokens = statement.subList(2, statement.size());
+        return valueASTBuilder.verify(valueTokens);
     }
 
     @Override
     public Assignation build(List<Token> statement) {
-        return new SimpleAssignation(
-                statement.getFirst().getValue(),
-                valueASTBuilder.build(statement.subList(2, statement.size()))
-        );
+        String identifier = statement.getFirst().getValue();
+
+        List<Token> valueTokens = statement.subList(2, statement.size());
+
+        return new SimpleAssignation(identifier, valueASTBuilder.build(valueTokens));
     }
 }
 

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class Lexer {
     private final Map<String, String> keywordMap;
@@ -20,11 +19,21 @@ public class Lexer {
         this.regexMap = regexMap;
     }
 
-    public Stream<Token> makeTokens(InputStream fileInput) {
-        BufferedReader br = new BufferedReader(new InputStreamReader(fileInput));
-        return br.lines()
-                .flatMap(line -> TokenValueExtractor.extractTokenValues(version, line.trim())
-                        .map(this::mapToToken));
+    public List<Token> makeTokens(InputStream inputStream) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        List<Token> tokens = new ArrayList<>();
+        Iterator<String> lineIterator = reader.lines().iterator();
+
+        while (lineIterator.hasNext()) {
+            String line = lineIterator.next().trim();
+            Iterator<String> tokenIterator = TokenValueExtractor.extractTokenValues(version, line).iterator();
+
+            while (tokenIterator.hasNext()) {
+                String tokenValue = tokenIterator.next();
+                tokens.add(mapToToken(tokenValue));
+            }
+        }
+        return tokens;
     }
 
     private Token mapToToken(String tokenValue) {
@@ -44,3 +53,4 @@ public class Lexer {
         return s.matches("^[a-zA-Z_][a-zA-Z0-9_]*$");
     }
 }
+

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class Parser {
     private final String version;
@@ -19,15 +18,15 @@ public class Parser {
         this.astBuilders = astBuilders;
     }
 
-    public List<ASTNode> generateAST(Stream<Token> tokenStream) throws Exception {
+    public List<ASTNode> generateAST(List<Token> tokenList) throws Exception {
         List<ASTNode> astNodes = new ArrayList<>();
         List<Token> currentSegment = new ArrayList<>();
 
-        // Iterador de Stream para procesar los tokens de manera perezosa
-        Iterator<Token> tokenIterator = tokenStream.iterator();
+        Iterator<Token> tokenIterator = tokenList.iterator();
 
         while (tokenIterator.hasNext()) {
             Token token = tokenIterator.next();
+
             if (Objects.equals(token.getType(), "END")) {
                 createTree(currentSegment, astNodes);
                 currentSegment.clear();
@@ -65,7 +64,7 @@ public class Parser {
         while (tokenIterator.hasNext()) {
             Token token = tokenIterator.next();
             currentSegment.add(token);
-            if (Objects.equals(token.getType(), "RKEY")) {
+            if (Objects.equals(token.getType(), "RKEY")) {  // End of IF block
                 break;
             }
         }
@@ -82,16 +81,11 @@ public class Parser {
                         break;
                     }
                 }
-                if (tokenIterator.hasNext()) {
-                    return tokenIterator.next();
-                }else{
-                    return null;
-                }
-            }else {
+                return tokenIterator.hasNext() ? tokenIterator.next() : null;
+            } else {
                 return nextToken;
             }
-        }else{
-            return null;
         }
+        return null;
     }
 }

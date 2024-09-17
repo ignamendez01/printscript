@@ -5,17 +5,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
+
+import java.util.*;
 
 public class TokenValueExtractor {
 
-    public static Stream<String> extractTokenValues(String version, String input) {
+    public static List<String> extractTokenValues(String version, String input) {
         if (input.isEmpty()) {
-            return Stream.empty();
+            return Collections.emptyList();
         }
 
         String regexPattern = "'[^']*'|\"[^\"]*\"|\\d+(\\.\\d+)?|[\\w]+|[;\\-+*/=:(){},.@!#$%&¡?¿'^`]";
-
         Pattern regex = Pattern.compile(regexPattern);
         Matcher matcher = regex.matcher(input);
 
@@ -25,10 +25,9 @@ public class TokenValueExtractor {
         }
 
         List<String> polishedTokens = polishValues(tokens);
-
         checkValues(version, polishedTokens);
 
-        return polishedTokens.stream();
+        return polishedTokens;
     }
 
     private static List<String> polishValues(List<String> tokens) {
