@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class Lexer {
     private final Map<String, String> keywordMap;
     private final Map<Pattern, String> regexMap;
-    private final String version;
+    final String version;
 
     public Lexer(String version, Map<String, String> keywordMap, Map<Pattern, String> regexMap) {
         this.version = version;
@@ -19,24 +19,14 @@ public class Lexer {
         this.regexMap = regexMap;
     }
 
-    public List<Token> makeTokens(InputStream inputStream) {
+    public Iterator<Token> makeTokens(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        List<Token> tokens = new ArrayList<>();
         Iterator<String> lineIterator = reader.lines().iterator();
 
-        while (lineIterator.hasNext()) {
-            String line = lineIterator.next().trim();
-            Iterator<String> tokenIterator = TokenValueExtractor.extractTokenValues(version, line).iterator();
-
-            while (tokenIterator.hasNext()) {
-                String tokenValue = tokenIterator.next();
-                tokens.add(mapToToken(tokenValue));
-            }
-        }
-        return tokens;
+        return new TokenIterator(lineIterator, this);
     }
 
-    private Token mapToToken(String tokenValue) {
+    public Token mapToToken(String tokenValue) {
         if (keywordMap.containsKey(tokenValue)) {
             return new Token(keywordMap.get(tokenValue), tokenValue);
         } else {
@@ -53,4 +43,33 @@ public class Lexer {
         return s.matches("^[a-zA-Z_][a-zA-Z0-9_]*$");
     }
 }
+
+class TokenIterator implements Iterator<Token> {
+    private final Iterator<String> lineIterator;
+    private Iterator<String> currentTokenIterator;
+    private final Lexer lexer;
+
+    public TokenIterator(Iterator<String> lineIterator, Lexer lexer) {
+        this.lineIterator = lineIterator;
+        this.lexer = lexer;
+    }
+
+    @Override
+    public boolean hasNext() {
+        while ((currentTokenIterator == null || !currentTokenIterator.hasNext()) && lineIterator.hasNext()) {
+            currentTokenIterator = TokenValueExtractor.extractTokenValues(lexer.version, lineIterator).iterator();
+        }
+        return currentTokenIterator != null && currentTokenIterator.hasNext();
+    }
+
+    @Override
+    public Token next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        String tokenValue = currentTokenIterator.next();
+        return lexer.mapToToken(tokenValue);
+    }
+}
+
 

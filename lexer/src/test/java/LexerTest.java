@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,7 +24,7 @@ public class LexerTest {
         String example = "let a: number;";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, END]";
         String actualTokensString = listToString(actualTokens);
@@ -36,7 +37,7 @@ public class LexerTest {
         String example = "x = 'Name ';";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[IDENTIFIER(x), ASSIGN, STRING('Name '), END]";
         String actualTokensString = listToString(actualTokens);
@@ -49,7 +50,7 @@ public class LexerTest {
         String example = "let x: number = 12;";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, NUMBER(12), END]";
         String actualTokensString = listToString(actualTokens);
@@ -62,7 +63,7 @@ public class LexerTest {
         String example = "x = -4 + 300 * 2.87 - 4 / 1;";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[IDENTIFIER(x), ASSIGN, NUMBER(-4), OPERATOR, NUMBER(300), OPERATOR, NUMBER(2.87), OPERATOR, NUMBER(4), OPERATOR, NUMBER(1), END]";
         String actualTokensString = listToString(actualTokens);
@@ -75,7 +76,7 @@ public class LexerTest {
         String example = "println(x);";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[METHOD, LPAR, IDENTIFIER(x), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
@@ -88,7 +89,7 @@ public class LexerTest {
         String example = "const a:string = \"Hello\";";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer1.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, STRING(\"Hello\"), END]";
         String actualTokensString = listToString(actualTokens);
@@ -101,7 +102,7 @@ public class LexerTest {
         String example = "const a:boolean = false;";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer1.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, BOOLEAN(false), END]";
         String actualTokensString = listToString(actualTokens);
@@ -114,7 +115,7 @@ public class LexerTest {
         String example = "let a:number = readInput(\"A number over 10\");";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer1.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
@@ -127,7 +128,7 @@ public class LexerTest {
         String example = "let a:number = readEnv(\"A number over 10\");";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer1.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
@@ -145,7 +146,7 @@ public class LexerTest {
                 }""";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer1.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
         String expectedTokensString = "[IF, LPAR, BOOLEAN(true), RPAR, LKEY, IDENTIFIER(a), END, RKEY, ELSE, LKEY, IDENTIFIER(b), END, RKEY]";
         String actualTokensString = listToString(actualTokens);
@@ -156,7 +157,7 @@ public class LexerTest {
     @Test
     void test_File() throws FileNotFoundException {
         InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
-        List<Token> actualTokens = lexer1.makeTokens(example);
+        Iterator<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Hello '), END, " +
                 "KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(5), OPERATOR, " +
@@ -171,7 +172,7 @@ public class LexerTest {
     @Test
     void test_File2() throws FileNotFoundException {
         InputStream example = new FileInputStream("src/test/resources/testFile2.txt");
-        List<Token> actualTokens = lexer1.makeTokens(example);
+        Iterator<Token> actualTokens = lexer1.makeTokens(example);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Value '), END, " +
                 "KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(5), END, " +
@@ -193,7 +194,7 @@ public class LexerTest {
         String example = "";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[]";
         String actualTokensString = listToString(actualTokens);
@@ -206,7 +207,7 @@ public class LexerTest {
         String example = "heyWorld = !;";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[IDENTIFIER(heyWorld), ASSIGN, UNKNOWN, END]";
         String actualTokensString = listToString(actualTokens);
@@ -219,7 +220,7 @@ public class LexerTest {
         String example = "let y: string; \n let x: number;";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
-        List<Token> actualTokens = lexer.makeTokens(stream);
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
         String expectedTokensString = "[KEYWORD, IDENTIFIER(y), DECLARE, TYPE, END, KEYWORD, IDENTIFIER(x), DECLARE, TYPE, END]";
         String actualTokensString = listToString(actualTokens);
@@ -227,12 +228,12 @@ public class LexerTest {
         assertEquals(expectedTokensString, actualTokensString);
     }
 
-    private String listToString(List<Token> tokens) {
+    private String listToString(Iterator<Token> tokens) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (int i = 0; i < tokens.size(); i++) {
-            sb.append(tokens.get(i).toString());
-            if (i < tokens.size() - 1) {
+        while (tokens.hasNext()){
+            sb.append(tokens.next().toString());
+            if (tokens.hasNext()) {
                 sb.append(", ");
             }
         }

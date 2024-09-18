@@ -32,10 +32,10 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
         ValueNode operator = buildOperator(statement);
 
         List<Token> trueBranchTokens = statement.subList(5, elsePosition != -1 ? elsePosition - 1 : statement.size() - 1);
-        List<ASTNode> trueBranch = parser.generateAST(trueBranchTokens);
+        List<ASTNode> trueBranch = parser.generateAST(trueBranchTokens.iterator());
 
         List<ASTNode> falseBranch = elsePosition != -1
-                ? parser.generateAST(statement.subList(elsePosition + 2, statement.size() - 1))
+                ? parser.generateAST(statement.subList(elsePosition + 2, statement.size() - 1).iterator())
                 : null;
 
         return new Conditional(operator, trueBranch, falseBranch);

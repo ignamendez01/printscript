@@ -10,23 +10,24 @@ import java.util.*;
 
 public class TokenValueExtractor {
 
-    public static List<String> extractTokenValues(String version, String input) {
-        if (input.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        String regexPattern = "'[^']*'|\"[^\"]*\"|\\d+(\\.\\d+)?|[\\w]+|[;\\-+*/=:(){},.@!#$%&¡?¿'^`]";
-        Pattern regex = Pattern.compile(regexPattern);
-        Matcher matcher = regex.matcher(input);
-
+    public static List<String> extractTokenValues(String version, Iterator<String> lineIterator) {
         List<String> tokens = new ArrayList<>();
-        while (matcher.find()) {
-            tokens.add(matcher.group());
+
+        while (lineIterator.hasNext()) {
+            String line = lineIterator.next();
+            String regexPattern = "'[^']*'|\"[^\"]*\"|\\d+(\\.\\d+)?|[\\w]+|[;\\-+*/=:(){},.@!#$%&¡?¿'^`]";
+            Pattern regex = Pattern.compile(regexPattern);
+            Matcher matcher = regex.matcher(line);
+
+            while (matcher.find()) {
+                tokens.add(matcher.group());
+            }
         }
 
         List<String> polishedTokens = polishValues(tokens);
         checkValues(version, polishedTokens);
 
+        // Devolvemos un iterador y liberamos la memoria de la lista
         return polishedTokens;
     }
 
@@ -65,3 +66,4 @@ public class TokenValueExtractor {
         }
     }
 }
+

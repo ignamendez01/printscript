@@ -18,11 +18,9 @@ public class Parser {
         this.astBuilders = astBuilders;
     }
 
-    public List<ASTNode> generateAST(List<Token> tokenList) throws Exception {
+    public List<ASTNode> generateAST(Iterator<Token> tokenIterator) throws Exception {
         List<ASTNode> astNodes = new ArrayList<>();
         List<Token> currentSegment = new ArrayList<>();
-
-        Iterator<Token> tokenIterator = tokenList.iterator();
 
         while (tokenIterator.hasNext()) {
             Token token = tokenIterator.next();
