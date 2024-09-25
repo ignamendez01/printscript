@@ -18,7 +18,7 @@ public class Parser {
         this.astBuilders = astBuilders;
     }
 
-    public List<ASTNode> generateAST(Iterator<Token> tokenIterator) throws Exception {
+    public Iterator<ASTNode> generateAST(Iterator<Token> tokenIterator) throws Exception {
         List<ASTNode> astNodes = new ArrayList<>();
         List<Token> currentSegment = new ArrayList<>();
 
@@ -41,7 +41,7 @@ public class Parser {
             }
         }
 
-        return astNodes;
+        return astNodes.iterator();
     }
 
     private void createTree(List<Token> currentSegment, List<ASTNode> astNodes) throws Exception {

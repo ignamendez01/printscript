@@ -6,6 +6,7 @@ import interpreter.response.ErrorResponse;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.SuccessResponse;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,9 @@ public class Interpreter {
         this.visitors = visitors;
     }
 
-    public <T extends ASTNode> InterpreterResponse interpretAST(List<T> astList) throws Exception {
-        for (T ast : astList) {
+    public <T extends ASTNode> InterpreterResponse interpretAST(Iterator<T> astIterator) throws Exception {
+        while(astIterator.hasNext()){
+            T ast = astIterator.next();
             InterpreterTypes<T> interpreter = (InterpreterTypes<T>) visitors.get(ast.getClass());
             if (interpreter == null) {
                 return new ErrorResponse("Unsupported ASTNode: " + ast.getClass().getSimpleName());

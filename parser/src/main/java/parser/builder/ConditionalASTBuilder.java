@@ -9,6 +9,8 @@ import parser.Parser;
 import parser.ParserFactory;
 import token.Token;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
@@ -32,10 +34,10 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
         ValueNode operator = buildOperator(statement);
 
         List<Token> trueBranchTokens = statement.subList(5, elsePosition != -1 ? elsePosition - 1 : statement.size() - 1);
-        List<ASTNode> trueBranch = parser.generateAST(trueBranchTokens.iterator());
+        List<ASTNode> trueBranch = iteratorToList(parser.generateAST(trueBranchTokens.iterator()));
 
         List<ASTNode> falseBranch = elsePosition != -1
-                ? parser.generateAST(statement.subList(elsePosition + 2, statement.size() - 1).iterator())
+                ? iteratorToList(parser.generateAST(statement.subList(elsePosition + 2, statement.size() - 1).iterator()))
                 : null;
 
         return new Conditional(operator, trueBranch, falseBranch);
@@ -60,6 +62,14 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
             }
         }
         return -1;
+    }
+
+    private List<ASTNode> iteratorToList(Iterator<ASTNode> iterator){
+        List<ASTNode> list = new ArrayList<>();
+        while (iterator.hasNext()){
+            list.add(iterator.next());
+        }
+        return list;
     }
 }
 

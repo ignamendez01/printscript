@@ -1,5 +1,3 @@
-import ast.*;
-import ast.interfaces.ASTNode;
 import interpreter.Administrator;
 import interpreter.Interpreter;
 import interpreter.InterpreterFactory;
@@ -14,7 +12,6 @@ import parser.ParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,18 +25,13 @@ public class InterpreterTest {
 
     @Test
     public void test_Sum_String_Number() throws Exception {
-        List<ASTNode> ast = List.of(
-                new DeclarationAssignation(
-                        new Declaration("a", "string"),
-                        new BinaryOperation(
-                                new StringOperator("Hello"),
-                                "+",
-                                new NumberOperator(5)
-                        )
-                ),
-                new Method("println", new BinaryOperation(new IdentifierOperator("a"), "+", new StringOperator("")))
-        );
-        InterpreterResponse result = interpreter.interpretAST(ast);
+        String text =
+                "let a:string = 'Hello'+5;" +
+                "println(a);";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter.interpretAST(parser.generateAST(lexer.makeTokens(stream)));
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("Hello5", interpreter.getAdmin().getPrintedElements().poll());
     }

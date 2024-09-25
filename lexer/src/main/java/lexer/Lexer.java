@@ -56,7 +56,7 @@ class TokenIterator implements Iterator<Token> {
 
     @Override
     public boolean hasNext() {
-        while ((currentTokenIterator == null || !currentTokenIterator.hasNext()) && lineIterator.hasNext()) {
+        if (currentTokenIterator == null && lineIterator.hasNext()) {
             currentTokenIterator = TokenValueExtractor.extractTokenValues(lexer.version, lineIterator).iterator();
         }
         return currentTokenIterator != null && currentTokenIterator.hasNext();

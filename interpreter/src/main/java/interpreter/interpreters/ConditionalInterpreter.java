@@ -21,9 +21,9 @@ public class ConditionalInterpreter implements InterpreterTypes<Conditional> {
             boolean condition = getValue(astNode.getOperator(), administrator);
 
             if (condition) {
-                return interpreter.interpretAST(astNode.getTrueBranch());
+                return interpreter.interpretAST(astNode.getTrueBranch().iterator());
             } else {
-                return astNode.getFalseBranch() != null ? interpreter.interpretAST(astNode.getFalseBranch()) : new SuccessResponse("Conditional is false and there is no else");
+                return astNode.getFalseBranch() != null ? interpreter.interpretAST(astNode.getFalseBranch().iterator()) : new SuccessResponse("Conditional is false and there is no else");
             }
         } catch (Exception e) {
             return new ErrorResponse("Error in conditional evaluation: " + e.getMessage());
