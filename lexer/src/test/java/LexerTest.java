@@ -39,6 +39,8 @@ public class LexerTest {
         String expectedTokensString = "[IDENTIFIER(x), ASSIGN, STRING('Name '), END]";
         String actualTokensString = listToString(actualTokens);
 
+        assertTrue(false);
+
         assertEquals(expectedTokensString, actualTokensString);
     }
 
