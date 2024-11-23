@@ -6,6 +6,9 @@ import token.Token;
 
 import java.util.List;
 
+/**
+ * El constructor de Assignation AST´s.
+ */
 public class AssignationASTBuilder implements ASTBuilder<Assignation> {
     private final ValueASTBuilder valueASTBuilder;
 
@@ -15,9 +18,15 @@ public class AssignationASTBuilder implements ASTBuilder<Assignation> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        if (statement.size() < 3) return false;
-        if (!"IDENTIFIER".equals(statement.getFirst().getType())) return false;
-        if (!"ASSIGN".equals(statement.get(1).getType())) return false;
+        if (statement.size() < 3) {
+            return false;
+        }
+        if (!"IDENTIFIER".equals(statement.getFirst().getType())) {
+            return false;
+        }
+        if (!"ASSIGN".equals(statement.get(1).getType())) {
+            return false;
+        }
 
         List<Token> valueTokens = statement.subList(2, statement.size());
         return valueASTBuilder.verify(valueTokens);

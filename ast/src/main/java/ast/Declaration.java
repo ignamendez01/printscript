@@ -4,7 +4,9 @@ import ast.interfaces.ASTNode;
 
 import java.util.Objects;
 
-// Declaration (let x: number;)
+/**
+ * Representa una declaración.
+ */
 public class Declaration implements ASTNode {
     private final String identifier;
     private final String type;
@@ -24,10 +26,15 @@ public class Declaration implements ASTNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Declaration that = (Declaration) o;
-        return Objects.equals(identifier, that.identifier) && Objects.equals(type, that.type);
+        return Objects.equals(identifier, that.identifier)
+                && Objects.equals(type, that.type);
 
     }
 

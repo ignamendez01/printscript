@@ -1,5 +1,7 @@
 package ast.interfaces;
 
-// Sealed interface for ast.interfaces.ASTNode
+/**
+ * Interfaz para los nodos.
+ */
 public interface ASTNode {
 }

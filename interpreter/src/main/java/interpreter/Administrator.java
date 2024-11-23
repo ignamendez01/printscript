@@ -2,8 +2,13 @@ package interpreter;
 
 import interpreter.response.VariableResponse;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Queue;
 
+/**
+ * El administrador maneja las variables.
+ */
 public class Administrator {
     private final HashMap<String, VariableData> variables = new HashMap<>();
     private final Queue<String> printedElements = new ArrayDeque<>();

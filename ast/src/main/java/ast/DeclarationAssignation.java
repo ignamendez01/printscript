@@ -5,7 +5,9 @@ import ast.interfaces.ValueNode;
 
 import java.util.Objects;
 
-// DeclarationAssignation (let x: number = 5;)
+/**
+ * Representa una declaración y asignación.
+ */
 public class DeclarationAssignation implements ASTNode {
     private final Declaration declaration;
     private final ValueNode value;
@@ -37,10 +39,16 @@ public class DeclarationAssignation implements ASTNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         DeclarationAssignation that = (DeclarationAssignation) o;
-        return Objects.equals(declaration, that.declaration) && Objects.equals(value, that.value) && Objects.equals(isConst, that.isConst);
+        return Objects.equals(declaration, that.declaration)
+                && Objects.equals(value, that.value)
+                && Objects.equals(isConst, that.isConst);
     }
 
     @Override

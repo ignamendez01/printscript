@@ -4,7 +4,9 @@ import ast.interfaces.ValueNode;
 
 import java.util.Objects;
 
-// IdentifierOperator (Represents any Identifier like x)
+/**
+ * Representa una variable.
+ */
 public class IdentifierOperator implements ValueNode {
     private final String identifier;
 
@@ -18,8 +20,12 @@ public class IdentifierOperator implements ValueNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         IdentifierOperator that = (IdentifierOperator) o;
         return Objects.equals(identifier, that.identifier);
     }

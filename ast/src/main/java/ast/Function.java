@@ -4,6 +4,9 @@ import ast.interfaces.ValueNode;
 
 import java.util.Objects;
 
+/**
+ * Representa una función.
+ */
 public class Function implements ValueNode {
     private final String name;
     private final String message;
@@ -23,8 +26,12 @@ public class Function implements ValueNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Function that = (Function) o;
         return Objects.equals(name, that.name) && Objects.equals(message, that.message);
     }

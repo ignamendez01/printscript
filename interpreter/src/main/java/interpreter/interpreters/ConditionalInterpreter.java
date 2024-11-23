@@ -12,6 +12,9 @@ import interpreter.response.ErrorResponse;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.SuccessResponse;
 
+/**
+ * el interpretador de los conditional AST's.
+ */
 public class ConditionalInterpreter implements InterpreterTypes<Conditional> {
 
     @Override
@@ -23,7 +26,9 @@ public class ConditionalInterpreter implements InterpreterTypes<Conditional> {
             if (condition) {
                 return interpreter.interpretAST(astNode.getTrueBranch().iterator());
             } else {
-                return astNode.getFalseBranch() != null ? interpreter.interpretAST(astNode.getFalseBranch().iterator()) : new SuccessResponse("Conditional is false and there is no else");
+                return astNode.getFalseBranch() != null ?
+                        interpreter.interpretAST(astNode.getFalseBranch().iterator()) :
+                        new SuccessResponse("Conditional is false and there is no else");
             }
         } catch (Exception e) {
             return new ErrorResponse("Error in conditional evaluation: " + e.getMessage());
@@ -31,9 +36,11 @@ public class ConditionalInterpreter implements InterpreterTypes<Conditional> {
     }
 
     private boolean getValue(ValueNode value, Administrator administrator) throws Exception {
-        if (value instanceof BooleanOperator booleanOperator) {
+        if (value instanceof BooleanOperator) {
+            BooleanOperator booleanOperator = (BooleanOperator) value;
             return booleanOperator.getValue();
-        } else if (value instanceof IdentifierOperator identifierOperator) {
+        } else if (value instanceof IdentifierOperator) {
+            IdentifierOperator identifierOperator = (IdentifierOperator) value;
             VariableData v = administrator.getVariable(identifierOperator.getIdentifier());
             String varValue = v.getValue();
             if ("true".equalsIgnoreCase(varValue)) {
@@ -48,4 +55,3 @@ public class ConditionalInterpreter implements InterpreterTypes<Conditional> {
         }
     }
 }
-

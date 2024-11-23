@@ -1,11 +1,15 @@
 package parser.builder;
 
-import ast.*;
+import ast.Declaration;
+import ast.DeclarationAssignation;
 import ast.interfaces.ASTNode;
 import token.Token;
 
 import java.util.List;
 
+/**
+ * El constructor de Declaration AST´s.
+ */
 public class DeclarationASTBuilder implements ASTBuilder<ASTNode> {
     private final String version;
     private final ValueASTBuilder valueASTBuilder;
@@ -17,10 +21,18 @@ public class DeclarationASTBuilder implements ASTBuilder<ASTNode> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        if (statement.size() < 4) return false;
-        if (!"KEYWORD".equals(statement.getFirst().getType())) return false;
-        if (!"IDENTIFIER".equals(statement.get(1).getType())) return false;
-        if (!"DECLARE".equals(statement.get(2).getType())) return false;
+        if (statement.size() < 4) {
+            return false;
+        }
+        if (!"KEYWORD".equals(statement.getFirst().getType())) {
+            return false;
+        }
+        if (!"IDENTIFIER".equals(statement.get(1).getType())) {
+            return false;
+        }
+        if (!"DECLARE".equals(statement.get(2).getType())) {
+            return false;
+        }
         return "TYPE".equals(statement.get(3).getType());
     }
 
@@ -48,7 +60,10 @@ public class DeclarationASTBuilder implements ASTBuilder<ASTNode> {
         return new Declaration(identifier, type);
     }
 
-    private DeclarationAssignation getDeclarationAssignation(List<Token> statement, String keyword, String identifier, String type) {
+    private DeclarationAssignation getDeclarationAssignation(List<Token> statement,
+                                                             String keyword,
+                                                             String identifier,
+                                                             String type) {
         boolean isConst = "const".equals(keyword);
         if (isConst && "1.0".equals(version)) {
             throw new IllegalStateException("Invalid keyword 'const'");

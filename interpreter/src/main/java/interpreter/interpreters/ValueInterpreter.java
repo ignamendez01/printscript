@@ -13,20 +13,23 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode> {
 
     @Override
     public InterpreterResponse interpret(ValueNode astNode, Administrator administrator) throws Exception {
-        return switch (astNode) {
-            case StringOperator stringOperator -> new VariableResponse("String", stringOperator.getValue());
-            case NumberOperator numberOperator -> new VariableResponse("Number", numberOperator.getValue().toString());
-            case BooleanOperator booleanOperator ->
-                    new VariableResponse("Boolean", booleanOperator.getValue().toString());
-            case IdentifierOperator identifierOperator ->
-                    interpretIdentifierOperator(identifierOperator, administrator);
-            case Function function -> interpretFunction(function, administrator);
-            case BinaryOperation binaryOperation -> interpretBinaryOperation(binaryOperation, administrator);
-            case null, default -> {
+        switch (astNode) {
+            case StringOperator stringOperator:
+                return new VariableResponse("String", stringOperator.getValue());
+            case NumberOperator numberOperator:
+                return new VariableResponse("Number", numberOperator.getValue().toString());
+            case BooleanOperator booleanOperator:
+                return new VariableResponse("Boolean", booleanOperator.getValue().toString());
+            case IdentifierOperator identifierOperator:
+                return interpretIdentifierOperator(identifierOperator, administrator);
+            case Function function:
+                return interpretFunction(function, administrator);
+            case BinaryOperation binaryOperation:
+                return interpretBinaryOperation(binaryOperation, administrator);
+            default :
                 assert astNode != null;
                 throw new IllegalArgumentException("Unexpected node type: " + astNode.getClass().getSimpleName());
-            }
-        };
+        }
     }
 
     private InterpreterResponse interpretIdentifierOperator(IdentifierOperator identifierOperator, Administrator administrator) {

@@ -5,7 +5,9 @@ import ast.interfaces.ValueNode;
 
 import java.util.Objects;
 
-// SimpleAssignation (x = 5 + 5;)
+/**
+ * Representa una asignación.
+ */
 public class SimpleAssignation implements Assignation {
     private final String identifier;
     private final ValueNode value;
@@ -25,8 +27,12 @@ public class SimpleAssignation implements Assignation {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         SimpleAssignation that = (SimpleAssignation) o;
         return Objects.equals(value, that.value) &&
                 Objects.equals(identifier, that.identifier);

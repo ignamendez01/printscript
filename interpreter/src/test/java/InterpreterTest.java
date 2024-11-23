@@ -13,15 +13,19 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
+/**
+ * el test del intrerpreter.
+ */
 public class InterpreterTest {
     private final Lexer lexer = LexerFactory.lexerVersion("1.0");
     private final Lexer lexer1 = LexerFactory.lexerVersion("1.1");
     private final Parser parser = ParserFactory.parserVersion("1.0");
     private final Parser parser1 = ParserFactory.parserVersion("1.1");
-    private final Interpreter interpreter = InterpreterFactory.interpreterVersion(new Administrator(),"1.0");
-    private final Interpreter interpreter1 = InterpreterFactory.interpreterVersion(new Administrator(),"1.1");
+    private final Interpreter interpreter = InterpreterFactory.interpreterVersion(new Administrator(), "1.0");
+    private final Interpreter interpreter1 = InterpreterFactory.interpreterVersion(new Administrator(), "1.1");
 
     @Test
     public void test_Sum_String_Number() throws Exception {
@@ -151,15 +155,9 @@ public class InterpreterTest {
 
     @Test
     public void test_if_true() throws Exception {
-        String text =
-                """
-                        let result : number;
-                        if(true){
-                        result = 12;
-                        } else {
-                        result = 14;
-                        }
-                        println(result);""";
+        String text = "let result : number;\nif(true){" +
+                "\nresult = 12;\n} else {\nresult = 14;" +
+                "\n}\nprintln(result);";
 
         InputStream stream = new ByteArrayInputStream(text.getBytes());
 

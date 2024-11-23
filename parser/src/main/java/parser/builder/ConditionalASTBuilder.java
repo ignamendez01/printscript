@@ -13,16 +13,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * El constructor de Conditional AST´s.
+ */
 public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
 
     @Override
     public boolean verify(List<Token> statement) {
-        if (statement.size() <= 5) return false;
-        if (!"IF".equals(statement.getFirst().getType())) return false;
-        if (!"LPAR".equals(statement.get(1).getType())) return false;
-        if (!("BOOLEAN".equals(statement.get(2).getType()) || "IDENTIFIER".equals(statement.get(2).getType()))) return false;
-        if (!"RPAR".equals(statement.get(3).getType())) return false;
-        if (!"LKEY".equals(statement.get(4).getType())) return false;
+        if (statement.size() <= 5) {
+            return false;
+        }
+        if (!"IF".equals(statement.getFirst().getType())) {
+            return false;
+        }
+        if (!"LPAR".equals(statement.get(1).getType())) {
+            return false;
+        }
+        if (!("BOOLEAN".equals(statement.get(2).getType()) ||
+                "IDENTIFIER".equals(statement.get(2).getType()))) {
+            return false;
+        }
+        if (!"RPAR".equals(statement.get(3).getType())) {
+            return false;
+        }
+        if (!"LKEY".equals(statement.get(4).getType())) {
+            return false;
+        }
         return "RKEY".equals(statement.getLast().getType());
     }
 
@@ -33,7 +49,8 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
 
         ValueNode operator = buildOperator(statement);
 
-        List<Token> trueBranchTokens = statement.subList(5, elsePosition != -1 ? elsePosition - 1 : statement.size() - 1);
+        List<Token> trueBranchTokens =
+                statement.subList(5, elsePosition != -1 ? elsePosition - 1 : statement.size() - 1);
         List<ASTNode> trueBranch = iteratorToList(parser.generateAST(trueBranchTokens.iterator()));
 
         List<ASTNode> falseBranch = elsePosition != -1
@@ -64,9 +81,9 @@ public class ConditionalASTBuilder implements ASTBuilder<Conditional> {
         return -1;
     }
 
-    private List<ASTNode> iteratorToList(Iterator<ASTNode> iterator){
+    private List<ASTNode> iteratorToList(Iterator<ASTNode> iterator) {
         List<ASTNode> list = new ArrayList<>();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             list.add(iterator.next());
         }
         return list;

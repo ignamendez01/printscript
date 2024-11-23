@@ -4,7 +4,9 @@ import ast.interfaces.ValueNode;
 
 import java.util.Objects;
 
-// StringOperator (Represents any String like "Hello")
+/**
+ * Representa un string.
+ */
 public class StringOperator implements ValueNode {
     private final String value;
 
@@ -18,8 +20,12 @@ public class StringOperator implements ValueNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         StringOperator that = (StringOperator) o;
         return Objects.equals(value, that.value);
     }

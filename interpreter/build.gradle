@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'jacoco'
+    id 'checkstyle'  // Agregar Checkstyle
 }
 
 group 'org.example'
@@ -20,6 +21,14 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+checkstyle {
+    toolVersion '10.12.0'
+    configFile file("config/checkstyle/checkstyle.xml")
+}
+checkstyleMain {
+    source ='src/main/java'
+}
+
 jacocoTestReport {
     reports {
         xml.required = true
@@ -30,6 +39,7 @@ jacocoTestReport {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport // Para que siempre se genere el reporte tras ejecutar los tests
+    environment "NAME", "Ignacio"
 }
 
 publishing {

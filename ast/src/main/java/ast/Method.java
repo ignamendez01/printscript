@@ -4,7 +4,9 @@ import ast.interfaces.ValueNode;
 
 import java.util.Objects;
 
-// Method (println(x);)
+/**
+ * Representa un metodo.
+ */
 public class Method implements ValueNode {
     private final String identifier;
     private final ValueNode value;
@@ -24,8 +26,12 @@ public class Method implements ValueNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Method that = (Method) o;
         return Objects.equals(value, that.value) &&
                 Objects.equals(identifier, that.identifier);

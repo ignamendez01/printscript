@@ -1,5 +1,8 @@
 package interpreter;
 
+/**
+ * Representa las variables, su nombre, tipo y valor.
+ */
 public class VariableData {
     private final String type;
     private final boolean isConst;

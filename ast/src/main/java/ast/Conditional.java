@@ -6,6 +6,9 @@ import ast.interfaces.ValueNode;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Representa una operación if-else.
+ */
 public class Conditional implements ASTNode {
     private final ValueNode operator;
     private final List<ASTNode> trueBranch;
@@ -31,8 +34,12 @@ public class Conditional implements ASTNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Conditional that = (Conditional) o;
         return Objects.equals(operator, that.operator) &&
                 Objects.equals(trueBranch, that.trueBranch) &&

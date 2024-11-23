@@ -10,8 +10,11 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * el test del lexer.
+ */
 public class LexerTest {
     Lexer lexer = LexerFactory.lexerVersion("1.0");
     Lexer lexer1 = LexerFactory.lexerVersion("1.1");
@@ -39,8 +42,6 @@ public class LexerTest {
         String expectedTokensString = "[IDENTIFIER(x), ASSIGN, STRING('Name '), END]";
         String actualTokensString = listToString(actualTokens);
 
-        assertTrue(false);
-
         assertEquals(expectedTokensString, actualTokensString);
     }
 
@@ -51,7 +52,8 @@ public class LexerTest {
 
         Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, NUMBER(12), END]";
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), " +
+                "DECLARE, TYPE, ASSIGN, NUMBER(12), END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -64,7 +66,9 @@ public class LexerTest {
 
         Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
-        String expectedTokensString = "[IDENTIFIER(x), ASSIGN, NUMBER(-4), OPERATOR, NUMBER(300), OPERATOR, NUMBER(2.87), OPERATOR, NUMBER(4), OPERATOR, NUMBER(1), END]";
+        String expectedTokensString = "[IDENTIFIER(x), ASSIGN, NUMBER(-4), " +
+                "OPERATOR, NUMBER(300), OPERATOR, NUMBER(2.87), OPERATOR, NUMBER(4), " +
+                "OPERATOR, NUMBER(1), END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -90,7 +94,8 @@ public class LexerTest {
 
         Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, STRING(\"Hello\"), END]";
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, " +
+                "ASSIGN, STRING(\"Hello\"), END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -103,7 +108,8 @@ public class LexerTest {
 
         Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, BOOLEAN(false), END]";
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, " +
+                "ASSIGN, BOOLEAN(false), END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -116,7 +122,9 @@ public class LexerTest {
 
         Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), RPAR, END]";
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, " +
+                "ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), " +
+                "RPAR, END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -129,7 +137,9 @@ public class LexerTest {
 
         Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), RPAR, END]";
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(a), DECLARE, TYPE, " +
+                "ASSIGN, FUNCTION, LPAR, STRING(\"A number over 10\"), " +
+                "RPAR, END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -137,17 +147,14 @@ public class LexerTest {
 
     @Test
     void test_if_else() {
-        String example = """
-                if(true){
-                a;
-                }else{
-                b;
-                }""";
+        String example = "if(true){\na;\n}else{\nb;\n}";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
         Iterator<Token> actualTokens = lexer1.makeTokens(stream);
 
-        String expectedTokensString = "[IF, LPAR, BOOLEAN(true), RPAR, LKEY, IDENTIFIER(a), END, RKEY, ELSE, LKEY, IDENTIFIER(b), END, RKEY]";
+        String expectedTokensString = "[IF, LPAR, BOOLEAN(true), RPAR, LKEY, " +
+                "IDENTIFIER(a), END, RKEY, ELSE, LKEY, IDENTIFIER(b), " +
+                "END, RKEY]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -158,7 +165,8 @@ public class LexerTest {
         InputStream example = new FileInputStream("src/test/resources/testFile1.txt");
         Iterator<Token> actualTokens = lexer1.makeTokens(example);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Hello '), END, " +
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, " +
+                "ASSIGN, STRING('Hello '), END, " +
                 "KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(5), OPERATOR, " +
                 "LPAR, NUMBER(2), OPERATOR, NUMBER(10), RPAR, OPERATOR, " +
                 "LPAR, NUMBER(15), OPERATOR, NUMBER(3), RPAR, END, " +
@@ -173,15 +181,16 @@ public class LexerTest {
         InputStream example = new FileInputStream("src/test/resources/testFile2.txt");
         Iterator<Token> actualTokens = lexer1.makeTokens(example);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, STRING('Value '), END, " +
-                "KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, NUMBER(5), END, " +
-                "KEYWORD, IDENTIFIER(z), DECLARE, TYPE, ASSIGN, BOOLEAN(true), END, " +
-                "KEYWORD, IDENTIFIER(w), DECLARE, TYPE, ASSIGN, FUNCTION, LPAR, STRING(\"Value to multiply\"), RPAR, END, " +
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(x), DECLARE, TYPE, ASSIGN, " +
+                "STRING('Value '), END, KEYWORD, IDENTIFIER(y), DECLARE, TYPE, ASSIGN, " +
+                "NUMBER(5), END, KEYWORD, IDENTIFIER(z), DECLARE, TYPE, ASSIGN, " +
+                "BOOLEAN(true), END, KEYWORD, IDENTIFIER(w), DECLARE, TYPE, ASSIGN, " +
+                "FUNCTION, LPAR, STRING(\"Value to multiply\"), RPAR, END, " +
                 "IF, LPAR, IDENTIFIER(z), RPAR, LKEY, " +
                 "IDENTIFIER(y), ASSIGN, IDENTIFIER(y), OPERATOR, IDENTIFIER(w), END, " +
                 "RKEY, ELSE, LKEY, " +
-                "IDENTIFIER(y), ASSIGN, IDENTIFIER(y), OPERATOR, FUNCTION, LPAR, STRING(\"NUMBER_TO_SUM\"), RPAR, END, " +
-                "RKEY, " +
+                "IDENTIFIER(y), ASSIGN, IDENTIFIER(y), OPERATOR, FUNCTION, " +
+                "LPAR, STRING(\"NUMBER_TO_SUM\"), RPAR, END, RKEY, " +
                 "METHOD, LPAR, IDENTIFIER(x), OPERATOR, IDENTIFIER(y), RPAR, END]";
         String actualTokensString = listToString(actualTokens);
 
@@ -221,7 +230,8 @@ public class LexerTest {
 
         Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
-        String expectedTokensString = "[KEYWORD, IDENTIFIER(y), DECLARE, TYPE, END, KEYWORD, IDENTIFIER(x), DECLARE, TYPE, END]";
+        String expectedTokensString = "[KEYWORD, IDENTIFIER(y), DECLARE, TYPE, END, " +
+                "KEYWORD, IDENTIFIER(x), DECLARE, TYPE, END]";
         String actualTokensString = listToString(actualTokens);
 
         assertEquals(expectedTokensString, actualTokensString);
@@ -230,7 +240,7 @@ public class LexerTest {
     private String listToString(Iterator<Token> tokens) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        while (tokens.hasNext()){
+        while (tokens.hasNext()) {
             sb.append(tokens.next().toString());
             if (tokens.hasNext()) {
                 sb.append(", ");
