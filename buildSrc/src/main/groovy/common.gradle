@@ -56,6 +56,8 @@ ext {
         project.tasks.test {
             useJUnitPlatform()
             finalizedBy project.tasks.jacocoTestReport
+            environment "NAME", "Ignacio" // Reemplaza con las variables reales que necesites
+            environment "NUMBER_TO_SUM", 25
             jacocoTestReport {
                 reports {
                     xml.required = true

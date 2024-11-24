@@ -53,7 +53,7 @@ public class Lexer {
                     return new Token(entry.getValue(), tokenValue, line, column);
                 }
             }
-            if(isValidVariableName(tokenValue) && !forbidden.contains(tokenValue)) {
+            if (isValidVariableName(tokenValue) && !forbidden.contains(tokenValue)) {
                 return new Token("IDENTIFIER", tokenValue, line, column);
             }else {
                 throw new IllegalStateException("Unexpected value at line " + line + " ; column " + column);
