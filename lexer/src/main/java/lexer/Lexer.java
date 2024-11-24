@@ -43,7 +43,7 @@ public class Lexer {
         if (keywordMap.containsKey(tokenValue)) {
             Token token = new Token(keywordMap.get(tokenValue), tokenValue, line, column);
             column++;
-            if (Objects.equals(tokenValue, ";")){
+            if (Objects.equals(tokenValue, ";") || Objects.equals(tokenValue, "{")){
                 line++;
                 column = 1;
             }

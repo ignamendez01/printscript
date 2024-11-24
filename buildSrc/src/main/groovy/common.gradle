@@ -3,7 +3,7 @@ ext {
     checkstyleVersion = '7.8.1'
     junitVersion = '5.8.1'
     groupId = 'printscript'
-    publishVersion = '2.1.7'
+    publishVersion = '2.1.8'
 
     configurePlugins = { project ->
         project.plugins.apply 'java'
