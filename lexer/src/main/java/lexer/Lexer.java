@@ -5,9 +5,13 @@ import token.Token;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -17,41 +21,63 @@ public class Lexer {
     private final Map<String, String> keywordMap;
     private final Map<Pattern, String> regexMap;
     final String version;
+    private final List<String> forbidden;
+    int line = 1;
+    int column = 1;
 
     public Lexer(String version, Map<String, String> keywordMap, Map<Pattern, String> regexMap) {
         this.version = version;
         this.keywordMap = keywordMap;
         this.regexMap = regexMap;
+        this.forbidden = ForbiddenListFactory.getList(version);
     }
 
     public Iterator<Token> makeTokens(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        Iterator<String> lineIterator = reader.lines().iterator();
+        Iterator<String> lineIterator = TokenValueExtractor.extractTokenValues(version, reader.lines().iterator()).iterator();
 
         return new TokenIterator(lineIterator, this);
     }
 
     public Token mapToToken(String tokenValue) {
         if (keywordMap.containsKey(tokenValue)) {
-            return new Token(keywordMap.get(tokenValue), tokenValue);
+            if (Objects.equals(tokenValue, ";")){
+                column++;
+            }
+            Token token = new Token(keywordMap.get(tokenValue), tokenValue, line, column);
+            line++;
+            return token;
         } else {
             for (Map.Entry<Pattern, String> entry : regexMap.entrySet()) {
                 if (entry.getKey().matcher(tokenValue).matches()) {
-                    return new Token(entry.getValue(), tokenValue);
+                    return new Token(entry.getValue(), tokenValue, line, column);
                 }
             }
-            return isValidVariableName(tokenValue) ? new Token("IDENTIFIER", tokenValue) : new Token("UNKNOWN", tokenValue);
+            if(isValidVariableName(tokenValue) && !forbidden.contains(tokenValue)) {
+                return new Token("IDENTIFIER", tokenValue, line, column);
+            }else {
+                throw new IllegalStateException("Unexpected value at line " + line + " ; column " + column);
+            }
         }
     }
 
     private static boolean isValidVariableName(String s) {
         return s.matches("^[a-zA-Z_][a-zA-Z0-9_]*$");
     }
+
+    private static class ForbiddenListFactory {
+        public static List<String> getList(String version) {
+            if (Objects.equals(version, "1.0")) {
+                return Arrays.asList("const", "if", "else", "readEnv", "readInput");
+            } else {
+                return new ArrayList<>();
+            }
+        }
+    }
 }
 
 class TokenIterator implements Iterator<Token> {
     private final Iterator<String> lineIterator;
-    private Iterator<String> currentTokenIterator;
     private final Lexer lexer;
 
     public TokenIterator(Iterator<String> lineIterator, Lexer lexer) {
@@ -61,10 +87,7 @@ class TokenIterator implements Iterator<Token> {
 
     @Override
     public boolean hasNext() {
-        if (currentTokenIterator == null && lineIterator.hasNext()) {
-            currentTokenIterator = TokenValueExtractor.extractTokenValues(lexer.version, lineIterator).iterator();
-        }
-        return currentTokenIterator != null && currentTokenIterator.hasNext();
+        return lineIterator != null && lineIterator.hasNext();
     }
 
     @Override
@@ -72,7 +95,7 @@ class TokenIterator implements Iterator<Token> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        String tokenValue = currentTokenIterator.next();
+        String tokenValue = lineIterator.next();
         return lexer.mapToToken(tokenValue);
     }
 }

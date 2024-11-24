@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * el test del lexer.
@@ -211,16 +212,23 @@ public class LexerTest {
     }
 
     @Test
-    void test_Unknown() {
+    void test_Unknown_symbol() {
         String example = "heyWorld = !;";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
         Iterator<Token> actualTokens = lexer.makeTokens(stream);
 
-        String expectedTokensString = "[IDENTIFIER(heyWorld), ASSIGN, UNKNOWN, END]";
-        String actualTokensString = listToString(actualTokens);
+        assertThrows(IllegalStateException.class, () -> listToString(actualTokens));
+    }
 
-        assertEquals(expectedTokensString, actualTokensString);
+    @Test
+    void test_Unknown_word() {
+        String example = "const x : string = 'Hola';";
+        InputStream stream = new ByteArrayInputStream(example.getBytes());
+
+        Iterator<Token> actualTokens = lexer.makeTokens(stream);
+
+        assertThrows(IllegalStateException.class, () -> listToString(actualTokens));
     }
 
     @Test

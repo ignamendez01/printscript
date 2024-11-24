@@ -27,11 +27,7 @@ public class TokenValueExtractor {
             }
         }
 
-        List<String> polishedTokens = polishValues(tokens);
-        checkValues(version, polishedTokens);
-
-        // Devolvemos un iterador y liberamos la memoria de la lista
-        return polishedTokens;
+        return polishValues(tokens);
     }
 
     private static List<String> polishValues(List<String> tokens) {
@@ -52,25 +48,6 @@ public class TokenValueExtractor {
             polishedTokens.add(token);
         }
         return polishedTokens;
-    }
-
-    private static void checkValues(String version, List<String> values) {
-        if (Objects.equals(version, "1.0")) {
-            if (values.stream().anyMatch(token -> "const".equals(token) ||
-                    "if".equals(token))) {
-                throw new RuntimeException("This version doesn't allow this keyword");
-            }
-            if (!values.getLast().equals(";")) {
-                throw new RuntimeException("line must end with a ;");
-            }
-        } else {
-            if (values.stream().noneMatch(token -> "}".equals(token) ||
-                    "if".equals(token))) {
-                if (!values.getLast().equals(";")) {
-                    throw new RuntimeException("line must end with a ;");
-                }
-            }
-        }
     }
 }
 
