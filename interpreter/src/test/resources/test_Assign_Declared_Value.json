@@ -1,0 +1,23 @@
+[
+  {
+    "type": "Declaration",
+    "identifier": "a",
+    "classType": "string"
+  },
+  {
+    "type": "SimpleAssignation",
+    "identifier": "a",
+    "value": {
+      "type": "StringOperator",
+      "value": "Hello"
+    }
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "IdentifierOperator",
+      "identifier": "a"
+    }
+  }
+]

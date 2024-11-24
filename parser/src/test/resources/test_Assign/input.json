@@ -1,0 +1,7 @@
+[
+  { "type": "IDENTIFIER", "value": "x", "line": 1, "column": 1 },
+  { "type": "ASSIGN", "value": "=", "line": 1, "column": 2 },
+  { "type": "STRING", "value": "'String'", "line": 1, "column": 3 },
+  { "type": "END", "value": ";", "line": 1, "column": 4 }
+]
+

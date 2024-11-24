@@ -1,0 +1,15 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "result",
+      "classType": "string"
+    },
+    "value": {
+      "type": "Function",
+      "name": "readEnv",
+      "message": "MAESTRO"
+    }
+  }
+]

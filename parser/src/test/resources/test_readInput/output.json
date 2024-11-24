@@ -1,0 +1,19 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "x",
+      "classType": "string"
+    },
+    "value": {
+      "type": "Function",
+      "name": "readInput",
+      "message": "País favorito"
+    },
+    "isConst": false
+  }
+]
+
+
+

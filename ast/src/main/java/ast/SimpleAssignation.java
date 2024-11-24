@@ -2,15 +2,23 @@ package ast;
 
 import ast.interfaces.Assignation;
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 
 /**
  * Representa una asignación.
  */
+@JsonTypeName("SimpleAssignation")
 public class SimpleAssignation implements Assignation {
-    private final String identifier;
-    private final ValueNode value;
+    @JsonProperty("identifier")
+    private String identifier;
+    @JsonProperty("value")
+    private ValueNode value;
+
+    public SimpleAssignation() {
+    }
 
     public SimpleAssignation(String identifier, ValueNode value) {
         this.identifier = identifier;

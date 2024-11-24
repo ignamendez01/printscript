@@ -1,0 +1,54 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "result",
+      "classType": "number"
+    },
+    "value": {
+      "type": "BinaryOperation",
+      "left": {
+        "type": "BinaryOperation",
+        "left": {
+          "type": "NumberOperator",
+          "value": 5
+        },
+        "symbol": "+",
+        "right": {
+          "type": "BinaryOperation",
+          "left": {
+            "type": "NumberOperator",
+            "value": 5
+          },
+          "symbol": "*",
+          "right": {
+            "type": "NumberOperator",
+            "value": 10
+          }
+        }
+      },
+      "symbol": "-",
+      "right": {
+        "type": "BinaryOperation",
+        "left": {
+          "type": "NumberOperator",
+          "value": 2
+        },
+        "symbol": "/",
+        "right": {
+          "type": "NumberOperator",
+          "value": 2
+        }
+      }
+    }
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "IdentifierOperator",
+      "identifier": "result"
+    }
+  }
+]

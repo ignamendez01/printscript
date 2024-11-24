@@ -1,14 +1,21 @@
 package ast;
 
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 
 /**
  * Representa un string.
  */
+@JsonTypeName("StringOperator")
 public class StringOperator implements ValueNode {
-    private final String value;
+    @JsonProperty("value")
+    private String value;
+
+    public StringOperator() {
+    }
 
     public StringOperator(String value) {
         this.value = value;

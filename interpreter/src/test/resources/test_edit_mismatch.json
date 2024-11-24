@@ -1,0 +1,22 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "result",
+      "classType": "number"
+    },
+    "value": {
+      "type": "NumberOperator",
+      "value": 15
+    }
+  },
+  {
+    "type": "SimpleAssignation",
+    "identifier": "result",
+    "value": {
+      "type": "StringOperator",
+      "value": "Match"
+    }
+  }
+]

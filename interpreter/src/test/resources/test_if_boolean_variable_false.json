@@ -1,0 +1,54 @@
+[
+  {
+    "type": "Declaration",
+    "identifier": "result",
+    "classType": "number"
+  },
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "variable",
+      "classType": "boolean"
+    },
+    "value": {
+      "type": "BooleanOperator",
+      "value": false
+    }
+  },
+  {
+    "type": "Conditional",
+    "operator": {
+      "type": "IdentifierOperator",
+      "identifier": "variable"
+    },
+    "trueBranch": [
+      {
+        "type": "SimpleAssignation",
+        "identifier": "result",
+        "value": {
+          "type": "NumberOperator",
+          "value": 12
+        }
+      }
+    ],
+    "falseBranch": [
+      {
+        "type": "SimpleAssignation",
+        "identifier": "result",
+        "value": {
+          "type": "NumberOperator",
+          "value": 14
+        }
+      }
+    ]
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "IdentifierOperator",
+      "identifier": "result"
+    }
+  }
+]

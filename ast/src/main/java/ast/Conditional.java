@@ -2,6 +2,8 @@ package ast;
 
 import ast.interfaces.ASTNode;
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.List;
 import java.util.Objects;
@@ -9,10 +11,17 @@ import java.util.Objects;
 /**
  * Representa una operación if-else.
  */
+@JsonTypeName("Conditional")
 public class Conditional implements ASTNode {
-    private final ValueNode operator;
-    private final List<ASTNode> trueBranch;
-    private final List<ASTNode> falseBranch;
+    @JsonProperty("operator")
+    private ValueNode operator;
+    @JsonProperty("trueBranch")
+    private List<ASTNode> trueBranch;
+    @JsonProperty("falseBranch")
+    private List<ASTNode> falseBranch;
+
+    public Conditional() {
+    }
 
     public Conditional(ValueNode operator, List<ASTNode> trueBranch, List<ASTNode> falseBranch) {
         this.operator = operator;

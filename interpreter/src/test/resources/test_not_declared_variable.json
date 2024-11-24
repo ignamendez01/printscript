@@ -1,0 +1,10 @@
+[
+  {
+    "type": "SimpleAssignation",
+    "identifier": "result",
+    "value": {
+      "type": "StringOperator",
+      "value": "Match"
+    }
+  }
+]

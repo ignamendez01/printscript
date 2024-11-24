@@ -1,0 +1,19 @@
+[
+  {
+    "type": "Declaration",
+    "identifier": "result",
+    "classType": "number"
+  },
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "result",
+      "classType": "boolean"
+    },
+    "value": {
+      "type": "BooleanOperator",
+      "value": true
+    }
+  }
+]

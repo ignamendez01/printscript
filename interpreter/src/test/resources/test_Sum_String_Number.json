@@ -1,0 +1,30 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "a",
+      "classType": "string"
+    },
+    "value": {
+      "type": "BinaryOperation",
+      "left": {
+        "type": "StringOperator",
+        "value": "Hello"
+      },
+      "symbol": "+",
+      "right": {
+        "type": "NumberOperator",
+        "value": 5
+      }
+    }
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "IdentifierOperator",
+      "identifier": "a"
+    }
+  }
+]

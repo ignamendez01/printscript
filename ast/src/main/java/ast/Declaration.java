@@ -1,27 +1,35 @@
 package ast;
 
 import ast.interfaces.ASTNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 
 /**
  * Representa una declaración.
  */
+@JsonTypeName("Declaration")
 public class Declaration implements ASTNode {
-    private final String identifier;
-    private final String type;
+    @JsonProperty("identifier")
+    private String identifier;
+    @JsonProperty("classType")
+    private String classType;
 
-    public Declaration(String identifier, String type) {
+    public Declaration() {
+    }
+
+    public Declaration(String identifier, String classType) {
         this.identifier = identifier;
-        this.type = type;
+        this.classType = classType;
     }
 
     public String getIdentifier() {
         return identifier;
     }
 
-    public String getType() {
-        return type;
+    public String getClassType() {
+        return classType;
     }
 
     @Override
@@ -34,12 +42,12 @@ public class Declaration implements ASTNode {
         }
         Declaration that = (Declaration) o;
         return Objects.equals(identifier, that.identifier)
-                && Objects.equals(type, that.type);
+                && Objects.equals(classType, that.classType);
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(identifier, type);
+        return Objects.hash(identifier, classType);
     }
 }

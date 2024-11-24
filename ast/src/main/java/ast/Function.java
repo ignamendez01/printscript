@@ -1,15 +1,23 @@
 package ast;
 
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 
 /**
  * Representa una función.
  */
+@JsonTypeName("Function")
 public class Function implements ValueNode {
-    private final String name;
-    private final String message;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("message")
+    private String message;
+
+    public Function() {
+    }
 
     public Function(String name, String message) {
         this.name = name;

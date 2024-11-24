@@ -2,16 +2,25 @@ package ast;
 
 import ast.interfaces.ASTNode;
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 
 /**
  * Representa una declaración y asignación.
  */
+@JsonTypeName("DeclarationAssignation")
 public class DeclarationAssignation implements ASTNode {
-    private final Declaration declaration;
-    private final ValueNode value;
-    private final boolean isConst;
+    @JsonProperty("declaration")
+    private Declaration declaration;
+    @JsonProperty("value")
+    private ValueNode value;
+    @JsonProperty("isConst")
+    private boolean isConst;
+
+    public DeclarationAssignation() {
+    }
 
     public DeclarationAssignation(Declaration declaration, ValueNode value) {
         this.declaration = declaration;

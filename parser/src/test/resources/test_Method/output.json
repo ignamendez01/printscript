@@ -1,0 +1,11 @@
+[
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "StringOperator",
+      "value": "Hello World"
+    }
+  }
+]
+

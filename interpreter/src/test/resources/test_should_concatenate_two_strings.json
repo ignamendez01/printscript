@@ -1,0 +1,54 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "a",
+      "classType": "string"
+    },
+    "value": {
+      "type": "StringOperator",
+      "value": "Hello"
+    }
+  },
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "b",
+      "classType": "string"
+    },
+    "value": {
+      "type": "StringOperator",
+      "value": " World"
+    }
+  },
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "c",
+      "classType": "string"
+    },
+    "value": {
+      "type": "BinaryOperation",
+      "left": {
+        "type": "IdentifierOperator",
+        "identifier": "a"
+      },
+      "symbol": "+",
+      "right": {
+        "type": "IdentifierOperator",
+        "identifier": "b"
+      }
+    }
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "IdentifierOperator",
+      "identifier": "c"
+    }
+  }
+]

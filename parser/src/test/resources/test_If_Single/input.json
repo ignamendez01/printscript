@@ -1,0 +1,21 @@
+[
+  { "type": "IF", "value": "if", "line": 1, "column": 1 },
+  { "type": "LPAR", "value": "(", "line": 1, "column": 2 },
+  { "type": "BOOLEAN", "value": "true", "line": 1, "column": 3 },
+  { "type": "RPAR", "value": ")", "line": 1, "column": 4 },
+  { "type": "LKEY", "value": "{", "line": 1, "column": 5 },
+  { "type": "METHOD", "value": "println", "line": 2, "column": 1 },
+  { "type": "LPAR", "value": "(", "line": 2, "column": 2 },
+  { "type": "STRING", "value": "\"Hello World\"", "line": 2, "column": 3 },
+  { "type": "RPAR", "value": ")", "line": 2, "column": 4 },
+  { "type": "END", "value": ";", "line": 2, "column": 5 },
+  { "type": "RKEY", "value": "}", "line": 3, "column": 1 },
+  { "type": "METHOD", "value": "println", "line": 4, "column": 1 },
+  { "type": "LPAR", "value": "(", "line": 4, "column": 2 },
+  { "type": "NUMBER", "value": "1", "line": 4, "column": 3 },
+  { "type": "RPAR", "value": ")", "line": 4, "column": 4 },
+  { "type": "END", "value": ";", "line": 4, "column": 5 }
+]
+
+
+

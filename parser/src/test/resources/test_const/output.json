@@ -1,0 +1,16 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "x",
+      "classType": "string"
+    },
+    "value": {
+      "type": "StringOperator",
+      "value": "Hello"
+    },
+    "isConst": true
+  }
+]
+

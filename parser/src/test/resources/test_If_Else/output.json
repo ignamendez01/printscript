@@ -1,0 +1,37 @@
+[
+  {
+    "type": "Conditional",
+    "operator": {
+      "type": "BooleanOperator",
+      "value": true
+    },
+    "trueBranch": [
+      {
+        "type": "Method",
+        "identifier": "println",
+        "value": {
+          "type": "StringOperator",
+          "value": "Hello World"
+        }
+      }
+    ],
+    "falseBranch": [
+      {
+        "type": "Method",
+        "identifier": "println",
+        "value": {
+          "type": "StringOperator",
+          "value": "Bye World"
+        }
+      }
+    ]
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "NumberOperator",
+      "value": 1
+    }
+  }
+]

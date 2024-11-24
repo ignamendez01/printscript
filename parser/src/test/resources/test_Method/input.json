@@ -1,0 +1,7 @@
+[
+  {"type": "METHOD", "value": "println", "line": 1, "column": 1},
+  {"type": "LPAR", "value": "(", "line": 1, "column": 2},
+  {"type": "STRING", "value": "\"Hello World\"", "line": 1, "column": 3},
+  {"type": "RPAR", "value": ")", "line": 1, "column": 4},
+  {"type": "END", "value": ";", "line": 1, "column": 5}
+]

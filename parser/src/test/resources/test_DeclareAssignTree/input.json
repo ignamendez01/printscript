@@ -1,0 +1,19 @@
+[
+  { "type": "KEYWORD", "value": "let", "line": 1, "column": 1 },
+  { "type": "IDENTIFIER", "value": "a", "line": 1, "column": 2 },
+  { "type": "DECLARE", "value": ":", "line": 1, "column": 3 },
+  { "type": "TYPE", "value": "number", "line": 1, "column": 4 },
+  { "type": "ASSIGN", "value": "=", "line": 1, "column": 5 },
+  { "type": "NUMBER", "value": "5", "line": 1, "column": 6 },
+  { "type": "OPERATOR", "value": "*", "line": 1, "column": 7 },
+  { "type": "NUMBER", "value": "5", "line": 1, "column": 8 },
+  { "type": "OPERATOR", "value": "-", "line": 1, "column": 9 },
+  { "type": "NUMBER", "value": "8", "line": 1, "column": 10 },
+  { "type": "OPERATOR", "value": "/", "line": 1, "column": 11 },
+  { "type": "NUMBER", "value": "4", "line": 1, "column": 12 },
+  { "type": "OPERATOR", "value": "+", "line": 1, "column": 13 },
+  { "type": "NUMBER", "value": "2", "line": 1, "column": 14 },
+  { "type": "END", "value": ";", "line": 1, "column": 15 }
+]
+
+

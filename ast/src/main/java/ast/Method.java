@@ -1,15 +1,23 @@
 package ast;
 
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 
 /**
  * Representa un metodo.
  */
+@JsonTypeName("Method")
 public class Method implements ValueNode {
-    private final String identifier;
-    private final ValueNode value;
+    @JsonProperty("identifier")
+    private String identifier;
+    @JsonProperty("value")
+    private ValueNode value;
+
+    public Method() {
+    }
 
     public Method(String identifier, ValueNode value) {
         this.identifier = identifier;

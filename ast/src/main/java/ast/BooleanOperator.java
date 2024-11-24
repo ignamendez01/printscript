@@ -1,14 +1,21 @@
 package ast;
 
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 
 /**
  * Representa un elemento de tipo booleano.
  */
+@JsonTypeName("BooleanOperator")
 public class BooleanOperator implements ValueNode {
-    private final boolean value;
+    @JsonProperty("value")
+    private boolean value;
+
+    public BooleanOperator() {
+    }
 
     public BooleanOperator(boolean value) {
         this.value = value;

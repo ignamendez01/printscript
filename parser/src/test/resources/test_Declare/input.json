@@ -1,0 +1,8 @@
+[
+  { "type": "KEYWORD", "value": "let", "line": 1, "column": 1 },
+  { "type": "IDENTIFIER", "value": "x", "line": 1, "column": 2 },
+  { "type": "DECLARE", "value": ":", "line": 1, "column": 3 },
+  { "type": "TYPE", "value": "number", "line": 1, "column": 4 },
+  { "type": "END", "value": ";", "line": 1, "column": 5 }
+]
+

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "result",
+      "classType": "number"
+    },
+    "value": {
+      "type": "NumberOperator",
+      "value": 13
+    },
+    "isConst": true
+  },
+  {
+    "type": "SimpleAssignation",
+    "identifier": "result",
+    "value": {
+      "type": "NumberOperator",
+      "value": 14
+    }
+  }
+]

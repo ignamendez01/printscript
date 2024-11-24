@@ -19,7 +19,7 @@ public class DeclarationAssignationInterpreter implements InterpreterTypes<Decla
             VariableResponse response =
                     (VariableResponse) valueInterpreter.interpret(astNode.getValue(), administrator);
             administrator.addVariable(astNode.getDeclaration().getIdentifier(),
-                    astNode.getDeclaration().getType(), astNode.isConst(), response);
+                    astNode.getDeclaration().getClassType(), astNode.isConst(), response);
             return new SuccessResponse("Variable " + astNode.getDeclaration().getIdentifier() +
                     " was declared with value " + response.value());
         } catch (Exception e) {

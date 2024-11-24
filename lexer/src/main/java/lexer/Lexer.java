@@ -41,11 +41,12 @@ public class Lexer {
 
     public Token mapToToken(String tokenValue) {
         if (keywordMap.containsKey(tokenValue)) {
-            if (Objects.equals(tokenValue, ";")){
-                column++;
-            }
             Token token = new Token(keywordMap.get(tokenValue), tokenValue, line, column);
-            line++;
+            column++;
+            if (Objects.equals(tokenValue, ";")){
+                line++;
+                column = 1;
+            }
             return token;
         } else {
             for (Map.Entry<Pattern, String> entry : regexMap.entrySet()) {

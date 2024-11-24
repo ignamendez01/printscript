@@ -1,0 +1,23 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "result",
+      "classType": "string"
+    },
+    "value": {
+      "type": "Function",
+      "name": "readEnv",
+      "message": "NAME"
+    }
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "IdentifierOperator",
+      "identifier": "result"
+    }
+  }
+]

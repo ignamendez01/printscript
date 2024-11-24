@@ -223,7 +223,7 @@ public class LexerTest {
 
     @Test
     void test_Unknown_word() {
-        String example = "const x : string = 'Hola';";
+        String example = "let x : const = 'Hola';";
         InputStream stream = new ByteArrayInputStream(example.getBytes());
 
         Iterator<Token> actualTokens = lexer.makeTokens(stream);

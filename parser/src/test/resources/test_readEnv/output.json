@@ -1,0 +1,18 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "x",
+      "classType": "string"
+    },
+    "value": {
+      "type": "Function",
+      "name": "readEnv",
+      "message": "VARIABLE_KEY"
+    },
+    "isConst": true
+  }
+]
+
+

@@ -9,7 +9,7 @@ configurePublishing(this, "parser")
 dependencies {
     implementation project(':token')
     implementation project(':ast')
-    testImplementation project(":lexer")
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }

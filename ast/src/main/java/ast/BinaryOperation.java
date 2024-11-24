@@ -1,15 +1,24 @@
 package ast;
 
 import ast.interfaces.ValueNode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.Objects;
 /**
  * Representa una operación binaria que toma dos valores y un operador (por ejemplo, +, -, *, /).
  */
+@JsonTypeName("BinaryOperation")
 public class BinaryOperation implements ValueNode {
-    private final ValueNode left;
-    private final String symbol;
-    private final ValueNode right;
+    @JsonProperty("left")
+    private ValueNode left;
+    @JsonProperty("symbol")
+    private String symbol;
+    @JsonProperty("right")
+    private ValueNode right;
+
+    public BinaryOperation() {
+    }
 
     public BinaryOperation(ValueNode left, String symbol, ValueNode right) {
         this.left = left;

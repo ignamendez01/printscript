@@ -1,0 +1,9 @@
+[
+  {"type": "KEYWORD", "value": "const", "line": 1, "column": 1},
+  {"type": "IDENTIFIER", "value": "x", "line": 1, "column": 2},
+  {"type": "DECLARE", "value": ":", "line": 1, "column": 3},
+  {"type": "TYPE", "value": "string", "line": 1, "column": 4},
+  {"type": "ASSIGN", "value": "=", "line": 1, "column": 5},
+  {"type": "STRING", "value": "'Hello'", "line": 1, "column": 6},
+  {"type": "END", "value": ";", "line": 1, "column": 7}
+]

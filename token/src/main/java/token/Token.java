@@ -1,10 +1,13 @@
 package token;
 
 public class Token {
-    private final String type;
-    private final String value;
-    private final int line;
-    private final int column;
+    private String type;
+    private String value;
+    private int line;
+    private int column;
+
+    public Token() {
+    }
 
     public Token(String type, String value, int line, int column) {
         this.type = type;

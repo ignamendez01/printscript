@@ -1,0 +1,114 @@
+[
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "x",
+      "classType": "string"
+    },
+    "value": {
+      "type": "StringOperator",
+      "value": "Value "
+    },
+    "isConst": true
+  },
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "y",
+      "classType": "number"
+    },
+    "value": {
+      "type": "NumberOperator",
+      "value": 5
+    }
+  },
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "z",
+      "classType": "boolean"
+    },
+    "value": {
+      "type": "BooleanOperator",
+      "value": true
+    },
+    "isConst": true
+  },
+  {
+    "type": "DeclarationAssignation",
+    "declaration": {
+      "type": "Declaration",
+      "identifier": "w",
+      "classType": "number"
+    },
+    "value": {
+      "type": "Function",
+      "name": "readInput",
+      "message": "Value to multiply"
+    },
+    "isConst": true
+  },
+  {
+    "type": "Conditional",
+    "operator": {
+      "type": "IdentifierOperator",
+      "identifier": "z"
+    },
+    "trueBranch": [
+      {
+        "type": "SimpleAssignation",
+        "identifier": "y",
+        "value": {
+          "type": "BinaryOperation",
+          "left": {
+            "type": "IdentifierOperator",
+            "identifier": "y"
+          },
+          "symbol": "*",
+          "right": {
+            "type": "IdentifierOperator",
+            "identifier": "w"
+          }
+        }
+      }
+    ],
+    "falseBranch": [
+      {
+        "type": "SimpleAssignation",
+        "identifier": "y",
+        "value": {
+          "type": "BinaryOperation",
+          "left": {
+            "type": "IdentifierOperator",
+            "identifier": "y"
+          },
+          "symbol": "+",
+          "right": {
+            "type": "Function",
+            "name": "readEnv",
+            "message": "NUMBER_TO_SUM"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Method",
+    "identifier": "println",
+    "value": {
+      "type": "BinaryOperation",
+      "left": {
+        "type": "IdentifierOperator",
+        "identifier": "x"
+      },
+      "symbol": "+",
+      "right": {
+        "type": "IdentifierOperator",
+        "identifier": "y"
+      }
+    }
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "SimpleAssignation",
+    "identifier": "x",
+    "value": {
+      "type": "StringOperator",
+      "value": "String"
+    }
+  }
+]
+
+
