@@ -1,6 +1,7 @@
 import interpreter.Administrator;
 import interpreter.Interpreter;
 import interpreter.InterpreterFactory;
+import interpreter.response.ErrorResponse;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.SuccessResponse;
 import lexer.Lexer;
@@ -217,6 +218,44 @@ public class InterpreterTest {
     }
 
     @Test
+    public void test_if_boolean_variable_true() throws Exception {
+        String text =
+                "let result : number;" +
+                        "let variable : boolean = true;" +
+                        "if(variable){" +
+                        "result = 12;" +
+                        "} else {" +
+                        "result = 14;" +
+                        "}" +
+                        "println(result);";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("12", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_if_boolean_variable_false() throws Exception {
+        String text =
+                "let result : number;" +
+                        "let variable : boolean = false;" +
+                        "if(variable){" +
+                        "result = 12;" +
+                        "} else {" +
+                        "result = 14;" +
+                        "}" +
+                        "println(result);";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(SuccessResponse.class, result);
+        assertEquals("14", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
     public void test_readInput() throws Exception {
         String text = "let result : number = readInput('Insert a number: ');" +
                 "println(result);";
@@ -260,6 +299,81 @@ public class InterpreterTest {
         assertInstanceOf(SuccessResponse.class, result);
         assertEquals("Value to multiply", interpreter1.getAdmin().getPrintedElements().poll());
         assertEquals("Value 25", interpreter1.getAdmin().getPrintedElements().poll());
+    }
+
+    @Test
+    public void test_declare_already_declared() throws Exception {
+        String text =
+                "let result : number;" +
+                        "let result : boolean = true;";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(ErrorResponse.class, result);
+        assertEquals("Variable result already declared", ((ErrorResponse) result).message());
+    }
+
+    @Test
+    public void test_edit_const() throws Exception {
+        String text =
+                "const result : number = 15;" +
+                        "result = 13;";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(ErrorResponse.class, result);
+        assertEquals("Variable result is const", ((ErrorResponse) result).message());
+    }
+
+    @Test
+    public void test_mismatch() throws Exception {
+        String text =
+                "const result : number = true;";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(ErrorResponse.class, result);
+        assertEquals("Type mismatch in variable result assignment", ((ErrorResponse) result).message());
+    }
+
+    @Test
+    public void test_edit_mismatch() throws Exception {
+        String text =
+                "let result : number = 15;" +
+                        "result = 'Match';";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(ErrorResponse.class, result);
+        assertEquals("Variable result is not type String", ((ErrorResponse) result).message());
+    }
+
+    @Test
+    public void test_not_declared_variable() throws Exception {
+        String text =
+                "result = 15;";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(ErrorResponse.class, result);
+        assertEquals("Variable result not declared", ((ErrorResponse) result).message());
+    }
+
+    @Test
+    public void test_unknown_env_variable() throws Exception {
+        String text =
+                "let result : number = readEnv('MAESTRO');";
+
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+
+        InterpreterResponse result = interpreter1.interpretAST(parser1.generateAST(lexer1.makeTokens(stream)));
+        assertInstanceOf(ErrorResponse.class, result);
+        assertEquals("Environment variable MAESTRO does not exist", ((ErrorResponse) result).message());
     }
 
 }

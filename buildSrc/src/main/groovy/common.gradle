@@ -1,0 +1,67 @@
+ext {
+    javaVersion = JavaVersion.VERSION_17 // Cambia esto si necesitas otra versión
+    checkstyleVersion = '7.8.1'
+    junitVersion = '5.8.1'
+    groupId = 'printscript'
+    version = '2.1.5'
+
+    configurePlugins = { project ->
+        project.plugins.apply 'java'
+        project.plugins.apply 'maven-publish'
+        project.plugins.apply 'jacoco'
+        project.plugins.apply 'checkstyle'
+    }
+
+    configureRepositories = { project ->
+        project.repositories {
+            mavenCentral()
+        }
+    }
+
+    configureCheckstyle = { project ->
+        project.checkstyle {
+            toolVersion = checkstyleVersion
+            configFile = project.file("${project.rootDir}/buildSrc/checkstyle.xml")  // Actualiza la ruta al nuevo archivo
+        }
+        project.tasks.withType(Checkstyle) {
+            source = 'src/main/java'
+        }
+    }
+
+    configurePublishing = { project, artifactId ->
+        project.publishing {
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/ignamendez01/printscript")
+                    credentials {
+                        username = System.getenv('GITHUB_ACTOR') ?: 'defaultUser'
+                        password = System.getenv('GITHUB_TOKEN') ?: 'defaultToken'
+                    }
+                }
+            }
+            publications {
+                mavenJava(MavenPublication) {
+                    from project.components.java
+
+                    groupId = groupId
+                    artifactId = artifactId
+                    version = version
+                }
+            }
+        }
+    }
+
+    configureTesting = { project ->
+        project.tasks.test {
+            useJUnitPlatform()
+            finalizedBy project.tasks.jacocoTestReport
+            jacocoTestReport {
+                reports {
+                    xml.required = true
+                    html.required = true
+                }
+            }
+        }
+    }
+}

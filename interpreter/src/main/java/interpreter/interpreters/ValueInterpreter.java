@@ -7,28 +7,33 @@ import interpreter.VariableData;
 import interpreter.response.InterpreterResponse;
 import interpreter.response.VariableResponse;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ValueInterpreter implements InterpreterTypes<ValueNode> {
 
     @Override
     public InterpreterResponse interpret(ValueNode astNode, Administrator administrator) throws Exception {
-        switch (astNode) {
-            case StringOperator stringOperator:
-                return new VariableResponse("String", stringOperator.getValue());
-            case NumberOperator numberOperator:
-                return new VariableResponse("Number", numberOperator.getValue().toString());
-            case BooleanOperator booleanOperator:
-                return new VariableResponse("Boolean", booleanOperator.getValue().toString());
-            case IdentifierOperator identifierOperator:
-                return interpretIdentifierOperator(identifierOperator, administrator);
-            case Function function:
-                return interpretFunction(function, administrator);
-            case BinaryOperation binaryOperation:
-                return interpretBinaryOperation(binaryOperation, administrator);
-            default :
-                assert astNode != null;
-                throw new IllegalArgumentException("Unexpected node type: " + astNode.getClass().getSimpleName());
+        if (astNode instanceof StringOperator) {
+            StringOperator stringOperator = (StringOperator) astNode;
+            return new VariableResponse("String", stringOperator.getValue());
+        } else if (astNode instanceof NumberOperator) {
+            NumberOperator numberOperator = (NumberOperator) astNode;
+            return new VariableResponse("Number", numberOperator.getValue().toString());
+        } else if (astNode instanceof BooleanOperator) {
+            BooleanOperator booleanOperator = (BooleanOperator) astNode;
+            return new VariableResponse("Boolean", booleanOperator.getValue().toString());
+        } else if (astNode instanceof IdentifierOperator) {
+            IdentifierOperator identifierOperator = (IdentifierOperator) astNode;
+            return interpretIdentifierOperator(identifierOperator, administrator);
+        } else if (astNode instanceof Function) {
+            Function function = (Function) astNode;
+            return interpretFunction(function, administrator);
+        } else if (astNode instanceof BinaryOperation) {
+            BinaryOperation binaryOperation = (BinaryOperation) astNode;
+            return interpretBinaryOperation(binaryOperation, administrator);
+        } else {
+            throw new IllegalArgumentException("Unexpected node type: " + astNode.getClass().getSimpleName());
         }
     }
 
@@ -39,11 +44,13 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode> {
     }
 
     private InterpreterResponse interpretFunction(Function functionNode, Administrator administrator) {
-        return switch (functionNode.getName()) {
-            case "readEnv" -> readEnvVariable(functionNode);
-            case "readInput" -> readInputMessage(functionNode, administrator);
-            default -> throw new IllegalArgumentException("Unsupported method: " + functionNode.getName());
-        };
+        if (Objects.equals(functionNode.getName(), "readEnv")) {
+            return readEnvVariable(functionNode);
+        } else if (Objects.equals(functionNode.getName(), "readInput")) {
+            return readInputMessage(functionNode, administrator);
+        } else {
+            throw new IllegalArgumentException("Unsupported method: " + functionNode.getName());
+        }
     }
 
     private InterpreterResponse readInputMessage(Function functionNode, Administrator administrator) {
@@ -69,13 +76,17 @@ public class ValueInterpreter implements InterpreterTypes<ValueNode> {
         String left = ((VariableResponse) interpret(binaryOperation.getLeft(), administrator)).value();
         String right = ((VariableResponse) interpret(binaryOperation.getRight(), administrator)).value();
 
-        return switch (binaryOperation.getSymbol()) {
-            case "+" -> handleAddition(left, right);
-            case "-" -> handleSubtraction(left, right);
-            case "*" -> handleMultiplication(left, right);
-            case "/" -> handleDivision(left, right);
-            default -> throw new IllegalArgumentException(binaryOperation.getSymbol() + " is not a valid operation");
-        };
+        if (Objects.equals(binaryOperation.getSymbol(), "+")){
+            return handleAddition(left, right);
+        } else if (Objects.equals(binaryOperation.getSymbol(), "-")){
+            return handleSubtraction(left, right);
+        } else if (Objects.equals(binaryOperation.getSymbol(), "*")){
+            return handleMultiplication(left, right);
+        } else if (Objects.equals(binaryOperation.getSymbol(), "/")){
+            return handleDivision(left, right);
+        } else {
+            throw new IllegalArgumentException(binaryOperation.getSymbol() + " is not a valid operation");
+        }
     }
 
     private VariableResponse handleAddition(String left, String right) {

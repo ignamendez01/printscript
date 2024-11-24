@@ -19,11 +19,10 @@ public class Token {
 
     @Override
     public String toString() {
-        switch (type) {
-            case "STRING", "NUMBER", "IDENTIFIER", "BOOLEAN":
-                return type + "(" + value + ")";
-            default:
-                return type;
+        if (type.equals("STRING") || type.equals("NUMBER") || type.equals("IDENTIFIER") || type.equals("BOOLEAN")) {
+            return type + "(" + value + ")";
+        } else {
+            return type;
         }
     }
 }

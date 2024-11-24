@@ -49,14 +49,20 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
 
         for (int i = 0; i < reorganizedTokens.size(); i++) {
             Token token = reorganizedTokens.get(i);
-            switch (token.getType()) {
-                case "NUMBER" -> handleNumber(token, nodeStack);
-                case "STRING" -> nodeStack.addLast(new StringOperator(removeQuotes(token.getValue())));
-                case "IDENTIFIER" -> nodeStack.addLast(new IdentifierOperator(token.getValue()));
-                case "BOOLEAN" -> handleBoolean(token, nodeStack);
-                case "OPERATOR" -> handleOperator(token, nodeStack);
-                case "FUNCTION" -> handleFunction(token, reorganizedTokens, nodeStack);
-                default -> throw new RuntimeException("Unexpected token type: " + token.getType());
+            if (Objects.equals(token.getType(), "NUMBER")){
+                handleNumber(token, nodeStack);
+            } else if (Objects.equals(token.getType(), "STRING")){
+                nodeStack.addLast(new StringOperator(removeQuotes(token.getValue())));
+            } else if (Objects.equals(token.getType(), "IDENTIFIER")){
+                nodeStack.addLast(new IdentifierOperator(token.getValue()));
+            } else if (Objects.equals(token.getType(), "BOOLEAN")){
+                handleBoolean(token, nodeStack);
+            } else if (Objects.equals(token.getType(), "OPERATOR")){
+                handleOperator(token, nodeStack);
+            } else if (Objects.equals(token.getType(), "FUNCTION")){
+                handleFunction(token, reorganizedTokens, nodeStack);
+            } else {
+                throw new RuntimeException("Unexpected token type: " + token.getType());
             }
         }
 
@@ -96,7 +102,7 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
     private void handleFunction(Token token, List<Token> reorganizedTokens, Deque<ValueNode> nodeStack) {
         String functionName = token.getValue();
         int i = reorganizedTokens.indexOf(token);
-        Token argumentToken = reorganizedTokens.get(i+1);
+        Token argumentToken = reorganizedTokens.get(i + 1);
         reorganizedTokens.remove(argumentToken);
         String argumentValue = removeQuotes(argumentToken.getValue());
         nodeStack.addLast(new Function(functionName, argumentValue));
@@ -111,12 +117,18 @@ public class ValueASTBuilder implements ASTBuilder<ValueNode> {
         Deque<Token> operatorStack = new ArrayDeque<>();
 
         for (Token token : tokens) {
-            switch (token.getType()) {
-                case "NUMBER", "STRING", "IDENTIFIER", "BOOLEAN", "FUNCTION" -> outputList.add(token);
-                case "OPERATOR" -> processOperator(token, operatorStack, outputList);
-                case "LPAR" -> operatorStack.add(token);
-                case "RPAR" -> processParenthesis(operatorStack, outputList);
-                default -> throw new RuntimeException("Unexpected token type: " + token.getType());
+            if (token.getType().equals("NUMBER") || token.getType().equals("STRING") ||
+                    token.getType().equals("IDENTIFIER") || token.getType().equals("BOOLEAN") ||
+                    token.getType().equals("FUNCTION")) {
+                outputList.add(token);
+            } else if (token.getType().equals("OPERATOR")) {
+                processOperator(token, operatorStack, outputList);
+            } else if (token.getType().equals("LPAR")) {
+                operatorStack.add(token);
+            } else if (token.getType().equals("RPAR")) {
+                processParenthesis(operatorStack, outputList);
+            } else {
+                throw new RuntimeException("Unexpected token type: " + token.getType());
             }
         }
 

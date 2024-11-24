@@ -160,14 +160,7 @@ public class ParserTests {
 
     @Test
     void test_If_Else() throws Exception {
-        String code = """
-                if(true){
-                println("Hello World");
-                }else{
-                println("Bye World");
-                }
-                println(1);
-                """;
+        String code = "if(true){\nprintln(\"Hello World\");\n} else {\nprintln(\"Bye World\");\n}\nprintln(1);";
         InputStream stream = new ByteArrayInputStream(code.getBytes());
 
         Iterator<ASTNode> iterator = parser1.generateAST(lexer1.makeTokens(stream));
