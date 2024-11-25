@@ -1,9 +1,9 @@
 ext {
-    javaVersion = JavaVersion.VERSION_17 // Cambia esto si necesitas otra versión
+    javaVersion = JavaVersion.VERSION_17
     checkstyleVersion = '7.8.1'
     junitVersion = '5.8.1'
-    groupId = 'printscript'
-    publishVersion = '2.1.8'
+    groupId = 'printscript' // Define el groupId globalmente
+    publishVersion = '2.1.9'
 
     configurePlugins = { project ->
         project.plugins.apply 'java'
@@ -21,14 +21,17 @@ ext {
     configureCheckstyle = { project ->
         project.checkstyle {
             toolVersion = checkstyleVersion
-            configFile = project.file("${project.rootDir}/buildSrc/checkstyle.xml")  // Actualiza la ruta al nuevo archivo
+            configFile = project.file("${project.rootDir}/buildSrc/checkstyle.xml")
         }
         project.tasks.withType(Checkstyle) {
             source = 'src/main/java'
         }
     }
 
-    configurePublishing = { project, artifactId ->
+    configurePublishing = { project, artifactId -> // Configura groupId aquí
+        project.group = groupId // Usa el groupId global
+        project.version = publishVersion // Usa la versión global
+
         project.publishing {
             repositories {
                 maven {
@@ -43,10 +46,7 @@ ext {
             publications {
                 mavenJava(MavenPublication) {
                     from project.components.java
-
-                    groupId = groupId
-                    artifactId = artifactId
-                    version = publishVersion
+                    artifactId = artifactId // Asigna el artifactId de cada módulo
                 }
             }
         }
@@ -56,7 +56,7 @@ ext {
         project.tasks.test {
             useJUnitPlatform()
             finalizedBy project.tasks.jacocoTestReport
-            environment "NAME", "Ignacio" // Reemplaza con las variables reales que necesites
+            environment "NAME", "Ignacio"
             environment "NUMBER_TO_SUM", 25
             jacocoTestReport {
                 reports {
@@ -67,3 +67,4 @@ ext {
         }
     }
 }
+
