@@ -27,7 +27,7 @@ public class Lexer {
 
     public Iterator<Token> makeTokens(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        Iterator<String> lineIterator = TokenValueExtractor.extractTokenValues(reader.lines().iterator()).iterator();
+        Iterator<String> lineIterator = TokenValueExtractor.extractTokenValues(reader.lines().iterator(), version).iterator();
 
         return new TokenIterator(lineIterator, this, version);
     }

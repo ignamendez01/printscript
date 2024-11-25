@@ -3,6 +3,7 @@ package lexer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public class TokenValueExtractor {
 
-    public static List<String> extractTokenValues(Iterator<String> lineIterator) {
+    public static List<String> extractTokenValues(Iterator<String> lineIterator, String version) {
         List<String> tokens = new ArrayList<>();
 
         while (lineIterator.hasNext()) {
@@ -25,8 +26,9 @@ public class TokenValueExtractor {
                 tokens.add(matcher.group());
             }
         }
-
-        return polishValues(tokens);
+        List<String> polishedTokens = polishValues(tokens);
+        checkValues(version, polishedTokens);
+        return polishedTokens;
     }
 
     private static List<String> polishValues(List<String> tokens) {
@@ -47,6 +49,23 @@ public class TokenValueExtractor {
             polishedTokens.add(token);
         }
         return polishedTokens;
+    }
+
+    private static void checkValues(String version, List<String> values) {
+        if (!values.isEmpty()) {
+            if (Objects.equals(version, "1.0")) {
+                if (!values.getLast().equals(";")) {
+                    throw new RuntimeException("line must end with a ;");
+                }
+            } else {
+                if (values.stream().noneMatch(token -> "}".equals(token) ||
+                        "if".equals(token))) {
+                    if (!values.getLast().equals(";")) {
+                        throw new RuntimeException("line must end with a ;");
+                    }
+                }
+            }
+        }
     }
 }
 
