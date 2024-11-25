@@ -3,7 +3,6 @@ package lexer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class TokenValueExtractor {
 
-    public static List<String> extractTokenValues(String version, Iterator<String> lineIterator) {
+    public static List<String> extractTokenValues(Iterator<String> lineIterator) {
         List<String> tokens = new ArrayList<>();
 
         while (lineIterator.hasNext()) {
